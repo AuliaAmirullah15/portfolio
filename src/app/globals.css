@@ -41,4 +41,5 @@ body {
   width: 100dvw;
   overflow-x: hidden;
   user-select: none;
+  cursor: none;
 }
