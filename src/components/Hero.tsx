@@ -36,9 +36,10 @@ function Hero() {
           <div className="flex flex-row">
             <div
               id="book-intro-call"
-              className="flex flex-row justify-between items-center gap-2 bg-white rounded-md text-blue-950 font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium"
+              className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md custom-cursor"
             >
-              <div className="relative w-6 h-6 rounded-md overflow-hidden">
+              <span className="absolute inset-0 bg-titanium-600 transition-all duration-500 ease-in-out transform -translate-x-full group-hover:translate-x-0 rounded-md z-0" />
+              <div className="relative w-6 h-6 rounded-md overflow-hidden z-10">
                 <Image
                   alt="intro call image"
                   src={introCallImg}
@@ -48,7 +49,7 @@ function Hero() {
                   priority
                 />
               </div>
-              <p>Book an intro call</p>
+              <p className="z-10">Book an intro call</p>
             </div>
           </div>
           <div className="flex flex-row gap-4 z-10 mt-4">
@@ -56,7 +57,7 @@ function Hero() {
               href="https://github.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-gray-200 transition shadow-md ring-1 ring-titanium"
+              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
             >
               <FaGithub size={20} />
             </a>
@@ -64,13 +65,13 @@ function Hero() {
               href="https://linkedin.com/in/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-gray-200 transition shadow-md ring-1 ring-titanium"
+              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
             >
               <FaLinkedin size={20} />
             </a>
             <a
               href="mailto:youremail@example.com"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-gray-200 transition shadow-md ring-1 ring-titanium"
+              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
             >
               <FaEnvelope size={20} />
             </a>
@@ -78,7 +79,7 @@ function Hero() {
               href="https://instagram.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-gray-200 transition shadow-md ring-1 ring-titanium"
+              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
             >
               <FaInstagram size={20} />
             </a>

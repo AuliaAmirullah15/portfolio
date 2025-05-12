@@ -5,7 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        titanium: "#eee2d4",
+        titanium: {
+          DEFAULT: "#eee2d4",
+          600: "#ac906f",
+        },
       },
     },
   },
