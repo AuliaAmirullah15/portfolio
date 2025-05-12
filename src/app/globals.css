@@ -43,9 +43,3 @@ body {
   user-select: none;
   cursor: none;
 }
-
-.custom-cursor {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><rect x="0" y="0" width="32" height="32" rx="16" ry="16" fill="%23808080" fill-opacity="1"/><path d="M16 4 L16 20 M16 20 L10 14 L16 20 L22 14" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" opacity="1" transform="rotate(220 16 16) translate(0, 4)"/></svg>')
-      16 16,
-    auto;
-}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   bannerPhotoImg,
   heroPhotoPattern,
@@ -7,8 +7,11 @@ import {
 } from "../utils";
 import Image from "next/image";
 import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
+import CustomCursor from "./CustomCursor";
 
 function Hero() {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <section className="w-full h-[80vh] flex items-center bg-blue-950 text-white overflow-hidden relative">
       <div id="pattern1" className="absolute w-[80%] h-full z-0">
@@ -36,8 +39,11 @@ function Hero() {
           <div className="flex flex-row">
             <div
               id="book-intro-call"
-              className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md custom-cursor"
+              className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
+              {isHovered && <CustomCursor />}
               <span className="absolute inset-0 bg-titanium-600 transition-all duration-500 ease-in-out transform -translate-x-full group-hover:translate-x-0 rounded-md z-0" />
               <div className="relative w-6 h-6 rounded-md overflow-hidden z-10">
                 <Image
