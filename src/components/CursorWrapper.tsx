@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 export default function CursorWrapper({
@@ -21,7 +20,8 @@ export default function CursorWrapper({
     <div className="relative min-h-screen w-full overflow-visible">
       {children}
       <div
-        className="fixed top-0 left-0 w-3 h-3 bg-black rounded-full pointer-events-none z-[9999] transition-transform duration-75"
+        id="cursorWrapper"
+        className="fixed top-0 left-0 w-3 h-3 bg-black rounded-full pointer-events-none z-[9999] transition-transform duration-75 body-hide-cursor:hidden"
         style={{
           transform: `translate(${coords.x - 3}px, ${coords.y - 3}px)`,
         }}

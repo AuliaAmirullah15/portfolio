@@ -40,8 +40,14 @@ function Hero() {
             <div
               id="book-intro-call"
               className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md"
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+              onMouseEnter={() => {
+                document.body.classList.add("body-hide-cursor");
+                setIsHovered(true);
+              }}
+              onMouseLeave={() => {
+                document.body.classList.remove("body-hide-cursor");
+                setIsHovered(false);
+              }}
             >
               {isHovered && <CustomCursor />}
               <span className="absolute inset-0 bg-titanium-600 transition-all duration-500 ease-in-out transform -translate-x-full group-hover:translate-x-0 rounded-md z-0" />

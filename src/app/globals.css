@@ -43,3 +43,7 @@ body {
   user-select: none;
   cursor: none;
 }
+
+body.body-hide-cursor #cursorWrapper {
+  display: none;
+}
