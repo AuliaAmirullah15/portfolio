@@ -13,7 +13,7 @@ function Hero() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="w-full h-[80vh] flex items-center bg-blue-950 text-white overflow-hidden relative">
+    <section className="w-full h-[80vh] flex items-center bg-ocean-900 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
       <div id="pattern1" className="absolute w-[80%] h-full z-0">
         <Image
           alt="pattern1"
@@ -69,31 +69,31 @@ function Hero() {
               href="https://github.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
             >
-              <FaGithub size={20} />
+              <FaGithub size={26} />
             </a>
             <a
               href="https://linkedin.com/in/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
             >
-              <FaLinkedin size={20} />
+              <FaLinkedin size={26} />
             </a>
             <a
               href="mailto:youremail@example.com"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
             >
-              <FaEnvelope size={20} />
+              <FaEnvelope size={26} />
             </a>
             <a
               href="https://instagram.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-blue-950 p-2 rounded-full hover:bg-titanium transition shadow-md ring-1 ring-titanium"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
             >
-              <FaInstagram size={20} />
+              <FaInstagram size={26} />
             </a>
           </div>
         </div>
@@ -124,6 +124,7 @@ function Hero() {
           />
         </div>
       </div>
+      {/* <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-48 h-12 bg-blue-900 rounded-b-[1rem] shadow-lg z-20 border border-blue-800 rotate-180" /> */}
     </section>
   );
 }
