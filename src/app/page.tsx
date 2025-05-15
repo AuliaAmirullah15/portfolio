@@ -17,72 +17,67 @@ export default function Home() {
     const section2 = section2Ref.current;
     const section3 = section3Ref.current;
 
-    // Hero section zooms out slower and stays in place (does not fade)
+    // Hero zooms out when section 2 approaches
     gsap.to(hero, {
-      scale: 0.7, // Zoom out
-      y: 1200, // Slight vertical movement
+      scale: 0.5,
+      y: 1200,
       scrollTrigger: {
         trigger: section2,
-        start: "top bottom", // Trigger animation when section 2 comes into view
-        end: "top top", // End when section 2 reaches the center
-        scrub: 1, // Smooth scrolling animation
+        start: "top 100%",
+        end: "top -80%",
+        scrub: 6,
       },
     });
 
-    // Section 2 zooms out slower, stays visible without fading
+    // Section 2 zooms out when section 3 approaches
     gsap.to(section2, {
-      scale: 0.7, // Zoom out
-      y: 700, // Vertical movement for section 2
+      scale: 0.5,
+      y: 1200,
       scrollTrigger: {
         trigger: section3,
-        start: "top center", // Trigger animation when section 3 comes into view
-        end: "top top", // End when section 3 reaches the center
-        scrub: 1, // Smooth scrolling animation
+        start: "top 90%",
+        end: "top -100%",
+        scrub: 6,
       },
     });
 
-    // Section 3 pulls up, hiding hero and section 2 behind it
-    gsap.to(section3, {
-      y: -500, // Pull section 3 upwards
-      scrollTrigger: {
-        trigger: section3,
-        start: "top center", // Start animation when section 3 hits the center
-        end: "bottom top", // End when section 3 reaches the top of the screen
-        scrub: 1, // Smooth scroll-based animation
-        onEnter: () => {
-          // Ensure Section 2 and Hero stay behind Section 3
-          gsap.to(hero, { zIndex: -1 });
-          gsap.to(section2, { zIndex: -1 });
-        },
-        onLeaveBack: () => {
-          // When scrolling back up, restore zIndex to keep Section 2 and Hero on top
-          gsap.to(hero, { zIndex: 10 });
-          gsap.to(section2, { zIndex: 10 });
-        },
-      },
+    // Raise z-index of Section 2 to be above Hero
+    ScrollTrigger.create({
+      trigger: section2,
+      start: "top 70%",
+      end: "bottom top",
+      onEnter: () => gsap.set(section2, { zIndex: 30 }),
+      onLeaveBack: () => gsap.set(section2, { zIndex: 20 }),
+    });
+
+    // Raise z-index of Section 3 to be above Section 2
+    ScrollTrigger.create({
+      trigger: section3,
+      start: "top 70%",
+      end: "bottom top",
+      onEnter: () => gsap.set(section3, { zIndex: 40 }),
+      onLeaveBack: () => gsap.set(section3, { zIndex: 30 }),
     });
   }, []);
 
   return (
-    <main className="bg-zinc-950 overflow-hidden px-20">
+    <main className="bg-zinc-950 overflow-hidden px-20 space-y-6">
       {/* Intro Section */}
       <section className="h-screen w-full flex items-center justify-center">
         <h2 className="text-7xl text-white">Web Developer</h2>
       </section>
 
       {/* Hero Section (Sticky!) */}
+      {/* Hero Section */}
       <section
         ref={heroRef}
-        className="sticky top-0 h-screen z-20 flex items-center justify-center"
+        className="sticky top-0 h-screen z-10 flex items-center justify-center"
       >
         <Hero />
       </section>
 
-      {/* Section 2 (Normal flow) */}
-      <section
-        ref={section2Ref}
-        className="relative z-30 -mt-24" // Negative margin to pull Section 2 upwards
-      >
+      {/* Section 2 */}
+      <section ref={section2Ref} className="relative z-20 -mt-24">
         <section className="w-full h-[80vh] flex items-center bg-ocean-900 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
           <h2 className="text-4xl font-bold text-center mb-8">Section 2</h2>
           <p className="text-center max-w-2xl mx-auto">
@@ -91,17 +86,18 @@ export default function Home() {
         </section>
       </section>
 
-      {/* Section 3 (Normal flow) */}
-      <section
-        ref={section3Ref}
-        className="relative z-40 -mt-24" // Negative margin to pull Section 3 upwards
-      >
+      {/* Section 3 */}
+      <section ref={section3Ref} className="relative z-30 -mt-24">
         <section className="w-full h-[80vh] flex items-center bg-ocean-900 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
           <h2 className="text-4xl font-bold text-center mb-8">Section 3</h2>
           <p className="text-center max-w-2xl mx-auto">
             This section replaces Section 2 with a similar effect.
           </p>
         </section>
+      </section>
+
+      <section className="h-screen w-full flex items-center justify-center">
+        <h2 className="text-7xl text-white">The Next Section</h2>
       </section>
     </main>
   );
