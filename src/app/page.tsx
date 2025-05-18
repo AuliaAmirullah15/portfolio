@@ -23,7 +23,7 @@ const Card = ({
 
   const start = index === 0 ? baseStart : baseStart - segment * 0.3;
 
-  const y = useTransform(
+  const rawY = useTransform(
     scrollYProgress,
     [start, stick, end],
     ["100%", "0%", "0%"]
@@ -44,6 +44,7 @@ const Card = ({
 
   // For the last card, override values with constants using rawMotionValue.onChange + React useState
   // But simpler is to map the MotionValue output to constant values for last card
+  const y = index === 0 ? "0%" : rawY;
   const scale = index === total - 1 ? 1 : rawScale;
   const blur = index === total - 1 ? "blur(0px)" : rawBlur;
 
@@ -88,8 +89,7 @@ export default function Home() {
         </div>
         <div id="content">
           <div className="bg-black text-white min-h-screen p-10">
-            <div ref={scrollRef} className="relative w-full h-[250vh] mx-auto">
-              {/* Sticky card deck container */}
+            <div ref={scrollRef} className="relative w-full h-[150vh] mx-auto">
               <div className="sticky top-20 h-[600px]">
                 <div className="relative w-full h-full">
                   {Array.from({ length: CARD_COUNT }).map((_, i) => (
