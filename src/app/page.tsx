@@ -16,10 +16,13 @@ const Card = ({
 }) => {
   const segment = 1 / total;
 
-  const start = index * segment;
-  const stick = start + segment * 0.3; // card slides up fully and sticks
-  const scaleStart = stick + segment * 0.3; // scale down starts here
+  const baseStart = index * segment;
+  const stick = baseStart + segment * 0.3;
+  const scaleStart = stick + segment * 0.3;
   const end = (index + 1) * segment;
+
+  // Adjust start time for cards after index 0 to overlap with previous card scale down
+  const start = index === 0 ? baseStart : baseStart - segment * 0.3;
 
   // y goes from 100% to 0% between start and stick, then stays 0%
   const y = useTransform(
@@ -31,7 +34,7 @@ const Card = ({
   // scale stays 1 until scaleStart, then goes 1 → 0.9 till end
   const scale = useTransform(
     scrollYProgress,
-    [start, scaleStart, end],
+    [baseStart, scaleStart, end],
     [1, 1, 0.9]
   );
 
@@ -40,11 +43,7 @@ const Card = ({
       style={{ y, scale, zIndex: index + 1 }}
       className="absolute top-0 left-0 w-full h-full px-6"
     >
-      <div
-        style={{
-          transform: `translateY(${index * -5}px)`,
-        }}
-      >
+      <div style={{ transform: `translateY(${index}px)` }}>
         <Hero />
       </div>
     </motion.div>
