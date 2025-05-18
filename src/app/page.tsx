@@ -47,6 +47,12 @@ const Card = ({
   const scale = index === total - 1 ? 1 : rawScale;
   const blur = index === total - 1 ? "blur(0px)" : rawBlur;
 
+  const translateY = useTransform(
+    scrollYProgress,
+    [start, stick, end],
+    [`${index * 40}px`, "0px", "0px"]
+  );
+
   return (
     <motion.div
       style={{
@@ -57,9 +63,9 @@ const Card = ({
       }}
       className="absolute top-0 left-0 w-full h-full px-6"
     >
-      <div style={{ transform: `translateY(${index * -5}px)` }}>
+      <motion.div style={{ y: translateY }}>
         <Hero />
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
@@ -74,15 +80,18 @@ export default function Home() {
   return (
     <>
       <div className="bg-black w-full h-screen relative">
-        <div className="h-full w-full flex flex-col justify-center items-center text-white">
+        <div
+          id="title"
+          className="h-full w-full flex flex-col justify-end items-center text-white"
+        >
           <h2 className="text-2xl">Software Developer</h2>
         </div>
-        <div>
+        <div id="content">
           <div className="bg-black text-white min-h-screen p-10">
-            <div ref={scrollRef} className="relative w-full h-[300vh] mx-auto">
+            <div ref={scrollRef} className="relative w-full h-[250vh] mx-auto">
               {/* Sticky card deck container */}
               <div className="sticky top-20 h-[600px]">
-                <div className="relative w-full h-full space-y-12">
+                <div className="relative w-full h-full">
                   {Array.from({ length: CARD_COUNT }).map((_, i) => (
                     <Card
                       key={i}
@@ -96,7 +105,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="bg-black h-full w-full flex flex-col justify-center items-center text-white">
+        <div
+          id="projects"
+          className="bg-black h-full w-full flex flex-col justify-center items-center text-white"
+        >
           <h2 className="text-2xl">Projects</h2>
         </div>
       </div>
