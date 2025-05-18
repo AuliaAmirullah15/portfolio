@@ -21,29 +21,43 @@ const Card = ({
   const scaleStart = stick + segment * 0.3;
   const end = (index + 1) * segment;
 
-  // Adjust start time for cards after index 0 to overlap with previous card scale down
   const start = index === 0 ? baseStart : baseStart - segment * 0.3;
 
-  // y goes from 100% to 0% between start and stick, then stays 0%
   const y = useTransform(
     scrollYProgress,
     [start, stick, end],
     ["100%", "0%", "0%"]
   );
 
-  // scale stays 1 until scaleStart, then goes 1 → 0.9 till end
-  const scale = useTransform(
+  // Always call useTransform
+  const rawScale = useTransform(
     scrollYProgress,
     [baseStart, scaleStart, end],
-    [1, 1, 0.9]
+    [1, 1, 0.7]
   );
+
+  const rawBlur = useTransform(
+    scrollYProgress,
+    [baseStart, scaleStart, end],
+    ["blur(0px)", "blur(0px)", "blur(4px)"]
+  );
+
+  // For the last card, override values with constants using rawMotionValue.onChange + React useState
+  // But simpler is to map the MotionValue output to constant values for last card
+  const scale = index === total - 1 ? 1 : rawScale;
+  const blur = index === total - 1 ? "blur(0px)" : rawBlur;
 
   return (
     <motion.div
-      style={{ y, scale, zIndex: index + 1 }}
+      style={{
+        y,
+        scale,
+        filter: blur,
+        zIndex: index + 1,
+      }}
       className="absolute top-0 left-0 w-full h-full px-6"
     >
-      <div style={{ transform: `translateY(${index}px)` }}>
+      <div style={{ transform: `translateY(${index * -5}px)` }}>
         <Hero />
       </div>
     </motion.div>
