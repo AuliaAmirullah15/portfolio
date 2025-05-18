@@ -14,16 +14,39 @@ const Card = ({
   total: number;
   scrollYProgress: MotionValue<number>;
 }) => {
-  const start = index / total;
-  const end = (index + 1) / total;
-  const y = useTransform(scrollYProgress, [start, end], ["100%", "0%"]);
+  const segment = 1 / total;
+
+  const start = index * segment;
+  const stick = start + segment * 0.3; // card slides up fully and sticks
+  const scaleStart = stick + segment * 0.3; // scale down starts here
+  const end = (index + 1) * segment;
+
+  // y goes from 100% to 0% between start and stick, then stays 0%
+  const y = useTransform(
+    scrollYProgress,
+    [start, stick, end],
+    ["100%", "0%", "0%"]
+  );
+
+  // scale stays 1 until scaleStart, then goes 1 → 0.9 till end
+  const scale = useTransform(
+    scrollYProgress,
+    [start, scaleStart, end],
+    [1, 1, 0.9]
+  );
 
   return (
     <motion.div
-      style={{ y, zIndex: index + 1 }} // <-- reverse stacking here
+      style={{ y, scale, zIndex: index + 1 }}
       className="absolute top-0 left-0 w-full h-full px-6"
     >
-      <Hero />
+      <div
+        style={{
+          transform: `translateY(${index * -5}px)`,
+        }}
+      >
+        <Hero />
+      </div>
     </motion.div>
   );
 };
