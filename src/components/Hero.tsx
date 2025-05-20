@@ -13,7 +13,7 @@ function Hero() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="w-full h-[80vh] flex items-center bg-ocean-900 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
+    <section className="w-full h-[80vh] flex items-center bg-titanium-700 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
       <div id="pattern1" className="absolute w-[80%] h-full z-0">
         <Image
           alt="pattern1"
