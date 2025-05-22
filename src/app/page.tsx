@@ -88,6 +88,68 @@ export default function Home() {
   return (
     <>
       <div className="bg-black w-full h-screen relative">
+        {/* HEADER */}
+        <header className="sticky top-0 z-50 flex items-center justify-between px-10 py-4 font-geist">
+          {/* Left: Logo */}
+          <div className="text-white uppercase font-bold text-2xl tracking-widest">
+            AZ
+          </div>
+
+          {/* Center: Navigation Menu */}
+          <nav className="mx-auto hidden md:block">
+            <ul className="flex space-x-12 bg-white bg-opacity-20 backdrop-blur-md rounded-full px-12 py-4 text-white uppercase text-md font-semibold tracking-wide shadow-md">
+              <li className="hover:cursor-pointer">
+                <a href="#home" className="hover:text-gray-300 transition">
+                  Home
+                </a>
+              </li>
+              <li className="hover:cursor-pointer">
+                <a href="#projects" className="hover:text-gray-300 transition">
+                  Projects
+                </a>
+              </li>
+              <li className="hover:cursor-pointer">
+                <a href="#cv" className="hover:text-gray-300 transition">
+                  CV
+                </a>
+              </li>
+
+              <li className="relative flex items-center space-x-2 hover:text-gray-300 hover:cursor-pointer">
+                <a href="#blog" className=" transition">
+                  Blog
+                </a>
+                <span
+                  className="flex justify-center items-center w-6 h-6 rounded-full bg-black bg-opacity-40"
+                  style={{ transform: "rotate(45deg)" }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    viewBox="0 0 24 24"
+                    className="w-3 h-3"
+                  >
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                  </svg>
+                </span>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Right side empty or add something later */}
+          <div className="md:hidden flex items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer relative p-4">
+            <div className="space-y-1">
+              <span className="block w-6 h-0.5 bg-black rounded"></span>
+              <span className="block w-6 h-0.5 bg-black rounded"></span>
+              <span className="block w-6 h-0.5 bg-black rounded"></span>
+            </div>
+          </div>
+        </header>
+
         <Title />
 
         <div id="content">

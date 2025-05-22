@@ -7,6 +7,11 @@ module.exports = {
     extend: {
       fontFamily: {
         gloock: ['"Gloock"', "serif"],
+        geist: ['"Geist Mono"', "monospace"],
+        orbitron: ['"Orbitron"', "mono"],
+        smooch: ['"Smooch Sans"', "sans-serif"],
+        funnel: ['"Funnel Sans"', "sans-serif"],
+        golos: ['"Golos Text"', "sans-serif"],
       },
       colors: {
         titanium: {
@@ -21,6 +26,9 @@ module.exports = {
           600: "2b4c5d",
           700: "#273f4b",
           900: "#1c282e",
+        },
+        cosmic: {
+          DEFAULT: "#55a2ff",
         },
       },
     },

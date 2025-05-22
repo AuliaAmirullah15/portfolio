@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   bannerPhotoImg,
   heroPhotoPattern,
@@ -7,13 +7,13 @@ import {
 } from "../utils";
 import Image from "next/image";
 import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
-import CustomCursor from "./CustomCursor";
+// import CustomCursor from "./CustomCursor";
 
 function Hero() {
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="w-full h-[80vh] flex items-center bg-titanium-700 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
+    <section className="w-full h-[80vh] flex items-center bg-gray-900 text-white overflow-hidden relative rounded-[2rem] shadow-2xl">
       <div id="pattern1" className="absolute w-[80%] h-full z-0">
         <Image
           alt="pattern1"
@@ -40,16 +40,16 @@ function Hero() {
             <div
               id="book-intro-call"
               className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md"
-              onMouseEnter={() => {
-                document.body.classList.add("body-hide-cursor");
-                setIsHovered(true);
-              }}
-              onMouseLeave={() => {
-                document.body.classList.remove("body-hide-cursor");
-                setIsHovered(false);
-              }}
+              // onMouseEnter={() => {
+              //   document.body.classList.add("body-hide-cursor");
+              //   setIsHovered(true);
+              // }}
+              // onMouseLeave={() => {
+              //   document.body.classList.remove("body-hide-cursor");
+              //   setIsHovered(false);
+              // }}
             >
-              {isHovered && <CustomCursor />}
+              {/* {isHovered && <CustomCursor />} */}
               <span className="absolute inset-0 bg-titanium-600 transition-all duration-500 ease-in-out transform -translate-x-full group-hover:translate-x-0 rounded-md z-0" />
               <div className="relative w-6 h-6 rounded-md overflow-hidden z-10">
                 <Image

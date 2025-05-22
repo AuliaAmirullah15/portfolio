@@ -1,35 +1,72 @@
 import React from "react";
-import ParticlesBackground from "./ParticlesBackground";
 
 const Title = () => {
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById("projects");
+    projectsSection?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div
       id="title"
-      className="h-full w-full flex flex-col px-10 pb-10 text-white space-x-10"
+      className="w-full min-h-[630px] flex flex-col px-10 pb-10 text-white"
     >
       <div
         id="title-animation"
         className="flex-1 grow flex flex-row justify-center items-center"
       >
-        <ParticlesBackground />
+        {/* <ParticlesBackground /> */}
       </div>
-      <div id="title-texts" className="flex flex-row justify-between">
-        {/* Bottom-left name */}
-        <div className="flex flex-col justify-end items-start">
-          <h1 className="text-7xl font-gloock">Aulia Zulkarneidi</h1>
+
+      <div
+        id="title-texts"
+        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0"
+      >
+        {/* Title */}
+        <div className="order-1 md:order-none flex flex-col justify-end items-start">
+          <p className="text-xl text-cosmic font-geist uppercase pb-2">
+            Web Developer <span className="animate-pulse text-cosmic">▮</span>
+          </p>
+          <h1 className="text-4xl md:text-6xl font-golos tracking-tighter">
+            Aulia Zulkarneidi.
+          </h1>
         </div>
 
-        {/* Bottom-right description and arrow */}
-        <div className="flex items-end space-x-32">
-          <p className="text-md max-w-sm">
+        {/* Description and Button */}
+        <div className="order-2 md:order-none flex flex-col justify-start items-start space-y-4">
+          <p className="text-md max-w-sm font-geist uppercase">
             A software developer with experience in web, mobile, and embedded
             system development.
           </p>
+          <button className="font-geist uppercase bg-white text-black font-semibold w-44 h-12 shadow-md hover:bg-gray-200 transition-all">
+            Explore Projects
+          </button>
+        </div>
 
-          {/* Downward arrow with long stick */}
-          <div className="flex flex-col items-center">
-            <div className="text-2xl">↓</div> {/* Down arrow */}
-          </div>
+        {/* Scroll Down Button */}
+        <div className="order-3 md:order-none flex flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2 md:bottom-0">
+          <span className="mb-1 text-sm font-geist uppercase tracking-wide text-white">
+            Scroll Down
+          </span>
+          <button
+            onClick={scrollToProjects}
+            className="animate-bounce text-white hover:text-gray-300"
+            aria-label="Scroll Down"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
