@@ -1,4 +1,5 @@
 import React from "react";
+import DistortionBackground from "./DistortionBackground";
 
 const Title = () => {
   const scrollToProjects = () => {
@@ -16,6 +17,7 @@ const Title = () => {
         className="flex-1 grow flex flex-row justify-center items-center"
       >
         {/* <ParticlesBackground /> */}
+        <DistortionBackground />
       </div>
 
       <div
