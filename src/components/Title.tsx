@@ -1,5 +1,6 @@
 import React from "react";
-import OrganicGradientBackground from "./OrganicGradientBackground";
+import ParticleBackground from "./ParticleBackground";
+// import OrganicGradientBackground from "./OrganicGradientBackground";
 
 const Title = () => {
   const scrollToProjects = () => {
@@ -17,7 +18,8 @@ const Title = () => {
         className="flex-1 grow flex flex-row justify-center items-center"
       >
         {/* <ParticlesBackground /> */}
-        <OrganicGradientBackground />
+        {/* <OrganicGradientBackground /> */}
+        <ParticleBackground />
       </div>
 
       <div
