@@ -12,8 +12,8 @@ const Particles = () => {
   const particleData = useMemo(() => {
     const data = [];
     for (let i = 0; i < particlesCount; i++) {
-      const angle1 = (i / particlesCount) * Math.PI * 2; // around main ring
-      const angle2 = Math.random() * Math.PI * 2; // around tube
+      const angle1 = (i / particlesCount) * Math.PI * 2;
+      const angle2 = Math.random() * Math.PI * 2;
       data.push({ angle1, angle2 });
     }
     return data;
@@ -21,30 +21,26 @@ const Particles = () => {
 
   useFrame(({ clock }) => {
     const time = clock.getElapsedTime();
-    const radius = 20; // ring radius
-    const tubeRadius = 5; // thickness of the ring
+    const radius = 20;
+    const tubeRadius = 5;
 
     for (let i = 0; i < particleData.length; i++) {
       const { angle1, angle2 } = particleData[i];
+      const a2 = angle2 + time * 1.2; // Increased speed
 
-      // Optionally animate tube angle to give dynamic wobble
-      const a2 = angle2 + time * 0.6;
-
-      // Basic torus parametric formula
       const x =
-        (radius + tubeRadius * Math.cos(a2)) * Math.cos(angle1 + time * 0.2);
+        (radius + tubeRadius * Math.cos(a2)) * Math.cos(angle1 + time * 0.5);
       const y = tubeRadius * Math.sin(a2);
       const z =
-        (radius + tubeRadius * Math.cos(a2)) * Math.sin(angle1 + time * 0.2);
+        (radius + tubeRadius * Math.cos(a2)) * Math.sin(angle1 + time * 0.5);
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
     }
 
-    if (!pointsRef.current) return;
-
-    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    if (pointsRef.current)
+      pointsRef.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
