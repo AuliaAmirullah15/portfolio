@@ -29,6 +29,7 @@ module.exports = {
         },
         cosmic: {
           DEFAULT: "#55a2ff",
+          600: "#7f5af0",
         },
       },
     },

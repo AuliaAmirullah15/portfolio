@@ -39,15 +39,7 @@ function Hero() {
           <div className="flex flex-row">
             <div
               id="book-intro-call"
-              className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md"
-              // onMouseEnter={() => {
-              //   document.body.classList.add("body-hide-cursor");
-              //   setIsHovered(true);
-              // }}
-              // onMouseLeave={() => {
-              //   document.body.classList.remove("body-hide-cursor");
-              //   setIsHovered(false);
-              // }}
+              className="relative flex flex-row justify-between items-center gap-2 bg-white text-blue-950 hover:text-white font-bold py-2 pl-2 pr-3 shadow-md ring-1 ring-titanium hover:ring-titanium-600 overflow-hidden group rounded-md hover:cursor-pointer"
             >
               {/* {isHovered && <CustomCursor />} */}
               <span className="absolute inset-0 bg-titanium-600 transition-all duration-500 ease-in-out transform -translate-x-full group-hover:translate-x-0 rounded-md z-0" />
@@ -69,7 +61,7 @@ function Hero() {
               href="https://github.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-white"
             >
               <FaGithub size={26} />
             </a>
@@ -77,13 +69,13 @@ function Hero() {
               href="https://linkedin.com/in/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-white"
             >
               <FaLinkedin size={26} />
             </a>
             <a
               href="mailto:youremail@example.com"
-              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-white"
             >
               <FaEnvelope size={26} />
             </a>
@@ -91,7 +83,7 @@ function Hero() {
               href="https://instagram.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-titanium cursor-none"
+              className="text-white p-2 rounded-full transition-all duration-500 ease-in-out shadow-md hover:scale-110 hover:ring-1 hover:ring-white"
             >
               <FaInstagram size={26} />
             </a>
