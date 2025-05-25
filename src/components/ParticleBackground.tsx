@@ -2,54 +2,47 @@ import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const particlesCount = 800;
+const particlesCount = 20000;
 
 const Particles = () => {
   const pointsRef = useRef<THREE.Points>(null);
+  const positions = useMemo(() => new Float32Array(particlesCount * 3), []);
 
-  // Store particle info: angle, radius, speed
+  // Particle data: torus layout (circle around circle)
   const particleData = useMemo(() => {
     const data = [];
     for (let i = 0; i < particlesCount; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 1 + Math.random() * 3; // faster speeds
-      data.push({ angle, radius: 0, speed });
+      const angle1 = (i / particlesCount) * Math.PI * 2; // around main ring
+      const angle2 = Math.random() * Math.PI * 2; // around tube
+      data.push({ angle1, angle2 });
     }
     return data;
   }, []);
 
-  // Positions array
-  const positions = useMemo(() => new Float32Array(particlesCount * 3), []);
-
   useFrame(({ clock }) => {
-    if (!pointsRef.current) return;
     const time = clock.getElapsedTime();
+    const radius = 20; // ring radius
+    const tubeRadius = 5; // thickness of the ring
 
-    for (let i = 0; i < particlesCount; i++) {
-      const p = particleData[i];
+    for (let i = 0; i < particleData.length; i++) {
+      const { angle1, angle2 } = particleData[i];
 
-      p.radius += p.speed * 0.12;
-      const z = -p.radius * 0.5;
+      // Optionally animate tube angle to give dynamic wobble
+      const a2 = angle2 + time * 0.6;
 
-      // Fixed big maxRadius for wide spread:
-      const maxRadius = 120; // bigger number => more spread
-
-      if (p.radius > maxRadius) {
-        p.radius = 0;
-        p.angle = Math.random() * Math.PI * 2;
-        p.speed = 1 + Math.random() * 3;
-      }
-
-      const angularSpeed = 0.5;
-      const angle = p.angle + time * angularSpeed;
-
-      const x = Math.cos(angle) * p.radius;
-      const y = Math.sin(angle) * p.radius;
+      // Basic torus parametric formula
+      const x =
+        (radius + tubeRadius * Math.cos(a2)) * Math.cos(angle1 + time * 0.2);
+      const y = tubeRadius * Math.sin(a2);
+      const z =
+        (radius + tubeRadius * Math.cos(a2)) * Math.sin(angle1 + time * 0.2);
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
     }
+
+    if (!pointsRef.current) return;
 
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
   });
@@ -60,10 +53,10 @@ const Particles = () => {
       material={
         new THREE.PointsMaterial({
           color: "#3b82f6",
-          size: 0.7, // bigger size
-          sizeAttenuation: true,
+          size: 1.7,
+          sizeAttenuation: false,
           transparent: true,
-          opacity: 1, // max opacity for brightness
+          opacity: 1,
           blending: THREE.AdditiveBlending,
           depthWrite: false,
         })
@@ -82,24 +75,22 @@ const Particles = () => {
   );
 };
 
-const ParticleBackground = () => {
-  return (
-    <Canvas
-      camera={{ position: [0, 0, 90], fov: 300 }}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: 0,
-        background: "#000",
-      }}
-    >
-      <ambientLight intensity={0.5} />
-      <Particles />
-    </Canvas>
-  );
-};
+const ParticleBackground = () => (
+  <Canvas
+    camera={{ position: [60, 0, 20], fov: 40 }}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      zIndex: 0,
+      background: "#000",
+    }}
+  >
+    <ambientLight intensity={0.5} />
+    <Particles />
+  </Canvas>
+);
 
 export default ParticleBackground;
