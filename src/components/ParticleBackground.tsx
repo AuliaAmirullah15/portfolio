@@ -6,19 +6,15 @@ const particlesCount = 20000;
 
 const ParticleBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const mouse = useRef(new THREE.Vector3(0, 0, 0));
+  const mouse = useRef(new THREE.Vector2(0, 0));
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       if (!canvasRef.current) return;
-
       const rect = canvasRef.current.getBoundingClientRect();
-
-      // Mouse position relative to canvas
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
-      // Normalize to NDC
       mouse.current.x = (x / rect.width) * 2 - 1;
       mouse.current.y = -((y / rect.height) * 2 - 1);
     };
@@ -37,27 +33,20 @@ const ParticleBackground = () => {
         left: 0,
         width: "100vw",
         height: "100vh",
-        zIndex: 0,
         background: "#000",
       }}
     >
       <ambientLight intensity={0.5} />
-      {/* Pass mouse ref down to Particles */}
-      <ParticlesMouseWrapper mouse={mouse} />
+      <Particles mouse={mouse} />
     </Canvas>
   );
 };
 
-const ParticlesMouseWrapper = ({
+const Particles = ({
   mouse,
 }: {
-  mouse: React.MutableRefObject<THREE.Vector3>;
+  mouse: React.MutableRefObject<THREE.Vector2>;
 }) => {
-  // This component just passes mouse ref to Particles
-  // Let's override the mouse ref inside Particles
-
-  // We duplicate Particles code but use the mouse from props instead of local one:
-
   const pointsRef = useRef<THREE.Points>(null);
   const positions = useMemo(() => new Float32Array(particlesCount * 3), []);
   const currentPositions = useMemo(
@@ -81,22 +70,22 @@ const ParticlesMouseWrapper = ({
     const time = clock.getElapsedTime();
     const radius = 20;
     const tubeRadius = 5;
-    const baseRotationSpeed = 0.15;
+    const rotationSpeed = 0.15;
 
-    const mouseNDC = new THREE.Vector2(mouse.current.x, mouse.current.y);
-    raycaster.setFromCamera(mouseNDC, camera);
+    // Set up ray from camera and mouse
+    raycaster.setFromCamera(mouse.current, camera);
+    const rayOrigin = raycaster.ray.origin.clone();
+    const rayDir = raycaster.ray.direction.clone();
 
-    const rayOrigin = raycaster.ray.origin;
-    const rayDirection = raycaster.ray.direction;
-
-    const interactionRadius = 2;
-    const repulsionForce = 6;
+    const influenceRadius = 12;
+    const pullStrength = 0.15;
+    const restoreStrength = 0.04;
 
     for (let i = 0; i < particleData.length; i++) {
       const { angle1, angle2 } = particleData[i];
 
-      const a2 = angle2 + time * baseRotationSpeed * 8;
-      const baseAngle = angle1 + time * baseRotationSpeed;
+      const a2 = angle2 + time * rotationSpeed * 8;
+      const baseAngle = angle1 + time * rotationSpeed;
 
       const baseX = (radius + tubeRadius * Math.cos(a2)) * Math.cos(baseAngle);
       const baseY = tubeRadius * Math.sin(a2);
@@ -106,33 +95,29 @@ const ParticlesMouseWrapper = ({
       let y = currentPositions[i * 3 + 1] || baseY;
       let z = currentPositions[i * 3 + 2] || baseZ;
 
-      const particlePos = new THREE.Vector3(x, y, z);
+      const pos = new THREE.Vector3(x, y, z);
 
-      const toParticle = new THREE.Vector3().subVectors(particlePos, rayOrigin);
-      const t = toParticle.dot(rayDirection);
-      const closestPoint = new THREE.Vector3()
-        .copy(rayDirection)
-        .multiplyScalar(t)
-        .add(rayOrigin);
+      // Calculate closest point on ray to particle
+      const toParticle = new THREE.Vector3().subVectors(pos, rayOrigin);
+      const t = toParticle.dot(rayDir); // projection scalar
+      const closestPoint = rayDir.clone().multiplyScalar(t).add(rayOrigin);
 
-      const dist = particlePos.distanceTo(closestPoint);
+      const dist = pos.distanceTo(closestPoint);
 
-      if (dist < interactionRadius) {
-        const pushDir = new THREE.Vector3()
-          .subVectors(particlePos, closestPoint)
-          .normalize();
+      if (dist < influenceRadius) {
+        const pull = new THREE.Vector3()
+          .subVectors(closestPoint, pos)
+          .multiplyScalar(pullStrength * (1 - dist / influenceRadius));
 
-        const pushStrength = repulsionForce * (1 - dist / interactionRadius);
-
-        x += pushDir.x * pushStrength;
-        y += pushDir.y * pushStrength;
-        z += pushDir.z * pushStrength;
+        x += pull.x;
+        y += pull.y;
+        z += pull.z;
       }
 
-      const lerpFactor = 0.05;
-      x += (baseX - x) * lerpFactor;
-      y += (baseY - y) * lerpFactor;
-      z += (baseZ - z) * lerpFactor;
+      // Elastic return to base position
+      x += (baseX - x) * restoreStrength;
+      y += (baseY - y) * restoreStrength;
+      z += (baseZ - z) * restoreStrength;
 
       currentPositions[i * 3] = x;
       currentPositions[i * 3 + 1] = y;
@@ -143,8 +128,9 @@ const ParticlesMouseWrapper = ({
       positions[i * 3 + 2] = z;
     }
 
-    if (pointsRef.current)
+    if (pointsRef.current) {
       pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    }
   });
 
   return (
@@ -153,7 +139,7 @@ const ParticlesMouseWrapper = ({
       material={
         new THREE.PointsMaterial({
           color: "#3b82f6",
-          size: 1.7,
+          size: 1.4,
           sizeAttenuation: false,
           transparent: true,
           opacity: 1,
@@ -165,8 +151,8 @@ const ParticlesMouseWrapper = ({
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={particlesCount}
           array={positions}
+          count={particlesCount}
           itemSize={3}
           args={[positions, 3]}
         />
