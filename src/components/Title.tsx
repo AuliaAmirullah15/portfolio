@@ -1,5 +1,5 @@
 import React from "react";
-import DistortionBackground from "./DistortionBackground";
+import OrganicGradientBackground from "./OrganicGradientBackground";
 
 const Title = () => {
   const scrollToProjects = () => {
@@ -17,7 +17,7 @@ const Title = () => {
         className="flex-1 grow flex flex-row justify-center items-center"
       >
         {/* <ParticlesBackground /> */}
-        <DistortionBackground />
+        <OrganicGradientBackground />
       </div>
 
       <div
