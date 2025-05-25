@@ -7,7 +7,8 @@ type Blob = {
   radiusY: number;
   dx: number;
   dy: number;
-  color: string;
+  colorA: string;
+  colorB: string;
   opacity: number;
   life: number;
   maxLife: number;
@@ -24,6 +25,13 @@ const colors = [
   "rgba(193, 48, 219, 1)", // purple
 ];
 
+function rgbaWithOpacity(rgba: string, opacity: number) {
+  return rgba.replace(
+    /rgba?\(([^)]+),\s*[\d.]+\)/,
+    (_, rgb) => `rgba(${rgb}, ${opacity})`
+  );
+}
+
 const OrganicGradientBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -38,32 +46,43 @@ const OrganicGradientBackground: React.FC = () => {
     let width = (canvas.width = canvas.clientWidth);
     let height = (canvas.height = canvas.clientHeight);
 
-    const createBlob = (): Blob => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radiusX: 250 + Math.random() * 300, // bigger radii
-      radiusY: 150 + Math.random() * 250,
-      dx: (Math.random() - 0.5) * 0.15, // slower movement
-      dy: (Math.random() - 0.5) * 0.15,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      opacity: 0,
-      life: 0,
-      maxLife: 15000 + Math.random() * 7000,
-      phaseX: Math.random() * Math.PI * 2,
-      phaseY: Math.random() * Math.PI * 2,
-      phaseSpeedX: 0.001 + Math.random() * 0.002,
-      phaseSpeedY: 0.001 + Math.random() * 0.002,
-      phaseRadius: Math.random() * Math.PI * 2,
-      phaseRadiusSpeed: 0.001 + Math.random() * 0.003,
-    });
+    const createBlob = (): Blob => {
+      const idxA = Math.floor(Math.random() * colors.length);
+      let idxB = idxA;
+      while (idxB === idxA) idxB = Math.floor(Math.random() * colors.length);
+
+      // Allow center x,y to start slightly beyond edges (-maxRadiusX/Y to width+maxRadiusX/Y)
+      const maxRadiusX = 400;
+      const maxRadiusY = 350;
+
+      return {
+        x: Math.random() * (width + maxRadiusX * 2) - maxRadiusX,
+        y: Math.random() * (height + maxRadiusY * 2) - maxRadiusY,
+        radiusX: 350 + Math.random() * 300, // bigger radii
+        radiusY: 250 + Math.random() * 250,
+        dx: (Math.random() - 0.5) * 0.15,
+        dy: (Math.random() - 0.5) * 0.15,
+        colorA: colors[idxA],
+        colorB: colors[idxB],
+        opacity: 0,
+        life: 0,
+        maxLife: 15000 + Math.random() * 7000,
+        phaseX: Math.random() * Math.PI * 2,
+        phaseY: Math.random() * Math.PI * 2,
+        phaseSpeedX: 0.001 + Math.random() * 0.002,
+        phaseSpeedY: 0.001 + Math.random() * 0.002,
+        phaseRadius: Math.random() * Math.PI * 2,
+        phaseRadiusSpeed: 0.001 + Math.random() * 0.003,
+      };
+    };
 
     const maxBlobs = 4;
     blobs.current = Array.from({ length: maxBlobs }, createBlob);
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
-      ctx.globalCompositeOperation = "lighter"; // additive brightness
-      ctx.globalAlpha = 0.8; // subtle layering opacity
+      ctx.globalCompositeOperation = "lighter";
+      ctx.globalAlpha = 1;
 
       blobs.current.forEach((blob, index) => {
         blob.life += 16;
@@ -71,7 +90,6 @@ const OrganicGradientBackground: React.FC = () => {
         blob.phaseY += blob.phaseSpeedY;
         blob.phaseRadius += blob.phaseRadiusSpeed;
 
-        // Morph ellipse radius slightly to simulate organic shape shifting
         const radiusX =
           blob.radiusX * (0.85 + 0.3 * Math.sin(blob.phaseRadius));
         const radiusY =
@@ -80,27 +98,42 @@ const OrganicGradientBackground: React.FC = () => {
         blob.x += blob.dx + Math.sin(blob.phaseX) * 0.5;
         blob.y += blob.dy + Math.sin(blob.phaseY) * 0.5;
 
-        // Wrap edges
-        if (blob.x < -radiusX) blob.x = width + radiusX;
-        if (blob.x > width + radiusX) blob.x = -radiusX;
-        if (blob.y < -radiusY) blob.y = height + radiusY;
-        if (blob.y > height + radiusY) blob.y = -radiusY;
+        // Wrap around more loosely — allow some bleed outside screen before resetting position
+        if (blob.x < -radiusX * 2) blob.x = width + radiusX * 2;
+        if (blob.x > width + radiusX * 2) blob.x = -radiusX * 2;
+        if (blob.y < -radiusY * 2) blob.y = height + radiusY * 2;
+        if (blob.y > height + radiusY * 2) blob.y = -radiusY * 2;
 
-        // Opacity fade logic
+        // Life fade in/out opacity
         const halfLife = blob.maxLife / 2;
-        blob.opacity =
+        const baseOpacity =
           blob.life < halfLife
             ? blob.life / halfLife
             : 1 - (blob.life - halfLife) / halfLife;
 
-        if (blob.life >= blob.maxLife) {
+        // Smaller edge fade margin so blobs reach edges more fully
+        const fadeEdgeMargin = 80;
+        const fadeX =
+          blob.x < fadeEdgeMargin
+            ? blob.x / fadeEdgeMargin
+            : blob.x > width - fadeEdgeMargin
+            ? (width - blob.x) / fadeEdgeMargin
+            : 1;
+        const fadeY =
+          blob.y < fadeEdgeMargin
+            ? blob.y / fadeEdgeMargin
+            : blob.y > height - fadeEdgeMargin
+            ? (height - blob.y) / fadeEdgeMargin
+            : 1;
+
+        const edgeFade = Math.min(fadeX, fadeY, 1);
+
+        blob.opacity = Math.min(baseOpacity * edgeFade * 1.6, 1);
+
+        if (blob.life >= blob.maxLife || blob.opacity <= 0) {
           blobs.current[index] = createBlob();
+          return;
         }
-
-        const brightOpacity = Math.min(blob.opacity * 1.6, 1);
-
-        // Blend two colors by mixing current blob color and the other color
-        const otherColor = colors.find((c) => c !== blob.color) || blob.color;
 
         const gradient = ctx.createRadialGradient(
           blob.x,
@@ -111,17 +144,20 @@ const OrganicGradientBackground: React.FC = () => {
           Math.max(radiusX, radiusY)
         );
 
-        // More nuanced gradient stops blending both colors and shades
-        gradient.addColorStop(0, blob.color.replace("1)", `${brightOpacity})`));
+        gradient.addColorStop(0, rgbaWithOpacity(blob.colorA, blob.opacity));
         gradient.addColorStop(
-          0.3,
-          blob.color.replace("1)", `${brightOpacity * 0.5})`)
+          0.25,
+          rgbaWithOpacity(blob.colorA, blob.opacity * 0.5)
         );
         gradient.addColorStop(
-          0.6,
-          otherColor.replace("1)", `${brightOpacity * 0.2})`)
+          0.5,
+          rgbaWithOpacity(blob.colorB, blob.opacity * 0.3)
         );
-        gradient.addColorStop(1, otherColor.replace("1)", "0)"));
+        gradient.addColorStop(
+          0.75,
+          rgbaWithOpacity(blob.colorB, blob.opacity * 0.1)
+        );
+        gradient.addColorStop(1, rgbaWithOpacity(blob.colorB, 0));
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -155,7 +191,7 @@ const OrganicGradientBackground: React.FC = () => {
         left: 0,
         width: "100%",
         height: "100%",
-        filter: "blur(40px)", // softer glow
+        filter: "blur(40px)",
         zIndex: 0,
         pointerEvents: "none",
         background: "#000",
