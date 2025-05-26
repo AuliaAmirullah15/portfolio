@@ -44,7 +44,6 @@ const Title = () => {
             <button className="font-geist uppercase bg-white text-black font-semibold w-44 h-12 shadow-md hover:bg-gray-200 transition-all">
               Explore Projects
             </button>
-            {/* <div className="flex flex-col items-center hover:cursor-pointer h-full"> */}
             <div className="flex flex-col h-full min-h-12 justify-start md:justify-end items-center hover:cursor-pointer">
               <span className="block md:hidden mb-1 text-sm font-geist uppercase tracking-wide text-white">
                 Scroll Down
