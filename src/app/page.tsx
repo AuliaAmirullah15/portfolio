@@ -12,7 +12,7 @@ import Title from "@/components/Title";
 import Header from "@/components/Header";
 import Beginning from "@/components/Beginning";
 
-const CARD_COUNT = 3;
+const CARD_COUNT = 5;
 
 const Card = ({
   index,
@@ -23,7 +23,7 @@ const Card = ({
   total: number;
   scrollYProgress: MotionValue<number>;
 }) => {
-  const spread = 1.5; // slow down effect
+  const spread = 1.5;
   const segment = 1 / (total * spread);
 
   const baseStart = index * segment;
@@ -54,7 +54,12 @@ const Card = ({
     [`${index * 40}px`, "0px", "0px"]
   );
 
-  const springConfig = { damping: 20, stiffness: 60 };
+  const springConfig = {
+    damping: 30, // Increase damping to reduce jitter
+    stiffness: 50, // Lower stiffness to ease transitions
+    mass: 0.4, // Optional: slightly reduce mass for more "glide"
+  };
+
   const smoothY = useSpring(rawY, springConfig);
   const smoothScale = useSpring(rawScale, springConfig);
   const smoothTranslateY = useSpring(translateY, springConfig);

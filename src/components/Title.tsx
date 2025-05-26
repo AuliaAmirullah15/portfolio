@@ -10,7 +10,7 @@ const Title = () => {
   return (
     <div
       id="title"
-      className="bg-black w-full h-screen flex flex-col px-10 pb-10 text-white"
+      className="bg-black w-full h-screen flex flex-col text-white"
     >
       <div
         id="title-animation"
@@ -21,7 +21,7 @@ const Title = () => {
 
       <div
         id="title-texts"
-        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0"
+        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0 px-10 pb-10"
       >
         {/* Title */}
         <div className="order-1 md:order-none flex flex-col justify-end items-start">

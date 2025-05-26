@@ -13,10 +13,11 @@ const Beginning = () => {
     >
       <ParticleBackground />
       <div
-        className="absolute z-20 text-gray-300 hover:text-white text-xl font-mono hover:cursor-pointer hover:text-2xl duration-300"
+        className="absolute z-20 text-center text-gray-300 hover:text-white text-xl font-mono hover:cursor-pointer hover:text-2xl duration-500"
         onClick={scrollToProjects}
       >
-        Start
+        <p className="font-golos">Aulia Zulkarneidi</p>
+        <p>WEB DEVELOPER</p>
       </div>
     </div>
   );
