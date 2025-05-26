@@ -65,22 +65,54 @@ const Particles = ({
     () => new Float32Array(particlesCount * 3),
     []
   );
+  const animationStart = useRef<number>(0);
+  // const origin = new THREE.Vector3(0, -50, 0);
+  // const duration = 3; // duration of burst animation in seconds
 
   const particleData = useMemo(() => {
     const data = [];
     for (let i = 0; i < particlesCount; i++) {
       const angle1 = (i / particlesCount) * Math.PI * 2;
       const angle2 = Math.random() * Math.PI * 2;
-      data.push({ angle1, angle2 });
+
+      const radius = isMobile ? 16 : 20;
+      const tubeRadius = isMobile ? 4 : 5;
+      const targetX =
+        (radius + tubeRadius * Math.cos(angle2)) * Math.cos(angle1);
+      const targetY = tubeRadius * Math.sin(angle2);
+      const targetZ =
+        (radius + tubeRadius * Math.cos(angle2)) * Math.sin(angle1);
+
+      const delay = Math.random() * 1.5;
+
+      data.push({
+        angle1,
+        angle2,
+        delay,
+        target: new THREE.Vector3(targetX, targetY, targetZ),
+      });
     }
     return data;
-  }, []);
+  }, [isMobile]);
 
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
 
+  const screenBottom = useMemo(() => {
+    return isMobile ? -window.innerHeight / 6 : -window.innerHeight / 4;
+  }, [isMobile]);
+
+  const origin = useMemo(
+    () => new THREE.Vector3(0, screenBottom, 0),
+    [screenBottom]
+  );
+  const burstDuration = 2.5;
+
   useFrame(({ clock, camera }) => {
     const time = clock.getElapsedTime();
-    const radius = isMobile ? 16 : 20; // smaller ring on mobile
+    if (!animationStart.current) animationStart.current = time;
+    const elapsed = time - animationStart.current;
+
+    const radius = isMobile ? 16 : 20;
     const tubeRadius = isMobile ? 4 : 5;
     const rotationSpeed = 0.15;
 
@@ -93,46 +125,69 @@ const Particles = ({
     const restoreStrength = 0.04;
 
     for (let i = 0; i < particleData.length; i++) {
-      const { angle1, angle2 } = particleData[i];
+      const { angle1, angle2, delay } = particleData[i];
 
       const a2 = angle2 + time * rotationSpeed * 8;
       const baseAngle = angle1 + time * rotationSpeed;
 
-      const baseX = (radius + tubeRadius * Math.cos(a2)) * Math.cos(baseAngle);
-      const baseY = tubeRadius * Math.sin(a2);
-      const baseZ = (radius + tubeRadius * Math.cos(a2)) * Math.sin(baseAngle);
+      const ringX = (radius + tubeRadius * Math.cos(a2)) * Math.cos(baseAngle);
+      const ringY = tubeRadius * Math.sin(a2);
+      const ringZ = (radius + tubeRadius * Math.cos(a2)) * Math.sin(baseAngle);
+      const target = new THREE.Vector3(ringX, ringY, ringZ);
 
-      let x = currentPositions[i * 3] || baseX;
-      let y = currentPositions[i * 3 + 1] || baseY;
-      let z = currentPositions[i * 3 + 2] || baseZ;
+      let pos: THREE.Vector3;
 
-      const pos = new THREE.Vector3(x, y, z);
-      const toParticle = new THREE.Vector3().subVectors(pos, rayOrigin);
-      const t = toParticle.dot(rayDir);
-      const closestPoint = rayDir.clone().multiplyScalar(t).add(rayOrigin);
-      const dist = pos.distanceTo(closestPoint);
+      const t = Math.min(Math.max((elapsed - delay) / burstDuration, 0), 1);
+      const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
+      const progress = easeOut(t);
 
-      if (dist < influenceRadius) {
-        const pull = new THREE.Vector3()
-          .subVectors(closestPoint, pos)
-          .multiplyScalar(pullStrength * (1 - dist / influenceRadius));
+      if (progress < 1) {
+        // ✨ Spiral burst from bottom to ring
+        const spiralAngle = progress * Math.PI * 8 + angle1 * 5;
+        const outwardRadius = Math.sin(progress * Math.PI) * 6;
 
-        x += pull.x;
-        y += pull.y;
-        z += pull.z;
+        const spiralX = origin.x + outwardRadius * Math.cos(spiralAngle);
+        const spiralZ = origin.z + outwardRadius * Math.sin(spiralAngle);
+        const spiralY = origin.y + (ringY - origin.y) * progress;
+
+        pos = new THREE.Vector3().lerpVectors(
+          new THREE.Vector3(spiralX, spiralY, spiralZ),
+          target,
+          progress * 0.5
+        );
+      } else {
+        // 🌪 Orbit + interactivity
+        const x = currentPositions[i * 3];
+        const y = currentPositions[i * 3 + 1];
+        const z = currentPositions[i * 3 + 2];
+        const current = new THREE.Vector3(x, y, z);
+
+        const toParticle = new THREE.Vector3().subVectors(current, rayOrigin);
+        const tProj = toParticle.dot(rayDir);
+        const closestPoint = rayDir
+          .clone()
+          .multiplyScalar(tProj)
+          .add(rayOrigin);
+        const dist = current.distanceTo(closestPoint);
+
+        if (dist < influenceRadius) {
+          const pull = new THREE.Vector3()
+            .subVectors(closestPoint, current)
+            .multiplyScalar(pullStrength * (1 - dist / influenceRadius));
+          current.add(pull);
+        }
+
+        current.lerp(target, restoreStrength);
+        pos = current;
       }
 
-      x += (baseX - x) * restoreStrength;
-      y += (baseY - y) * restoreStrength;
-      z += (baseZ - z) * restoreStrength;
+      currentPositions[i * 3] = pos.x;
+      currentPositions[i * 3 + 1] = pos.y;
+      currentPositions[i * 3 + 2] = pos.z;
 
-      currentPositions[i * 3] = x;
-      currentPositions[i * 3 + 1] = y;
-      currentPositions[i * 3 + 2] = z;
-
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
+      positions[i * 3] = pos.x;
+      positions[i * 3 + 1] = pos.y;
+      positions[i * 3 + 2] = pos.z;
     }
 
     if (pointsRef.current) {
