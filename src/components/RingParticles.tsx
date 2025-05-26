@@ -56,11 +56,12 @@ const RingParticles = () => {
       camera={{ position: [0, 100, 60], fov: 40 }}
       style={{
         position: "absolute",
-        top: isMobile ? "-160px" : "0",
+        top: 0,
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: "#000",
+        background: "transparent", // or "#000" if you want background here
+        zIndex: 0,
       }}
     >
       <ambientLight intensity={0.5} />

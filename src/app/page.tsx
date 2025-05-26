@@ -10,6 +10,7 @@ import {
 import Hero from "@/components/Hero";
 import Title from "@/components/Title";
 import Header from "@/components/Header";
+import Beginning from "@/components/Beginning";
 
 const CARD_COUNT = 3;
 
@@ -88,16 +89,17 @@ export default function Home() {
 
   return (
     <>
-      <div className="bg-black w-full h-screen relative">
-        {/* HEADER */}
+      <div className="bg-black w-full min-h-screen relative">
         <Header />
-
-        <Title />
+        <motion.div>
+          <Beginning />
+          <Title />
+        </motion.div>
 
         <div id="content">
           <div className="bg-black text-white min-h-screen p-10">
             {/* Increased scroll height even more */}
-            <div ref={scrollRef} className="relative w-full h-[300vh] mx-auto">
+            <div ref={scrollRef} className="relative w-full h-[400vh] mx-auto">
               <div className="sticky top-20 h-[600px]">
                 <div className="relative w-full h-full">
                   {Array.from({ length: CARD_COUNT }).map((_, i) => (
@@ -116,7 +118,7 @@ export default function Home() {
 
         <div
           id="projects"
-          className="bg-black h-full w-full flex flex-col justify-center items-center text-white"
+          className="bg-black min-h-screen w-full flex flex-col justify-center items-center text-white"
         >
           <h2 className="text-2xl">Projects</h2>
         </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import ParticleBackground from "./ParticleBackground";
+import RingParticles from "./RingParticles";
 
 const Title = () => {
   const scrollToProjects = () => {
@@ -10,13 +10,13 @@ const Title = () => {
   return (
     <div
       id="title"
-      className="w-full min-h-[630px] flex flex-col px-10 pb-10 text-white"
+      className="bg-black w-full h-screen flex flex-col px-10 pb-10 text-white"
     >
       <div
         id="title-animation"
-        className="flex-1 grow flex flex-row justify-center items-center"
+        className="flex-1 grow flex flex-row justify-center items-center relative"
       >
-        <ParticleBackground />
+        <RingParticles />
       </div>
 
       <div

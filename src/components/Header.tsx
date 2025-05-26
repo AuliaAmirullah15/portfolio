@@ -19,7 +19,7 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav className="mx-auto hidden md:block">
-          <ul className="flex space-x-12 bg-white bg-opacity-20 backdrop-blur-md rounded-full px-12 py-4 text-white uppercase text-md font-semibold tracking-wide shadow-md">
+          <ul className="flex space-x-12 px-12 py-4 text-white uppercase text-md font-semibold rounded-full tracking-wide shadow-md pulsing-gradient-border bg-white bg-opacity-10 backdrop-blur-md">
             {menuItems.map((item) => (
               <li
                 key={item}
