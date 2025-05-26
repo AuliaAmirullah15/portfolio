@@ -1,10 +1,19 @@
-import React, { useRef, useMemo, useEffect } from "react";
+import React, { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 const particlesCount = 20000;
 
 const ParticleBackground = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouse = useRef(new THREE.Vector2(0, 0));
 
@@ -29,7 +38,7 @@ const ParticleBackground = () => {
       camera={{ position: [60, 0, 20], fov: 40 }}
       style={{
         position: "absolute",
-        top: 0,
+        top: isMobile ? "-160px" : "0",
         left: 0,
         width: "100vw",
         height: "100vh",
@@ -37,15 +46,17 @@ const ParticleBackground = () => {
       }}
     >
       <ambientLight intensity={0.5} />
-      <Particles mouse={mouse} />
+      <Particles mouse={mouse} isMobile={isMobile} />
     </Canvas>
   );
 };
 
 const Particles = ({
   mouse,
+  isMobile,
 }: {
   mouse: React.MutableRefObject<THREE.Vector2>;
+  isMobile: boolean;
 }) => {
   const pointsRef = useRef<THREE.Points>(null);
   const positions = useMemo(() => new Float32Array(particlesCount * 3), []);
@@ -68,11 +79,10 @@ const Particles = ({
 
   useFrame(({ clock, camera }) => {
     const time = clock.getElapsedTime();
-    const radius = 20;
-    const tubeRadius = 5;
+    const radius = isMobile ? 16 : 20; // smaller ring on mobile
+    const tubeRadius = isMobile ? 4 : 5;
     const rotationSpeed = 0.15;
 
-    // Set up ray from camera and mouse
     raycaster.setFromCamera(mouse.current, camera);
     const rayOrigin = raycaster.ray.origin.clone();
     const rayDir = raycaster.ray.direction.clone();
@@ -96,12 +106,9 @@ const Particles = ({
       let z = currentPositions[i * 3 + 2] || baseZ;
 
       const pos = new THREE.Vector3(x, y, z);
-
-      // Calculate closest point on ray to particle
       const toParticle = new THREE.Vector3().subVectors(pos, rayOrigin);
-      const t = toParticle.dot(rayDir); // projection scalar
+      const t = toParticle.dot(rayDir);
       const closestPoint = rayDir.clone().multiplyScalar(t).add(rayOrigin);
-
       const dist = pos.distanceTo(closestPoint);
 
       if (dist < influenceRadius) {
@@ -114,7 +121,6 @@ const Particles = ({
         z += pull.z;
       }
 
-      // Elastic return to base position
       x += (baseX - x) * restoreStrength;
       y += (baseY - y) * restoreStrength;
       z += (baseZ - z) * restoreStrength;

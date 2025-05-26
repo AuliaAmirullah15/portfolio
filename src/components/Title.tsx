@@ -1,6 +1,5 @@
 import React from "react";
 import ParticleBackground from "./ParticleBackground";
-// import OrganicGradientBackground from "./OrganicGradientBackground";
 
 const Title = () => {
   const scrollToProjects = () => {
@@ -17,8 +16,6 @@ const Title = () => {
         id="title-animation"
         className="flex-1 grow flex flex-row justify-center items-center"
       >
-        {/* <ParticlesBackground /> */}
-        {/* <OrganicGradientBackground /> */}
         <ParticleBackground />
       </div>
 
@@ -74,32 +71,6 @@ const Title = () => {
             </div>
           </div>
         </div>
-
-        {/* Scroll Down Button */}
-        {/* <div className="order-3 md:order-none flex flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2 md:bottom-0 hover:cursor-pointer">
-          <span className="mb-1 text-sm font-geist uppercase tracking-wide text-white">
-            Scroll Down
-          </span>
-          <button
-            onClick={scrollToProjects}
-            className="animate-bounce text-white hover:text-gray-300"
-            aria-label="Scroll Down"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-        </div> */}
       </div>
     </div>
   );
