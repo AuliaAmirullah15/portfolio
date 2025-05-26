@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const particlesCount = 20000;
+const particlesCount = 30000;
 
 const ParticleBackground = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -35,7 +35,7 @@ const ParticleBackground = () => {
   return (
     <Canvas
       ref={canvasRef}
-      camera={{ position: [60, 0, 20], fov: 40 }}
+      camera={{ position: [0, 100, 20], fov: 40 }}
       style={{
         position: "absolute",
         top: isMobile ? "-160px" : "0",
