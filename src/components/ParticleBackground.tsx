@@ -4,7 +4,13 @@ import * as THREE from "three";
 
 const particlesCount = 30000;
 
-const ParticleBackground = () => {
+type ShapeType = "torus" | "sphere" | "morph";
+
+const ParticleBackground = ({
+  shape = "morph", // default morph
+}: {
+  shape?: ShapeType;
+}) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -47,7 +53,7 @@ const ParticleBackground = () => {
       }}
     >
       <ambientLight intensity={0.5} />
-      <Particles mouse={mouse} isMobile={isMobile} />
+      <Particles mouse={mouse} isMobile={isMobile} shape={shape} />
     </Canvas>
   );
 };
@@ -55,9 +61,11 @@ const ParticleBackground = () => {
 const Particles = ({
   mouse,
   isMobile,
+  shape,
 }: {
   mouse: React.MutableRefObject<THREE.Vector2>;
   isMobile: boolean;
+  shape: ShapeType;
 }) => {
   const pointsRef = useRef<THREE.Points>(null);
   const positions = useMemo(() => new Float32Array(particlesCount * 3), []);
@@ -66,30 +74,27 @@ const Particles = ({
     []
   );
   const animationStart = useRef<number>(0);
-  // const origin = new THREE.Vector3(0, -50, 0);
-  // const duration = 3; // duration of burst animation in seconds
+
+  const radius = isMobile ? 16 : 20;
+  const tubeRadius = isMobile ? 4 : 5;
 
   const particleData = useMemo(() => {
     const data = [];
     for (let i = 0; i < particlesCount; i++) {
       const angle1 = (i / particlesCount) * Math.PI * 2;
       const angle2 = Math.random() * Math.PI * 2;
-
-      const radius = isMobile ? 16 : 20;
-      const tubeRadius = isMobile ? 4 : 5;
-      const targetX =
-        (radius + tubeRadius * Math.cos(angle2)) * Math.cos(angle1);
-      const targetY = tubeRadius * Math.sin(angle2);
-      const targetZ =
-        (radius + tubeRadius * Math.cos(angle2)) * Math.sin(angle1);
-
       const delay = Math.random() * 1.5;
+
+      // Sphere spherical coords
+      const phi = Math.acos(2 * Math.random() - 1);
+      const theta = 2 * Math.PI * Math.random();
 
       data.push({
         angle1,
         angle2,
         delay,
-        target: new THREE.Vector3(targetX, targetY, targetZ),
+        phi,
+        theta,
       });
     }
     return data;
@@ -112,8 +117,6 @@ const Particles = ({
     if (!animationStart.current) animationStart.current = time;
     const elapsed = time - animationStart.current;
 
-    const radius = isMobile ? 16 : 20;
-    const tubeRadius = isMobile ? 4 : 5;
     const rotationSpeed = 0.15;
 
     raycaster.setFromCamera(mouse.current, camera);
@@ -124,16 +127,51 @@ const Particles = ({
     const pullStrength = 0.15;
     const restoreStrength = 0.04;
 
+    // Morph factor logic depending on shape prop
+    let morphFactor: number;
+    if (shape === "torus") morphFactor = 0;
+    else if (shape === "sphere") morphFactor = 1;
+    else morphFactor = 0.5 + 0.5 * Math.sin((time * Math.PI) / 10); // morph oscillates
+
     for (let i = 0; i < particleData.length; i++) {
-      const { angle1, angle2, delay } = particleData[i];
+      const { angle1, angle2, delay, phi, theta } = particleData[i];
 
-      const a2 = angle2 + time * rotationSpeed * 8;
-      const baseAngle = angle1 + time * rotationSpeed;
+      // Torus position animation
+      const minorAngle = angle2 + time * rotationSpeed * 8;
+      const majorAngle = angle1 + time * rotationSpeed;
 
-      const ringX = (radius + tubeRadius * Math.cos(a2)) * Math.cos(baseAngle);
-      const ringY = tubeRadius * Math.sin(a2);
-      const ringZ = (radius + tubeRadius * Math.cos(a2)) * Math.sin(baseAngle);
-      const target = new THREE.Vector3(ringX, ringY, ringZ);
+      const torusX =
+        (radius + tubeRadius * Math.cos(minorAngle)) * Math.cos(majorAngle);
+      const torusY = tubeRadius * Math.sin(minorAngle);
+      const torusZ =
+        (radius + tubeRadius * Math.cos(minorAngle)) * Math.sin(majorAngle);
+      const torusPos = new THREE.Vector3(torusX, torusY, torusZ);
+
+      // Sphere position animation
+      const sphereRadius = radius + tubeRadius;
+      const angleSpeed = 0.1;
+      const rotatedTheta = theta + angleSpeed * time;
+      const radiusOscillation = 1 + 0.05 * Math.sin(time * 5 + i);
+
+      const sphereX =
+        sphereRadius *
+        radiusOscillation *
+        Math.sin(phi) *
+        Math.cos(rotatedTheta);
+      const sphereY =
+        sphereRadius *
+        radiusOscillation *
+        Math.sin(phi) *
+        Math.sin(rotatedTheta);
+      const sphereZ = sphereRadius * radiusOscillation * Math.cos(phi);
+      const spherePos = new THREE.Vector3(sphereX, sphereY, sphereZ);
+
+      // Interpolate between shapes based on morphFactor
+      const interpolatedTarget = new THREE.Vector3().lerpVectors(
+        torusPos,
+        spherePos,
+        morphFactor
+      );
 
       let pos: THREE.Vector3;
 
@@ -142,21 +180,21 @@ const Particles = ({
       const progress = easeOut(t);
 
       if (progress < 1) {
-        // ✨ Spiral burst from bottom to ring
+        // Burst spiral from bottom to shape
         const spiralAngle = progress * Math.PI * 8 + angle1 * 5;
         const outwardRadius = Math.sin(progress * Math.PI) * 6;
 
         const spiralX = origin.x + outwardRadius * Math.cos(spiralAngle);
         const spiralZ = origin.z + outwardRadius * Math.sin(spiralAngle);
-        const spiralY = origin.y + (ringY - origin.y) * progress;
+        const spiralY = origin.y + (interpolatedTarget.y - origin.y) * progress;
 
         pos = new THREE.Vector3().lerpVectors(
           new THREE.Vector3(spiralX, spiralY, spiralZ),
-          target,
+          interpolatedTarget,
           progress * 0.5
         );
       } else {
-        // 🌪 Orbit + interactivity
+        // Orbit + mouse interactivity
         const x = currentPositions[i * 3];
         const y = currentPositions[i * 3 + 1];
         const z = currentPositions[i * 3 + 2];
@@ -177,7 +215,7 @@ const Particles = ({
           current.add(pull);
         }
 
-        current.lerp(target, restoreStrength);
+        current.lerp(interpolatedTarget, restoreStrength);
         pos = current;
       }
 

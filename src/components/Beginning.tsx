@@ -11,6 +11,9 @@ const texts = [
 
 const Beginning = () => {
   const [index, setIndex] = useState(0);
+  // Shape state explicitly typed as "torus" or "sphere"
+  const [shape, setShape] = useState<"torus" | "sphere" | "morph">("torus");
+
   const textRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -91,10 +94,11 @@ const Beginning = () => {
     return () => scrollContainer.removeEventListener("wheel", onWheel);
   }, [index]);
 
-  const scrollToExperience = () => {
+  // On "PRESS ME TO CONTINUE" click, change particle shape
+  const onPressContinue = () => {
     if (index === texts.length - 1) {
-      const el = document.getElementById("experience");
-      el?.scrollIntoView({ behavior: "smooth" });
+      setShape("sphere");
+      // You can also scroll to a section or do something else here
     }
   };
 
@@ -105,11 +109,13 @@ const Beginning = () => {
       className="w-full h-screen flex items-center justify-center relative z-10 overflow-hidden"
       style={{ overscrollBehavior: "none" }}
     >
-      <ParticleBackground />
+      {/* Pass shape state down to ParticleBackground */}
+      <ParticleBackground shape={shape} />
+
       <div
         ref={textRef}
         className="absolute z-20 text-center text-gray-300 text-xl font-mono cursor-pointer select-none"
-        onClick={scrollToExperience}
+        onClick={onPressContinue}
         style={{
           userSelect: "none",
           opacity: 0,
