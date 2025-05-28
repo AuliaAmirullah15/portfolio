@@ -11,6 +11,7 @@ import Hero from "@/components/Hero";
 import Title from "@/components/Title";
 import Header from "@/components/Header";
 import Beginning from "@/components/Beginning";
+import Experience from "@/components/Experience";
 
 const CARD_COUNT = 5;
 
@@ -98,6 +99,7 @@ export default function Home() {
         <Header />
         <motion.div>
           <Beginning />
+          <Experience />
           <Title />
         </motion.div>
 

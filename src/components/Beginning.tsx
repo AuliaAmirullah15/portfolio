@@ -91,9 +91,9 @@ const Beginning = () => {
     return () => scrollContainer.removeEventListener("wheel", onWheel);
   }, [index]);
 
-  const scrollToTitle = () => {
+  const scrollToExperience = () => {
     if (index === texts.length - 1) {
-      const el = document.getElementById("title");
+      const el = document.getElementById("experience");
       el?.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -109,7 +109,7 @@ const Beginning = () => {
       <div
         ref={textRef}
         className="absolute z-20 text-center text-gray-300 text-xl font-mono cursor-pointer select-none"
-        onClick={scrollToTitle}
+        onClick={scrollToExperience}
         style={{
           userSelect: "none",
           opacity: 0,
