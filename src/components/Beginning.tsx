@@ -12,7 +12,9 @@ const texts = [
 const Beginning = () => {
   const [index, setIndex] = useState(0);
   // Shape state explicitly typed as "torus" or "sphere"
-  const [shape, setShape] = useState<"torus" | "sphere" | "morph">("torus");
+  const [shape, setShape] = useState<
+    "torus" | "sphere" | "morph" | "disc" | "helix"
+  >("torus");
 
   const textRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -97,7 +99,7 @@ const Beginning = () => {
   // On "PRESS ME TO CONTINUE" click, change particle shape
   const onPressContinue = () => {
     if (index === texts.length - 1) {
-      setShape("sphere");
+      setShape("disc");
       // You can also scroll to a section or do something else here
     }
   };
