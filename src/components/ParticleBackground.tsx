@@ -175,7 +175,7 @@ const Particles = ({
       const baseHelixRadius = radius * 0.6;
       const waveSpeed = 2;
       const waveAmplitudeY = 1.5;
-      const waveAmplitudeRadius = 0.3;
+      const waveAmplitudeRadius = 2;
       const waveAmplitudeXZ = 0.5;
       const helixT =
         (i / particlesCount) * Math.PI * 2 * helixTurns + time * rotationSpeed;

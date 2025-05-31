@@ -3,24 +3,24 @@ import ParticleBackground from "./ParticleBackground";
 import { gsap } from "gsap";
 
 const texts = [
-  ["WEB", "DEVELOPER"],
   ["AULIA", "ZULKARNEIDI"],
+  ["WEB", "DEVELOPER"],
+  ["HOME", "INFO"],
   ["UI/UX", "DEVELOPER"],
-  ["PRESS ME", "TO CONTINUE"],
+  ["SOFTWARE", "ENGINEER"],
 ];
+
+const shapes = [
+  "torus",
+  "sphere",
+  "crystalCluster",
+  "disc",
+  "ribbonWave",
+] as const;
 
 const Beginning = () => {
   const [index, setIndex] = useState(0);
-  // Shape state explicitly typed as "torus" or "sphere"
-  const [shape, setShape] = useState<
-    | "torus"
-    | "sphere"
-    | "morph"
-    | "disc"
-    | "helix"
-    | "ribbonWave"
-    | "crystalCluster"
-  >("torus");
+  const [shape, setShape] = useState<(typeof shapes)[number]>("torus");
 
   const textRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -87,10 +87,14 @@ const Beginning = () => {
       scrollTimeoutRef.current = null;
     }, 1200);
 
-    if (e.deltaY > 0 && index < texts.length - 1) {
-      animateTextChange(index + 1);
-    } else if (e.deltaY < 0 && index > 0) {
-      animateTextChange(index - 1);
+    const nextIndex =
+      e.deltaY > 0
+        ? Math.min(index + 1, texts.length - 1)
+        : Math.max(index - 1, 0);
+
+    if (nextIndex !== index) {
+      animateTextChange(nextIndex);
+      setShape(shapes[nextIndex]); // update shape in sync with text
     }
   };
 
@@ -101,14 +105,6 @@ const Beginning = () => {
     scrollContainer.addEventListener("wheel", onWheel, { passive: false });
     return () => scrollContainer.removeEventListener("wheel", onWheel);
   }, [index]);
-
-  // On "PRESS ME TO CONTINUE" click, change particle shape
-  const onPressContinue = () => {
-    if (index === texts.length - 1) {
-      setShape("crystalCluster");
-      // You can also scroll to a section or do something else here
-    }
-  };
 
   return (
     <div
@@ -123,7 +119,6 @@ const Beginning = () => {
       <div
         ref={textRef}
         className="absolute z-20 text-center text-gray-300 text-xl font-mono cursor-pointer select-none"
-        onClick={onPressContinue}
         style={{
           userSelect: "none",
           opacity: 0,
