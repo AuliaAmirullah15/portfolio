@@ -12,11 +12,14 @@ const shapes = [
   "ribbonWave",
 ] as const;
 
-const Beginning = () => {
+type BeginningProps = {
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+};
+
+const Beginning = ({ scrollContainerRef }: BeginningProps) => {
   const [index, setIndex] = useState(0);
   const [shape, setShape] = useState<(typeof shapes)[number]>("torus");
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const initialAnimationDone = useRef(false);
   const isAnimating = useRef(false);
@@ -29,7 +32,6 @@ const Beginning = () => {
         AULIA <br /> ZULKARNEIDI
       </p>
     </div>,
-
     <div
       key="layout-1"
       className="text-center text-gray-300 text-xl font-bold font-mono"
@@ -47,15 +49,12 @@ const Beginning = () => {
         UNITED KINGDOM
       </p>
     </div>,
-
     <Title key="layout-2" />,
-
     <div key="layout-3" className="text-center text-gray-300 text-xl font-mono">
       <p className="hover:text-white transition-all duration-500">
         [BENTO CARDS HERE]
       </p>
     </div>,
-
     <div key="layout-4" className="text-center text-gray-300 text-xl font-mono">
       <p className="hover:text-white transition-all duration-500">
         SOFTWARE ENGINEER
@@ -172,9 +171,7 @@ const Beginning = () => {
     scrollContainer.addEventListener("touchstart", onTouchStart, {
       passive: true,
     });
-    scrollContainer.addEventListener("touchend", onTouchEnd, {
-      passive: true,
-    });
+    scrollContainer.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
@@ -195,7 +192,6 @@ const Beginning = () => {
       tabIndex={0}
     >
       <ParticleBackground shape={shape} />
-
       <div
         ref={layoutRef}
         className="absolute z-20 w-full h-full flex items-center justify-center"
@@ -203,7 +199,6 @@ const Beginning = () => {
       >
         {layouts[index]}
       </div>
-
       {index < layouts.length - 1 && (
         <ScrollDownArrow
           className="justify-end"

@@ -37,8 +37,23 @@ const ParticleBackground = ({ shape = "morph" }: { shape?: ShapeType }) => {
       mouse.current.y = -((y / rect.height) * 2 - 1);
     };
 
+    const handleTouchMove = (event: TouchEvent) => {
+      if (!canvasRef.current || event.touches.length === 0) return;
+      const rect = canvasRef.current.getBoundingClientRect();
+      const x = event.touches[0].clientX - rect.left;
+      const y = event.touches[0].clientY - rect.top;
+
+      mouse.current.x = (x / rect.width) * 2 - 1;
+      mouse.current.y = -((y / rect.height) * 2 - 1);
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
   }, []);
 
   return (
