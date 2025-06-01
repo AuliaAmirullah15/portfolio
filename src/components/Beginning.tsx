@@ -1,14 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { JSX, useEffect, useRef, useState } from "react";
 import ParticleBackground from "./ParticleBackground";
 import { gsap } from "gsap";
-
-const texts = [
-  ["AULIA", "ZULKARNEIDI"],
-  ["WEB", "DEVELOPER"],
-  ["HOME", "INFO"],
-  ["UI/UX", "DEVELOPER"],
-  ["SOFTWARE", "ENGINEER"],
-];
+import Title from "./Title";
+import ScrollDownArrow from "./ScrollDownArrow";
 
 const shapes = [
   "torus",
@@ -22,19 +16,59 @@ const Beginning = () => {
   const [index, setIndex] = useState(0);
   const [shape, setShape] = useState<(typeof shapes)[number]>("torus");
 
-  const textRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const initialAnimationDone = useRef(false);
   const isAnimating = useRef(false);
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
-  // Initial animation on mount (after 4 sec delay based on particle animation)
+  const layouts: JSX.Element[] = [
+    <div key="layout-0" className="text-center text-gray-300 text-xl font-mono">
+      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
+        AULIA <br /> ZULKARNEIDI
+      </p>
+    </div>,
+
+    <div
+      key="layout-1"
+      className="text-center text-gray-300 text-xl font-bold font-mono"
+    >
+      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
+        WEB DEVELOPER
+      </p>
+      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
+        BASED IN
+      </p>
+      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
+        NEWCASTLE UPON TYNE,
+      </p>
+      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
+        UNITED KINGDOM
+      </p>
+    </div>,
+
+    <Title key="layout-2" />,
+
+    <div key="layout-3" className="text-center text-gray-300 text-xl font-mono">
+      <p className="hover:text-white transition-all duration-500">
+        [BENTO CARDS HERE]
+      </p>
+    </div>,
+
+    <div key="layout-4" className="text-center text-gray-300 text-xl font-mono">
+      <p className="hover:text-white transition-all duration-500">
+        SOFTWARE ENGINEER
+      </p>
+    </div>,
+  ];
+
   useEffect(() => {
-    if (textRef.current) gsap.set(textRef.current, { opacity: 0, y: 40 });
+    if (layoutRef.current) gsap.set(layoutRef.current, { opacity: 0, y: 40 });
 
     const timeout = setTimeout(() => {
-      if (textRef.current) {
-        gsap.to(textRef.current, {
+      if (layoutRef.current) {
+        gsap.to(layoutRef.current, {
           opacity: 1,
           y: 0,
           duration: 1.2,
@@ -47,12 +81,12 @@ const Beginning = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const animateTextChange = (newIndex: number) => {
-    if (!textRef.current || !initialAnimationDone.current) return;
+  const animateLayoutChange = (newIndex: number) => {
+    if (!layoutRef.current || !initialAnimationDone.current) return;
 
     isAnimating.current = true;
 
-    gsap.to(textRef.current, {
+    gsap.to(layoutRef.current, {
       opacity: 0,
       y: -40,
       duration: 0.5,
@@ -61,7 +95,7 @@ const Beginning = () => {
         setIndex(newIndex);
 
         gsap.fromTo(
-          textRef.current,
+          layoutRef.current,
           { opacity: 0, y: 40 },
           {
             opacity: 1,
@@ -77,24 +111,56 @@ const Beginning = () => {
     });
   };
 
-  // Scroll handler scoped only to this component
+  const goToIndex = (nextIndex: number) => {
+    if (
+      nextIndex !== index &&
+      !isAnimating.current &&
+      !scrollTimeoutRef.current
+    ) {
+      animateLayoutChange(nextIndex);
+      setShape(shapes[nextIndex] || shapes[0]);
+
+      scrollTimeoutRef.current = setTimeout(() => {
+        scrollTimeoutRef.current = null;
+      }, 1200);
+    }
+  };
+
   const onWheel = (e: WheelEvent) => {
     e.preventDefault();
+    const delta = e.deltaY;
+    const nextIndex =
+      delta > 0
+        ? Math.min(index + 1, layouts.length - 1)
+        : Math.max(index - 1, 0);
+    goToIndex(nextIndex);
+  };
 
-    if (scrollTimeoutRef.current || isAnimating.current) return;
+  const onTouchStart = (e: TouchEvent) => {
+    touchStartYRef.current = e.touches[0].clientY;
+  };
 
-    scrollTimeoutRef.current = setTimeout(() => {
-      scrollTimeoutRef.current = null;
-    }, 1200);
+  const onTouchEnd = (e: TouchEvent) => {
+    if (touchStartYRef.current === null) return;
+
+    const endY = e.changedTouches[0].clientY;
+    const deltaY = touchStartYRef.current - endY;
+
+    if (Math.abs(deltaY) < 30) return;
 
     const nextIndex =
-      e.deltaY > 0
-        ? Math.min(index + 1, texts.length - 1)
+      deltaY > 0
+        ? Math.min(index + 1, layouts.length - 1)
         : Math.max(index - 1, 0);
+    goToIndex(nextIndex);
+    touchStartYRef.current = null;
+  };
 
-    if (nextIndex !== index) {
-      animateTextChange(nextIndex);
-      setShape(shapes[nextIndex]); // update shape in sync with text
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      goToIndex(Math.min(index + 1, layouts.length - 1));
+    } else if (e.key === "ArrowUp") {
+      goToIndex(Math.max(index - 1, 0));
     }
   };
 
@@ -103,33 +169,47 @@ const Beginning = () => {
     if (!scrollContainer) return;
 
     scrollContainer.addEventListener("wheel", onWheel, { passive: false });
-    return () => scrollContainer.removeEventListener("wheel", onWheel);
+    scrollContainer.addEventListener("touchstart", onTouchStart, {
+      passive: true,
+    });
+    scrollContainer.addEventListener("touchend", onTouchEnd, {
+      passive: true,
+    });
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      scrollContainer.removeEventListener("wheel", onWheel);
+      scrollContainer.removeEventListener("touchstart", onTouchStart);
+      scrollContainer.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [index]);
 
   return (
     <div
       ref={scrollContainerRef}
-      id="beginning"
       className="w-full h-screen flex items-center justify-center relative z-10 overflow-hidden"
       style={{ overscrollBehavior: "none" }}
+      role="region"
+      aria-label="Scrollable sections"
+      tabIndex={0}
     >
-      {/* Pass shape state down to ParticleBackground */}
       <ParticleBackground shape={shape} />
 
       <div
-        ref={textRef}
-        className="absolute z-20 text-center text-gray-300 text-xl font-mono cursor-pointer select-none"
-        style={{
-          userSelect: "none",
-          opacity: 0,
-          transform: "translateY(40px)",
-        }}
+        ref={layoutRef}
+        className="absolute z-20 w-full h-full flex items-center justify-center"
+        style={{ userSelect: "none", opacity: 0 }}
       >
-        <p className="hover:text-white hover:text-2xl transition-all duration-500">
-          {texts[index][0]} <br />
-          {texts[index][1]}
-        </p>
+        {layouts[index]}
       </div>
+
+      {index < layouts.length - 1 && (
+        <ScrollDownArrow
+          className="justify-end"
+          remainingPage={(layouts.length - 1 - index).toString()}
+        />
+      )}
     </div>
   );
 };
