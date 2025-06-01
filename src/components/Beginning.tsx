@@ -24,6 +24,7 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
   const initialAnimationDone = useRef(false);
   const isAnimating = useRef(false);
   const layoutRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
   const touchStartYRef = useRef<number | null>(null);
 
   const layouts: JSX.Element[] = [
@@ -79,6 +80,31 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
 
     return () => clearTimeout(timeout);
   }, []);
+
+  // Animate ScrollDownArrow in/out smoothly on index change
+  useEffect(() => {
+    if (!arrowRef.current) return;
+
+    if (index < layouts.length - 1) {
+      // Animate in
+      gsap.to(arrowRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        pointerEvents: "auto",
+      });
+    } else {
+      // Animate out
+      gsap.to(arrowRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        ease: "power2.in",
+        pointerEvents: "none",
+      });
+    }
+  }, [index]);
 
   const animateLayoutChange = (newIndex: number) => {
     if (!layoutRef.current || !initialAnimationDone.current) return;
@@ -199,12 +225,16 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
       >
         {layouts[index]}
       </div>
-      {index < layouts.length - 1 && (
+      <div
+        ref={arrowRef}
+        className="absolute bottom-6 z-30 opacity-0 translate-y-5 pointer-events-none"
+        aria-hidden={index >= layouts.length - 1}
+      >
         <ScrollDownArrow
           className="justify-end"
           remainingPage={(layouts.length - 1 - index).toString()}
         />
-      )}
+      </div>
     </div>
   );
 };
