@@ -3,6 +3,7 @@ import ParticleBackground from "./ParticleBackground";
 import { gsap } from "gsap";
 import Title from "./Title";
 import ScrollDownArrow from "./ScrollDownArrow";
+import ProjectsBentoBox from "./ProjectsBentoBox";
 
 const shapes = [
   "torus",
@@ -35,27 +36,15 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
     </div>,
     <div
       key="layout-1"
-      className="text-center text-gray-300 text-xl font-bold font-mono"
+      className="text-center text-gray-300 text-xl hover:text-white hover:text-2xl hover:cursor-pointer  font-bold font-mono transition-all duration-500"
     >
-      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
-        WEB DEVELOPER
-      </p>
-      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
-        BASED IN
-      </p>
-      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
-        NEWCASTLE UPON TYNE,
-      </p>
-      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
-        UNITED KINGDOM
-      </p>
+      <p>WEB DEVELOPER</p>
+      <p>BASED IN</p>
+      <p>NEWCASTLE UPON TYNE,</p>
+      <p>UNITED KINGDOM</p>
     </div>,
     <Title key="layout-2" />,
-    <div key="layout-3" className="text-center text-gray-300 text-xl font-mono">
-      <p className="hover:text-white transition-all duration-500">
-        [BENTO CARDS HERE]
-      </p>
-    </div>,
+    <ProjectsBentoBox key="layout-3" />,
     <div key="layout-4" className="text-center text-gray-300 text-xl font-mono">
       <p className="hover:text-white transition-all duration-500">
         SOFTWARE ENGINEER
