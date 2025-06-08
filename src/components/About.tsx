@@ -217,44 +217,12 @@ export default function About() {
         ease: "back.out(1.7)",
         scrollTrigger: {
           trigger: "#values-dot-indicator",
-          start: "top bottom",
+          start: `top bottom`,
           end: `+=${items.length * 100}%`,
           toggleActions: "play reverse play reverse",
         },
       }
     );
-
-    // const dots = gsap.utils.toArray(
-    //   "#values-dot-indicator .dot"
-    // ) as HTMLElement[];
-
-    // if (items.length === dots.length) {
-    //   items.forEach((item, i) => {
-    //     const dotFill = dots[i].querySelector(".dot-fill") as HTMLElement;
-    //     if (!dotFill) return;
-
-    //     ScrollTrigger.create({
-    //       trigger: item,
-    //       start: "top center+=50", // adjusted trigger point
-    //       end: "bottom center-=50", // avoid overlap
-    //       scrub: true,
-    //       onUpdate: (self) => {
-    //         gsap.to(dotFill, {
-    //           scaleX: self.progress,
-    //           ease: "power1.out",
-    //           overwrite: "auto",
-    //           duration: 0.1,
-    //         });
-    //       },
-    //       onToggle: (self) => {
-    //         // This highlights the currently active dot
-    //         dots.forEach((d, idx) => {
-    //           d.classList.toggle("active", idx === i && self.isActive);
-    //         });
-    //       },
-    //     });
-    //   });
-    // }
   }, []);
 
   return (
@@ -426,21 +394,17 @@ export default function About() {
         {/* Pill container with dots indicator */}
         <div
           id="values-dot-indicator"
-          className="absolute bottom-10 bg-white/10 backdrop-blur-md rounded-full px-8 py-4 flex space-x-4 items-center"
-          style={{ pointerEvents: "none" }}
+          className="absolute bottom-10 bg-white/10 backdrop-blur-md rounded-full px-8 py-4 flex space-x-4 items-center cursor-pointer"
           aria-label="Values section progress indicator"
           role="region"
         >
           {[...Array(4)].map((_, i) => (
             <span
               key={i}
-              className="dot relative w-4 h-4 min-w-[1rem] min-h-[1rem] rounded-full bg-white/40 overflow-hidden"
+              className="dot relative w-4 h-4 min-w-[1rem] min-h-[1rem] rounded-full bg-white overflow-hidden"
               aria-hidden="true"
             >
-              <span
-                className="dot-fill absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-150 ease-out"
-                style={{ transformOrigin: "left" }}
-              />
+              <span className="dot-fill absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-150 ease-out" />
             </span>
           ))}
         </div>
