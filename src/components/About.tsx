@@ -158,7 +158,11 @@ export default function About() {
       );
 
     const items = gsap.utils.toArray(".value-item") as HTMLElement[];
+    const progressBar = document.getElementById("values-progress-bar");
 
+    if (items.length === 0 || !progressBar) return;
+
+    // Optional: Reveal animation as before
     gsap.to(items, {
       scrollTrigger: {
         trigger: "#values",
@@ -178,6 +182,22 @@ export default function About() {
             }
           });
         },
+      },
+    });
+
+    // Progress bar update based on scroll
+    ScrollTrigger.create({
+      trigger: "#values",
+      start: "top top",
+      end: `+=${items.length * 100}%`,
+      scrub: true,
+      onUpdate: (self) => {
+        gsap.to(progressBar, {
+          scaleX: self.progress,
+          ease: "power2.out",
+          overwrite: true,
+          duration: 0.2,
+        });
       },
     });
   }, []);
@@ -339,6 +359,14 @@ export default function About() {
         id="values"
         className="w-full h-full min-h-screen bg-zinc-900 text-white px-4 md:px-20 py-12 md:py-24 overflow-hidden relative flex flex-row justify-center items-center"
       >
+        <div className="absolute bottom-0 left-0 w-full h-6 bg-white/10">
+          <div
+            id="values-progress-bar"
+            className="h-full bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500"
+            style={{ transform: "scaleX(0)", transformOrigin: "left" }}
+          ></div>
+        </div>
+
         <div className="flex flex-col md:flex-row space-x-0 md:space-x-20 p-8 items-center justify-center">
           <div
             id="value-title"
