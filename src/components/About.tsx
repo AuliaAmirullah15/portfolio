@@ -200,6 +200,61 @@ export default function About() {
         });
       },
     });
+
+    // Animate the values-dot-indicator
+    gsap.fromTo(
+      "#values-dot-indicator",
+      {
+        opacity: 0,
+        y: 40,
+        scale: 0.8,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: "#values-dot-indicator",
+          start: "top bottom",
+          end: `+=${items.length * 100}%`,
+          toggleActions: "play reverse play reverse",
+        },
+      }
+    );
+
+    // const dots = gsap.utils.toArray(
+    //   "#values-dot-indicator .dot"
+    // ) as HTMLElement[];
+
+    // if (items.length === dots.length) {
+    //   items.forEach((item, i) => {
+    //     const dotFill = dots[i].querySelector(".dot-fill") as HTMLElement;
+    //     if (!dotFill) return;
+
+    //     ScrollTrigger.create({
+    //       trigger: item,
+    //       start: "top center+=50", // adjusted trigger point
+    //       end: "bottom center-=50", // avoid overlap
+    //       scrub: true,
+    //       onUpdate: (self) => {
+    //         gsap.to(dotFill, {
+    //           scaleX: self.progress,
+    //           ease: "power1.out",
+    //           overwrite: "auto",
+    //           duration: 0.1,
+    //         });
+    //       },
+    //       onToggle: (self) => {
+    //         // This highlights the currently active dot
+    //         dots.forEach((d, idx) => {
+    //           d.classList.toggle("active", idx === i && self.isActive);
+    //         });
+    //       },
+    //     });
+    //   });
+    // }
   }, []);
 
   return (
@@ -315,7 +370,7 @@ export default function About() {
                 myself
               </span>
             </h2>
-            <p className="text-zinc-300 text-lg pb-4">
+            <p className="text-zinc-300 text-lg pb-8">
               Hi, I’m Aulia, a web developer with a strong focus on building
               thoughtful, user-centred digital solutions. I believe in looking
               beyond the obvious, whether that’s exploring the right technology
@@ -359,12 +414,35 @@ export default function About() {
         id="values"
         className="w-full h-full min-h-screen bg-zinc-900 text-white px-4 md:px-20 py-12 md:py-24 overflow-hidden relative flex flex-row justify-center items-center"
       >
+        {/* Progress Bar*/}
         <div className="absolute bottom-0 left-0 w-full h-6 bg-white/10">
           <div
             id="values-progress-bar"
             className="h-full bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500"
             style={{ transform: "scaleX(0)", transformOrigin: "left" }}
           ></div>
+        </div>
+
+        {/* Pill container with dots indicator */}
+        <div
+          id="values-dot-indicator"
+          className="absolute bottom-10 bg-white/10 backdrop-blur-md rounded-full px-8 py-4 flex space-x-4 items-center"
+          style={{ pointerEvents: "none" }}
+          aria-label="Values section progress indicator"
+          role="region"
+        >
+          {[...Array(4)].map((_, i) => (
+            <span
+              key={i}
+              className="dot relative w-4 h-4 min-w-[1rem] min-h-[1rem] rounded-full bg-white/40 overflow-hidden"
+              aria-hidden="true"
+            >
+              <span
+                className="dot-fill absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-150 ease-out"
+                style={{ transformOrigin: "left" }}
+              />
+            </span>
+          ))}
         </div>
 
         <div className="flex flex-col md:flex-row space-x-0 md:space-x-20 p-8 items-center justify-center">
