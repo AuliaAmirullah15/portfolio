@@ -156,6 +156,30 @@ export default function About() {
         { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
       );
+
+    const items = gsap.utils.toArray(".value-item") as HTMLElement[];
+
+    gsap.to(items, {
+      scrollTrigger: {
+        trigger: "#values",
+        pin: true,
+        scrub: true,
+        start: "top top",
+        end: `+=${items.length * 100}%`,
+      },
+      opacity: 1,
+      y: 0,
+      stagger: {
+        each: 1,
+        onStart: (i) => {
+          items.forEach((el, idx) => {
+            if (idx !== i) {
+              gsap.set(el, { opacity: 0, y: 40 });
+            }
+          });
+        },
+      },
+    });
   }, []);
 
   return (
@@ -305,12 +329,7 @@ export default function About() {
               What drives me is the challenge of balancing solid engineering
               with great design, making sure interfaces aren’t just visually
               appealing but genuinely intuitive and enjoyable to use. I believe
-              good UI and UX are as essential as clean, tested code. I’m also
-              keen on collaboration, making sure everyone involved, from
-              designers to business teams, understands the direction and purpose
-              behind what we’re building. Constantly learning and refining my
-              approach, I aim to create systems that deliver real value for both
-              customers and the business, built with care and precision.
+              good UI and UX are as essential as clean, tested code.
             </p>
             <ContactMeButton className="block lg:hidden myself-contact-button" />
           </div>
@@ -318,61 +337,89 @@ export default function About() {
       </div>
       <div
         id="values"
-        className="w-full h-full min-h-screen bg-zinc-900 text-white px-4 md:px-20 py-12 md:py-24"
+        className="w-full h-full min-h-screen bg-zinc-900 text-white px-4 md:px-20 py-12 md:py-24 overflow-hidden relative flex flex-row justify-center items-center"
       >
-        <div className="flex flex-row space-x-20 p-8">
+        <div className="flex flex-col md:flex-row space-x-0 md:space-x-20 p-8 items-center justify-center">
           <div
             id="value-title"
-            className="flex flex-col justify-center items-center"
+            className="w-full md:w-1/2 mb-8 md:mb-0 sticky self-start font-funnel"
           >
-            <h2>
-              What’s important <span className="font-instrument">to me?</span>
+            <h2 className="text-4xl pb-4">
+              What’s important{" "}
+              <span className="font-instrument tracking-wider italic">
+                to me?
+              </span>
             </h2>
+            <p>
+              I believe that great digital solutions live at the intersection of
+              thoughtful design and solid engineering. For me, success means
+              building systems that not only function well but also feel
+              intuitive, scale effectively, and bring real value to both users
+              and businesses.
+            </p>
           </div>
-          <div id="value-content" className="flex-1">
-            <div className="flex flex-col">
-              <p>01</p>
-              <p>Team culture</p>
-              <p>
-                Building strong teams across various industries around the
-                business ensures I can deliver creative solutions that align
-                with the vision. Whether working with developers, marketers, or
-                business teams, collaboration drives success in each design
-                project.
+
+          {/* Animated values */}
+          <div
+            id="value-content"
+            className="w-full md:w-1/2 relative h-[150px] self-start"
+          >
+            <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
+              <p className="text-lg mb-2">01</p>
+              <h3 className="text-2xl font-semibold mb-2">Team Culture</h3>
+              <p className="text-zinc-300">
+                I thrive on clear communication and cross-functional
+                collaboration. Working closely with designers, product teams,
+                and stakeholders ensures that everyone’s aligned on what we’re
+                building and why, so the final product reflects a shared vision.
               </p>
             </div>
-            <div className="flex flex-col">
-              <p>02</p>
-              <p>User-centered design</p>
-              <p>
-                Designing with the end-user in mind is key. Every decision is
-                focused on creating intuitive and visually appealing designs
-                that provide users with the best experience, ensuring their
-                voice is reflected in every project
+            <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
+              <p className="text-lg mb-2">02</p>
+              <h3 className="text-2xl font-semibold mb-2">
+                User-First Engineering
+              </h3>
+              <p className="text-zinc-300">
+                Technology should serve people. Whether it’s a kiosk interface,
+                web or a mobile app, I always start by understanding the user’s
+                needs. Every line of code and architectural choice is made with
+                the user experience in mind: ensuring solutions are accessible,
+                intuitive, and genuinely useful.
               </p>
             </div>
-            <div className="flex flex-col">
-              <p>03</p>
-              <p>Design excellence</p>
-              <p>
-                Achieving exceptional design comes from pushing creative
-                boundaries. I aim to foster an environment where experimentation
-                and innovation is encouraged, ensuring that every project is
-                visually appealing, distinctive, and tailored to business needs.
+            <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
+              <p className="text-lg mb-2">03</p>
+              <h3 className="text-2xl font-semibold mb-2">
+                Scalable, Thoughtful Architecture
+              </h3>
+              <p className="text-zinc-300">
+                Great software isn’t just about what works now, it’s about what
+                lasts. I focus on maintainable, testable, and scalable systems,
+                selecting tech stacks and designing architectures that evolve
+                alongside business goals.
               </p>
             </div>
-            <div className="flex flex-col">
-              <p>04</p>
-              <p>Continuous Learning</p>
-              <p>
-                I constantly strive to learn new skills and stay ahead of the
-                game. I enjoy tackling complex challenges and exploring new
-                trends, and I thrive on creating innovative designs that make a
-                lasting impression.
+            <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
+              <p className="text-lg mb-2">04</p>
+              <h3 className="text-2xl font-semibold mb-2">
+                Constant Learning and Refinement
+              </h3>
+              <p className="text-zinc-300">
+                Technology never stands still, and neither do I. I stay curious,
+                continuously learning from new tools, patterns, and challenges.
+                Each project is a chance to refine my approach and push the
+                boundaries of what’s possible.
               </p>
             </div>
           </div>
         </div>
+      </div>
+
+      <div
+        id="timeline"
+        className="w-full h-full min-h-screen bg-black text-white"
+      >
+        ashjdgfjasd
       </div>
     </div>
   );
