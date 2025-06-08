@@ -5,15 +5,17 @@ const ScrollDownArrow = ({
   remainingPage,
 }: {
   className?: string;
-  remainingPage: string;
+  remainingPage?: string;
 }) => {
   return (
     <div
       className={`flex flex-col h-full min-h-12 items-center hover:cursor-pointer ${className}`}
     >
-      <span className="block mb-1 text-sm font-geist uppercase tracking-wide text-white">
-        {remainingPage}
-      </span>
+      {remainingPage && (
+        <span className="block mb-1 text-sm font-geist uppercase tracking-wide text-white">
+          {remainingPage}
+        </span>
+      )}
       <button
         className="animate-bounce text-white hover:text-gray-300"
         aria-label="Scroll Down"

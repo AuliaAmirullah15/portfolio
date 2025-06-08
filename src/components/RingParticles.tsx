@@ -2,9 +2,9 @@ import React, { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const particlesCount = 50000;
+const particlesCount = 30000;
 const ringsCount = 16;
-const coreParticlesCount = 3000;
+const coreParticlesCount = 1000;
 
 type CoreParticle = {
   isCore: true;
@@ -60,8 +60,8 @@ const RingParticles = () => {
         left: 0,
         width: "100vw",
         height: "100vh",
-        background: "transparent", // or "#000" if you want background here
-        zIndex: 0,
+        background: "black", // or "#000" if you want background here
+        zIndex: -1,
       }}
     >
       <ambientLight intensity={0.5} />
@@ -220,7 +220,7 @@ const Particles = ({
       ref={pointsRef}
       material={
         new THREE.PointsMaterial({
-          color: "#3b82f6",
+          color: "#4a4a4a",
           size: 1.2,
           sizeAttenuation: false,
           transparent: true,

@@ -5,13 +5,7 @@ import Title from "./Title";
 import ScrollDownArrow from "./ScrollDownArrow";
 import ProjectsBentoBox from "./ProjectsBentoBox";
 
-const shapes = [
-  "torus",
-  "sphere",
-  "crystalCluster",
-  "disc",
-  "ribbonWave",
-] as const;
+const shapes = ["torus", "sphere", "crystalCluster", "disc"] as const;
 
 type BeginningProps = {
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
@@ -45,11 +39,6 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
     </div>,
     <Title key="layout-2" />,
     <ProjectsBentoBox key="layout-3" />,
-    <div key="layout-4" className="text-center text-gray-300 text-xl font-mono">
-      <p className="hover:text-white transition-all duration-500">
-        SOFTWARE ENGINEER
-      </p>
-    </div>,
   ];
 
   useEffect(() => {

@@ -8,34 +8,37 @@ const Header = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const menuItems = ["Home", "Projects", "CV", "Blog"];
+  const menuItems = [
+    { name: "Home", link: "/" },
+    { name: "Projects", link: "/projects" },
+    { name: "About", link: "/about" },
+    { name: "CV", link: "/cv" },
+    { name: "Blog", link: "/blog" },
+  ];
 
   return (
     <>
-      <header className="absolute w-full top-0 z-50 flex items-center justify-between px-10 py-4 font-geist bg-transparent">
-        <div className="text-white uppercase font-bold text-2xl tracking-widest hover:cursor-pointer">
+      <header className="fixed w-full top-0 z-50 flex items-center justify-between px-10 py-4 bg-transparent">
+        <div className="text-gray-400 font-geist uppercase font-bold text-2xl tracking-widest hover:cursor-pointer">
           AZ
         </div>
 
         {/* Desktop Nav */}
-        <nav className="mx-auto hidden md:block">
-          <ul className="flex space-x-12 px-12 py-4 text-white uppercase text-md font-semibold rounded-full tracking-wide shadow-md pulsing-gradient-border bg-white bg-opacity-10 backdrop-blur-md">
-            {menuItems.map((item) => (
+        <nav className="mx-auto hidden md:block font-funnel">
+          <ul className="flex space-x-12 px-12 py-4 text-white text-md rounded-full tracking-wide shadow-md pulsing-gradient-border bg-white bg-opacity-10 backdrop-blur-md">
+            {menuItems.map(({ name, link }) => (
               <li
-                key={item}
+                key={name}
                 className={`hover:cursor-pointer ${
-                  item === "Blog"
+                  name === "Blog"
                     ? "relative flex items-center space-x-2 hover:text-gray-300"
                     : ""
                 }`}
               >
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  className="hover:text-gray-300 transition"
-                >
-                  {item}
+                <a href={link} className="hover:text-gray-300 transition">
+                  {name}
                 </a>
-                {item === "Blog" && (
+                {name === "Blog" && (
                   <span
                     className="flex justify-center items-center w-6 h-6 rounded-full bg-black bg-opacity-40"
                     style={{ transform: "rotate(45deg)" }}
@@ -133,10 +136,10 @@ const Header = () => {
             }}
             className="md:hidden fixed top-16 left-0 w-full bg-black text-white z-40 py-6 px-10 flex flex-col space-y-4 font-semibold uppercase shadow-md"
           >
-            {menuItems.map((item) => (
+            {menuItems.map(({ name, link }) => (
               <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+                key={name}
+                href={link}
                 onClick={toggleDrawer}
                 variants={{
                   hidden: { opacity: 0, y: 10 },
@@ -146,8 +149,8 @@ const Header = () => {
                 transition={{ duration: 0.3 }}
                 className="hover:text-gray-400 flex items-center space-x-2"
               >
-                <span>{item}</span>
-                {item === "Blog" && (
+                <span>{name}</span>
+                {name === "Blog" && (
                   <span
                     className="flex justify-center items-center w-6 h-6 rounded-full bg-white bg-opacity-20"
                     style={{ transform: "rotate(45deg)" }}

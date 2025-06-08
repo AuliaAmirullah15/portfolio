@@ -10,9 +10,10 @@ import activate from "@/assets/images/activ8te/brand.png";
 import katieJayne from "@/assets/images/katie_jayne/hero.png";
 import beautySpa from "@/assets/images/beauty_spa/brand.png";
 import iphoneClone from "@/assets/images/iphone_clone/titanium.png";
+import { ExternalLink } from "lucide-react"; // add to top with other lucide imports
 
 const cardClasses =
-  "rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 text-white text-lg font-mono hover:scale-105 transition-transform duration-300";
+  "rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 text-white text-lg font-mono transition-transform duration-300";
 
 type Card = {
   id: number;
@@ -43,6 +44,7 @@ const cards: Card[] = [
       "Docker",
       "Container",
       "Orchestration",
+      "Postman",
     ],
   },
   {
@@ -61,11 +63,10 @@ const cards: Card[] = [
       "Tailwind",
       "Typescript",
       "Storyblok",
-      "vitest",
+      "Vitest",
       "Storybook",
       "CMS",
       "Axios",
-      "Postman",
     ],
   },
   {
@@ -79,10 +80,14 @@ const cards: Card[] = [
       "VueJS",
       "Quasar",
       "Cordova",
+      "Capacitor",
+      "SCSS",
+      "SASS",
       "Android Studio",
       "Xcode",
       "Axios",
       "Vuex",
+      "Postman",
     ],
   },
   {
@@ -124,6 +129,7 @@ const cards: Card[] = [
       "Three.js",
       "GSAP",
       "3D Model",
+      "Web Animation",
     ],
   },
 ];
@@ -135,49 +141,9 @@ const ProjectsBentoBox: React.FC = () => {
   const pillClasses =
     "text-xs px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-white font-mono whitespace-nowrap";
 
-  const columns: Card[][] = [[], [], []];
-  cards.forEach((card) => {
-    columns[card.column].push(card);
-  });
-
   return (
     <>
-      {/* Desktop 2x3 Grid Layout */}
-      <div className="hidden md:grid grid-cols-3 grid-rows-2 gap-4 p-4 w-full max-w-7xl mx-auto">
-        {cards.map((card) => (
-          <div
-            key={card.id}
-            className={`aspect-[4/3] ${cardClasses} flex overflow-hidden`}
-          >
-            {/* Image */}
-            <div className="w-[60%] h-full hidden md:flex relative">
-              <Image
-                src={card.image}
-                alt={card.title}
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 33vw, 100vw"
-              />
-            </div>
-
-            {/* Content */}
-            <div className="flex-1 p-4 flex flex-col items-start justify-start">
-              <h3 className="text-xl font-bold pb-4">{card.title}</h3>
-              <p className="text-xs pb-2">{card.description}</p>
-              <div className="flex flex-wrap gap-2 mt-auto">
-                {card.techStack.map((tech, idx) => (
-                  <span key={idx} className={pillClasses}>
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Mobile Swiper Layout */}
-      <div className="md:hidden relative h-screen w-screen flex justify-center items-center">
+      <div className="relative h-screen w-screen flex flex-row justify-start items-center md:px-6">
         <Swiper
           spaceBetween={20}
           slidesPerView="auto"
@@ -189,21 +155,33 @@ const ProjectsBentoBox: React.FC = () => {
         >
           {cards.map((card) => (
             <SwiperSlide key={card.id}>
-              <div className="h-[650px] w-full p-6">
+              <div className="h-[550px] md:h-[550px] w-full">
                 <div
                   className={`h-full w-full ${cardClasses} flex flex-col overflow-hidden`}
                 >
-                  <div className="relative w-full h-[68%]">
+                  <div className="relative w-full h-[280px] md:h-[300px]">
                     <Image
                       src={card.image}
                       alt={card.title}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-2xl"
                       sizes="100vw"
                     />
                   </div>
                   <div className="p-4 flex-1 flex flex-col items-start justify-start">
-                    <h3 className="text-xl font-bold pb-4">{card.title}</h3>
+                    <div className="flex items-center gap-2 pb-4">
+                      <h3 className="text-xl font-bold">{card.title}</h3>
+
+                      <a
+                        href="https://www.google.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white hover:text-blue-300 transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+
                     <p className="text-sm pb-2">{card.description}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {card.techStack.map((tech, idx) => (
@@ -221,7 +199,7 @@ const ProjectsBentoBox: React.FC = () => {
 
         {/* Left Arrow */}
         <button
-          className={`absolute z-10 left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full text-white transition-all duration-300 ${
+          className={`absolute z-10 left-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/50 p-2 rounded-full text-white transition-all duration-300 ${
             activeIndex === 0
               ? "opacity-0 pointer-events-none -translate-x-4"
               : "opacity-100 pointer-events-auto translate-x-0"
@@ -233,7 +211,7 @@ const ProjectsBentoBox: React.FC = () => {
 
         {/* Right Arrow */}
         <button
-          className={`absolute z-10 right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full text-white transition-all duration-300 ${
+          className={`absolute z-10 right-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/50 p-2 rounded-full text-white transition-all duration-300 ${
             isEnd
               ? "opacity-0 pointer-events-none translate-x-4"
               : "opacity-100 pointer-events-auto translate-x-0"

@@ -2,7 +2,8 @@ import React, { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const particlesCount = 30000;
+// const particlesCount = 30000;
+const particlesCount = 3000;
 
 type ShapeType =
   | "torus"
@@ -128,7 +129,7 @@ const Particles = ({
     if (!animationStart.current) animationStart.current = time;
     const elapsed = time - animationStart.current;
 
-    const rotationSpeed = 0.15;
+    const rotationSpeed = 0.08;
     raycaster.setFromCamera(mouse.current, camera);
     const rayOrigin = raycaster.ray.origin.clone();
     const rayDir = raycaster.ray.direction.clone();
@@ -326,7 +327,8 @@ const Particles = ({
       ref={pointsRef}
       material={
         new THREE.PointsMaterial({
-          color: "#3b82f6",
+          // color: "#3b82f6",
+          color: "#ffffff",
           size: 1.4,
           sizeAttenuation: false,
           transparent: true,

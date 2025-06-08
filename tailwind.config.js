@@ -12,6 +12,7 @@ module.exports = {
         smooch: ['"Smooch Sans"', "sans-serif"],
         funnel: ['"Funnel Sans"', "sans-serif"],
         golos: ['"Golos Text"', "sans-serif"],
+        instrument: ['"Instrument Serif"', "sans-serif"],
       },
       colors: {
         titanium: {
