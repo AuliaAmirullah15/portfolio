@@ -8,6 +8,12 @@ import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import ScrollDownArrow from "./ScrollDownArrow";
 import RingParticles from "./RingParticles";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  FaUsers,
+  FaUserCheck,
+  FaProjectDiagram,
+  FaLightbulb,
+} from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -403,14 +409,27 @@ export default function About() {
           aria-label="Values section progress indicator"
           role="region"
         >
-          {[...Array(4)].map((_, i) => (
-            <span
+          {[
+            { icon: <FaUsers size={18} />, label: "Team Culture" },
+            {
+              icon: <FaUserCheck size={18} />,
+              label: "User-First Engineering",
+            },
+            {
+              icon: <FaProjectDiagram size={18} />,
+              label: "Scalable Architecture",
+            },
+            { icon: <FaLightbulb size={18} />, label: "Constant Learning" },
+          ].map((item, i) => (
+            <div
               key={i}
-              className="dot relative w-4 h-4 min-w-[1rem] min-h-[1rem] rounded-full bg-white overflow-hidden"
-              aria-hidden="true"
+              className="dot relative w-9 h-9 min-w-[2.25rem] min-h-[2.25rem] rounded-full bg-white/90 text-zinc-800 flex items-center justify-center transition-transform hover:scale-110"
+              title={item.label}
+              aria-label={item.label}
             >
-              <span className="dot-fill absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-150 ease-out" />
-            </span>
+              {item.icon}
+              <span className="dot-fill absolute inset-0 bg-white scale-x-0 origin-left transition-transform duration-150 ease-out rounded-full" />
+            </div>
           ))}
         </div>
 
