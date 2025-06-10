@@ -309,7 +309,7 @@ export default function About() {
 
       <div
         id="myself"
-        className="relative w-full h-full bg-black min-h-screen text-white px-4 md:px-20 py-12 md:py-24"
+        className="relative w-full h-full bg-black min-h-screen text-white px-4 md:px-20 py-12 md:py-24 border-b-[1px] border-white/10"
       >
         {/* Gradient Border */}
         <div
@@ -377,6 +377,11 @@ export default function About() {
             <ContactMeButton className="block lg:hidden myself-contact-button" />
           </div>
         </div>
+
+        <div
+          className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-[700px] h-[280px] bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
+          aria-hidden="true"
+        />
       </div>
       <div
         id="values"
