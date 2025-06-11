@@ -1,21 +1,32 @@
 "use client";
 import React, { useEffect } from "react";
-import Header from "@/components/Header";
-import { gsap } from "gsap";
+import Header from "./Header";
+
+import RingParticles from "./RingParticles";
 import Image from "next/image";
 import { bannerPhotoImg } from "../utils";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import ScrollDownArrow from "./ScrollDownArrow";
-import RingParticles from "./RingParticles";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from "gsap";
 import {
   FaUsers,
   FaUserCheck,
   FaProjectDiagram,
   FaLightbulb,
 } from "react-icons/fa";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function SectionTitle({ title }: { title: string }) {
+  return (
+    <div className="flex items-center justify-center text-gray-300 italic text-xl font-funnel w-full px-4">
+      <div className="w-full max-w-12 h-1 bg-[linear-gradient(to_right,rgba(156,163,175,0),rgba(156,163,175,1))] scale-y-[0.3] origin-left" />
+      <span className="mx-4 whitespace-nowrap text-sm">{title}</span>
+      <div className="w-full max-w-12 h-1 bg-[linear-gradient(to_left,rgba(156,163,175,0),rgba(156,163,175,1))] scale-y-[0.3] origin-right" />
+    </div>
+  );
+}
 
 function ContactMeButton({ className }: { className?: string }) {
   return (
@@ -232,85 +243,93 @@ export default function About() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen font-funnel">
+    <div className="w-full min-h-screen font-funnel bg-black">
       <Header />
 
       <div
         id="banner"
-        className="w-full min-h-screen flex flex-col justify-center items-center text-white text-center space-y-6 px-4 border-b-[6px] border-white/10"
+        className="w-full min-h-screen flex flex-col justify-center items-center text-white text-center px-4 border-b-[6px] border-white/10"
       >
         <RingParticles />
 
         {/* Profile Image */}
-        <div className="relative mb-4 w-[150px] h-[150px] rounded-full overflow-hidden profile-image">
-          <div className="absolute inset-0 z-10 rounded-full border-[10px] border-white/10 pointer-events-none" />
-          <Image
-            alt="hero photo image"
-            src={bannerPhotoImg}
-            width={150}
-            height={150}
-            className="rounded-full object-cover scale-[0.96]"
-            quality={100}
-            priority
-          />
-        </div>
-
-        {/* Availability Status */}
-        <div className="flex flex-row items-center space-x-4 availability">
-          <div className="relative">
-            <span className="absolute -right-1.5 bottom-0.5 inline-flex h-5 w-5 rounded-full bg-green-500 opacity-75 animate-ping"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+        <div
+          id="banner-content-wrapper"
+          className="w-full h-full flex flex-col justify-center items-center space-y-6 z-10"
+        >
+          <div className="relative mb-4 w-[150px] h-[150px] rounded-full overflow-hidden profile-image">
+            <div className="absolute inset-0 z-10 rounded-full border-[10px] border-white/10 pointer-events-none" />
+            <Image
+              alt="hero photo image"
+              src={bannerPhotoImg}
+              width={150}
+              height={150}
+              className="rounded-full object-cover scale-[0.96]"
+              quality={100}
+              priority
+            />
           </div>
-          <span className="text-md text-zinc-400 tracking-wider">
-            available for work
-          </span>
+
+          {/* Availability Status */}
+          <div className="flex flex-row items-center space-x-4 availability">
+            <div className="relative">
+              <span className="absolute -right-1.5 bottom-0.5 inline-flex h-5 w-5 rounded-full bg-green-500 opacity-75 animate-ping"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+            </div>
+            <span className="text-md text-zinc-400 tracking-wider">
+              available for work
+            </span>
+          </div>
+
+          {/* Name */}
+          <h1 className="text-4xl mt-2 name-text">
+            Aulia{" "}
+            <span className="font-instrument text-zinc-400 italic tracking-wider">
+              Zulkarneidi
+            </span>
+          </h1>
+
+          {/* Role */}
+          <p className="text-lg text-zinc-400 mt-1 role-text">
+            Web Developer based in Newcastle, UK
+          </p>
+
+          {/* Social Icons */}
+          <div className="flex gap-16 mt-4 text-zinc-400 social-icons">
+            <a
+              href="https://instagram.com/yourprofile"
+              target="_blank"
+              aria-label="Instagram"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram
+                size={24}
+                className="hover:text-white duration-300"
+              />
+            </a>
+            <a
+              href="https://linkedin.com/in/yourprofile"
+              target="_blank"
+              aria-label="LinkedIn"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin size={24} className="hover:text-white duration-300" />
+            </a>
+            <a
+              href="https://github.com/yourprofile"
+              target="_blank"
+              aria-label="GitHub"
+              rel="noopener noreferrer"
+            >
+              <FaGithub size={24} className="hover:text-white duration-300" />
+            </a>
+          </div>
+
+          {/* Contact Button */}
+          <ContactMeButton className="banner-contact-button" />
+
+          <ScrollDownArrow className="justify-end" />
         </div>
-
-        {/* Name */}
-        <h1 className="text-4xl mt-2 name-text">
-          Aulia{" "}
-          <span className="font-instrument text-zinc-400 italic tracking-wider">
-            Zulkarneidi
-          </span>
-        </h1>
-
-        {/* Role */}
-        <p className="text-lg text-zinc-400 mt-1 role-text">
-          Web Developer based in Newcastle, UK
-        </p>
-
-        {/* Social Icons */}
-        <div className="flex gap-16 mt-4 text-zinc-400 social-icons">
-          <a
-            href="https://instagram.com/yourprofile"
-            target="_blank"
-            aria-label="Instagram"
-            rel="noopener noreferrer"
-          >
-            <FaInstagram size={24} className="hover:text-white duration-300" />
-          </a>
-          <a
-            href="https://linkedin.com/in/yourprofile"
-            target="_blank"
-            aria-label="LinkedIn"
-            rel="noopener noreferrer"
-          >
-            <FaLinkedin size={24} className="hover:text-white duration-300" />
-          </a>
-          <a
-            href="https://github.com/yourprofile"
-            target="_blank"
-            aria-label="GitHub"
-            rel="noopener noreferrer"
-          >
-            <FaGithub size={24} className="hover:text-white duration-300" />
-          </a>
-        </div>
-
-        {/* Contact Button */}
-        <ContactMeButton className="banner-contact-button" />
-
-        <ScrollDownArrow className="justify-end" />
       </div>
 
       <div
@@ -385,7 +404,7 @@ export default function About() {
         </div>
 
         <div
-          className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-[700px] h-[280px] bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
+          className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
           aria-hidden="true"
         />
       </div>
@@ -433,7 +452,7 @@ export default function About() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row space-x-0 md:space-x-20 p-8 items-center justify-center">
+        <div className="flex flex-col md:flex-row space-x-0 md:space-x-20 pt-0 md:p-8 items-center justify-center">
           <div
             id="value-title"
             className="w-full md:w-1/2 mb-8 md:mb-0 sticky self-start font-funnel"
@@ -444,7 +463,7 @@ export default function About() {
                 to me?
               </span>
             </h2>
-            <p>
+            <p className="hidden md:block">
               I believe that great digital solutions live at the intersection of
               thoughtful design and solid engineering. For me, success means
               building systems that not only function well but also feel
@@ -510,10 +529,28 @@ export default function About() {
       </div>
 
       <div
-        id="timeline"
-        className="w-full h-full min-h-screen bg-black text-white"
+        id="projects"
+        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6 border-b-[1px] border-white/10"
       >
-        ashjdgfjasd
+        <SectionTitle title="Projects" />
+        <h2 className="text-5xl mb-6">
+          My Latest{" "}
+          <span className="font-instrument italic tracking-wider text-zinc-400">
+            Projects
+          </span>
+        </h2>
+
+        <div
+          className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div
+        id="timeline"
+        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6"
+      >
+        Timeline
       </div>
     </div>
   );

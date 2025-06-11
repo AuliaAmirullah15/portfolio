@@ -61,7 +61,7 @@ const RingParticles = () => {
         width: "100vw",
         height: "100vh",
         background: "black", // or "#000" if you want background here
-        zIndex: -1,
+        zIndex: 0,
       }}
     >
       <ambientLight intensity={0.5} />
