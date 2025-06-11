@@ -108,3 +108,9 @@ body.body-hide-cursor #cursorWrapper {
   -webkit-text-fill-color: transparent;
   animation: none; /* disable auto-animate, control via GSAP */
 }
+
+.neon-text {
+  color: #ffffff;
+  text-shadow: none;
+  transition: text-shadow 0.2s ease-out;
+}

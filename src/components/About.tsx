@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Header from "./Header";
 
 import RingParticles from "./RingParticles";
@@ -65,6 +65,8 @@ function ContactMeButton({ className }: { className?: string }) {
 }
 
 export default function About() {
+  const titaniumRef = useRef<HTMLHeadingElement | null>(null);
+
   useEffect(() => {
     // Animate gradient border
     const gradientEl = document.getElementById("gradient-border");
@@ -281,6 +283,42 @@ export default function About() {
         duration: 0.6,
         ease: "power2.out",
       });
+
+    const glow = { strength: 0 };
+
+    gsap.to(glow, {
+      strength: 0.5,
+      scrollTrigger: {
+        trigger: titaniumRef.current,
+        start: "top 80%", // when bottom of screen reaches the element
+        end: "top 20%",
+        scrub: true,
+      },
+      onUpdate: () => {
+        const intensity = glow.strength;
+
+        const shadow =
+          intensity === 0
+            ? "none"
+            : `
+            /* Core glow around text */
+            0 0 ${2 * intensity}px #FADADD,     /* light rose */
+            0 0 ${5 * intensity}px #F4B6B6,    /* muted coral */
+            0 0 ${7 * intensity}px #E89A9A,    /* rosewood */
+            0 0 ${10 * intensity}px #D47B7B,    /* deeper blush */
+
+            /* Linear vertical trail */
+            0 ${5 * intensity}px ${5 * intensity}px #FADADD,
+            0 ${10 * intensity}px ${15 * intensity}px #F4B6B6,
+            0 ${20 * intensity}px ${25 * intensity}px #E89A9A,
+            0 ${30 * intensity}px ${35 * intensity}px #D47B7B
+        `;
+
+        if (titaniumRef.current) {
+          titaniumRef.current.style.textShadow = shadow;
+        }
+      },
+    });
   }, []);
 
   return (
@@ -605,10 +643,24 @@ export default function About() {
       </div>
 
       <div
-        id="timeline"
+        id="experience"
         className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6"
       >
-        Timeline
+        <SectionTitle className="experience-item" title="Skills & Exprience" />
+        <h2
+          ref={titaniumRef}
+          className="text-5xl text-fadedwhite-200 neon-text"
+        >
+          Experience
+        </h2>
+      </div>
+
+      <div
+        id="contactme"
+        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6"
+      >
+        <SectionTitle className="experience-item" title="Contact" />
+        <h2 className="text-4xl">Contact Me</h2>
       </div>
     </div>
   );
