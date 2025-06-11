@@ -57,10 +57,11 @@ const cards: Card[] = [
     techStack: [
       "VueJS",
       "Nuxt",
-      "Pinia",
+      "Typescript",
       ".NET",
-      "Cypress",
       "Tailwind",
+      "Cypress",
+      "Pinia",
       "Typescript",
       "Storyblok",
       "Vitest",
@@ -80,6 +81,7 @@ const cards: Card[] = [
       "VueJS",
       "Quasar",
       "Cordova",
+      "SCSS",
       "Capacitor",
       "SCSS",
       "SASS",
@@ -138,12 +140,14 @@ const ProjectsBentoBox: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
+  //   const pillClasses =
+  //     "text-xs px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-white font-funnel whitespace-nowrap";
   const pillClasses =
-    "text-xs px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-white font-mono whitespace-nowrap";
+    "text-xs font-medium px-3 py-1 rounded-full bg-white backdrop-blur-sm text-black font-funnel";
 
   return (
     <>
-      <div className="relative h-screen w-screen flex flex-row justify-start items-center md:px-6">
+      <div className="relative h-full w-screen flex flex-row justify-start items-center md:px-6">
         <Swiper
           spaceBetween={20}
           slidesPerView="auto"
@@ -159,18 +163,33 @@ const ProjectsBentoBox: React.FC = () => {
                 <div
                   className={`h-full w-full ${cardClasses} flex flex-col overflow-hidden`}
                 >
-                  <div className="relative w-full h-[280px] md:h-[300px]">
-                    <Image
-                      src={card.image}
-                      alt={card.title}
-                      fill
-                      className="object-cover rounded-2xl"
-                      sizes="100vw"
-                    />
+                  <div className="relative w-full h-[280px] md:h-[300px] px-4 pt-4">
+                    <div className="w-full h-full relative">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        className="object-cover rounded-2xl"
+                        sizes="100vw"
+                      />
+                    </div>
                   </div>
-                  <div className="p-4 flex-1 flex flex-col items-start justify-start">
+                  <div className="p-4 flex-1 flex flex-col items-start justify-start font-funnel">
                     <div className="flex items-center gap-2 pb-4">
-                      <h3 className="text-xl font-bold">{card.title}</h3>
+                      <h3 id="card-title" className="text-xl font-bold">
+                        {card.title.split(" ").map((word, index) =>
+                          index === 0 ? (
+                            <span key={index}>{word}</span>
+                          ) : (
+                            <span
+                              key={index}
+                              className="font-instrument tracking-wider italic ml-1"
+                            >
+                              {word}
+                            </span>
+                          )
+                        )}
+                      </h3>
 
                       <a
                         href="https://www.google.com"

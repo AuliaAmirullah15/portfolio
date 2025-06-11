@@ -26,8 +26,8 @@ const Title = () => {
         {/* Description and Button */}
         <div className="order-2 md:order-none flex flex-col justify-start items-start space-y-4">
           <p className="text-md max-w-sm font-geist uppercase">
-            A software developer with experience in web, mobile, and embedded
-            system development.
+            A developer with experience in web, mobile, and embedded system
+            development.
           </p>
           <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 justify-between items-start w-full">
             <button className="font-geist uppercase bg-white text-black font-semibold w-44 h-12 shadow-md hover:bg-gray-200 transition-all">

@@ -23,19 +23,30 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
   const touchStartYRef = useRef<number | null>(null);
 
   const layouts: JSX.Element[] = [
-    <div key="layout-0" className="text-center text-gray-300 text-xl font-mono">
-      <p className="hover:text-white hover:text-2xl hover:cursor-pointer transition-all duration-500">
-        AULIA <br /> ZULKARNEIDI
+    <div
+      key="layout-0"
+      className="text-center text-gray-300 text-3xl font-funnel"
+    >
+      <p className="hover:text-white hover:text-4xl hover:cursor-pointer transition-all duration-500">
+        Aulia <br />{" "}
+        <span className="font-instrument italic tracking-wider">
+          Zulkarneidi
+        </span>
       </p>
     </div>,
     <div
       key="layout-1"
-      className="text-center text-gray-300 text-xl hover:text-white hover:text-2xl hover:cursor-pointer  font-bold font-mono transition-all duration-500"
+      className="text-center text-gray-300 hover:text-white hover:cursor-pointer font-funnel transition-all duration-500"
     >
-      <p>WEB DEVELOPER</p>
-      <p>BASED IN</p>
-      <p>NEWCASTLE UPON TYNE,</p>
-      <p>UNITED KINGDOM</p>
+      <p className="font-instrument italic tracking-wider text-3xl">
+        Web Developer
+      </p>
+      <p className="text-lg">based in</p>
+      <p className="text-2xl">
+        Newcastle,{" "}
+        <span className="font-instrument italic tracking-wider">UK</span>
+      </p>
+      <p></p>
     </div>,
     <Title key="layout-2" />,
     <ProjectsBentoBox key="layout-3" />,

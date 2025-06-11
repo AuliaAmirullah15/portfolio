@@ -15,6 +15,7 @@ import {
   FaLightbulb,
 } from "react-icons/fa";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ProjectsBentoBox from "./ProjectsBentoBox";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -533,12 +534,14 @@ export default function About() {
         className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6 border-b-[1px] border-white/10"
       >
         <SectionTitle title="Projects" />
-        <h2 className="text-5xl mb-6">
+        <h2 className="text-3xl md:text-5xl mb-6 text-center">
           My Latest{" "}
           <span className="font-instrument italic tracking-wider text-zinc-400">
             Projects
           </span>
         </h2>
+
+        <ProjectsBentoBox key="layout-3" />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
