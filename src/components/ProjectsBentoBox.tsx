@@ -136,7 +136,7 @@ const cards: Card[] = [
   },
 ];
 
-const ProjectsBentoBox: React.FC = () => {
+const ProjectsBentoBox = ({ className }: { className?: string }) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
@@ -147,7 +147,9 @@ const ProjectsBentoBox: React.FC = () => {
 
   return (
     <>
-      <div className="relative h-full w-screen flex flex-row justify-start items-center md:px-6">
+      <div
+        className={`relative h-full w-screen flex flex-row justify-start items-center md:px-6 ${className}`}
+      >
         <Swiper
           spaceBetween={20}
           slidesPerView="auto"

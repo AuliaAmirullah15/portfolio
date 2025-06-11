@@ -19,9 +19,17 @@ import ProjectsBentoBox from "./ProjectsBentoBox";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function SectionTitle({ title }: { title: string }) {
+function SectionTitle({
+  title,
+  className,
+}: {
+  title: string;
+  className?: string;
+}) {
   return (
-    <div className="flex items-center justify-center text-gray-300 italic text-xl font-funnel w-full px-4">
+    <div
+      className={`flex items-center justify-center text-gray-300 italic text-xl font-funnel w-full px-4 ${className}`}
+    >
       <div className="w-full max-w-12 h-1 bg-[linear-gradient(to_right,rgba(156,163,175,0),rgba(156,163,175,1))] scale-y-[0.3] origin-left" />
       <span className="mx-4 whitespace-nowrap text-sm">{title}</span>
       <div className="w-full max-w-12 h-1 bg-[linear-gradient(to_left,rgba(156,163,175,0),rgba(156,163,175,1))] scale-y-[0.3] origin-right" />
@@ -82,7 +90,7 @@ export default function About() {
         ease: "power2.out",
       })
       .to(gradientEl, {
-        height: "2px",
+        height: "4px",
         duration: 1,
         ease: "power2.inOut",
       });
@@ -203,6 +211,21 @@ export default function About() {
       },
     });
 
+    const rainbowText = document.getElementById("rainbow-important");
+
+    if (rainbowText) {
+      gsap.to(rainbowText, {
+        backgroundPosition: "200% center",
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#values",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }
+
     // Progress bar update based on scroll
     ScrollTrigger.create({
       trigger: "#values",
@@ -241,6 +264,23 @@ export default function About() {
         },
       }
     );
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: "#projects",
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play reverse play reverse",
+        },
+      })
+      .from(".project-item", {
+        opacity: 0,
+        y: 30,
+        stagger: 0.2,
+        duration: 0.6,
+        ease: "power2.out",
+      });
   }, []);
 
   return (
@@ -443,7 +483,8 @@ export default function About() {
           ].map((item, i) => (
             <div
               key={i}
-              className="dot relative w-9 h-9 min-w-[2.25rem] min-h-[2.25rem] rounded-full bg-white/90 text-zinc-800 flex items-center justify-center transition-transform hover:scale-110"
+              //   className="dot relative w-9 h-9 min-w-[2.25rem] min-h-[2.25rem] rounded-full bg-white/90 text-zinc-800 flex items-center justify-center transition-transform hover:scale-110"
+              className="dot relative w-9 h-9 min-w-[2.25rem] min-h-[2.25rem] rounded-full bg-white/90 text-zinc-800 flex items-center justify-center transition-all duration-300 hover:scale-150 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-pink-500 hover:to-red-500 hover:text-white"
               title={item.label}
               aria-label={item.label}
             >
@@ -459,7 +500,16 @@ export default function About() {
             className="w-full md:w-1/2 mb-8 md:mb-0 sticky self-start font-funnel"
           >
             <h2 className="text-4xl pb-4">
-              What’s important{" "}
+              What’s {/* STATIC */}
+              {/* <span className="bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                important
+              </span>{" "} */}
+              <span
+                className="rainbow-text font-semibold"
+                id="rainbow-important"
+              >
+                important
+              </span>{" "}
               <span className="font-instrument tracking-wider italic">
                 to me?
               </span>
@@ -480,7 +530,9 @@ export default function About() {
           >
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">01</p>
-              <h3 className="text-2xl font-semibold mb-2">Team Culture</h3>
+              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                Team Culture
+              </h3>
               <p className="text-zinc-300">
                 I thrive on clear communication and cross-functional
                 collaboration. Working closely with designers, product teams,
@@ -490,7 +542,7 @@ export default function About() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">02</p>
-              <h3 className="text-2xl font-semibold mb-2">
+              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 User-First Engineering
               </h3>
               <p className="text-zinc-300">
@@ -503,7 +555,7 @@ export default function About() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">03</p>
-              <h3 className="text-2xl font-semibold mb-2">
+              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 Scalable, Thoughtful Architecture
               </h3>
               <p className="text-zinc-300">
@@ -515,7 +567,7 @@ export default function About() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">04</p>
-              <h3 className="text-2xl font-semibold mb-2">
+              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 Constant Learning and Refinement
               </h3>
               <p className="text-zinc-300">
@@ -533,15 +585,18 @@ export default function About() {
         id="projects"
         className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6 border-b-[1px] border-white/10"
       >
-        <SectionTitle title="Projects" />
-        <h2 className="text-3xl md:text-5xl mb-6 text-center">
+        <SectionTitle className="project-item" title="Projects" />
+        <h2 className="project-item text-4xl md:text-5xl mb-6 text-center">
           My Latest{" "}
           <span className="font-instrument italic tracking-wider text-zinc-400">
             Projects
           </span>
         </h2>
 
-        <ProjectsBentoBox key="layout-3" />
+        <ProjectsBentoBox
+          className="project-item project-bento"
+          key="layout-3"
+        />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
