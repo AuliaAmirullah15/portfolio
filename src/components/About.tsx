@@ -19,6 +19,74 @@ import ProjectsBentoBox from "./ProjectsBentoBox";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const skills = [
+  "React",
+  "Next.js",
+  "Tailwind CSS",
+  "TypeScript",
+  "Flutter",
+  "Dart",
+  "Vue.js",
+  "Nuxt.js",
+  "SCSS",
+  "SASS",
+  "GSAP",
+  "Three.js",
+  "Framer Motion",
+  "D3.js",
+  ".NET",
+  "Node.js",
+  "SQL",
+  "MongoDB",
+  "GraphQL",
+  "Python",
+];
+
+const experience = [
+  {
+    company: "Greggs PLC",
+    country: "United Kingdom",
+    roles: [
+      {
+        position: "Web Developer",
+        period: "January 2024 - Present",
+      },
+    ],
+  },
+  {
+    company: "Vi8e Interactive Pte Ltd",
+    country: "Singapore",
+    roles: [
+      {
+        position: "Web Developer",
+        period: "October 2021 - November 2022",
+      },
+      {
+        position: "Front End Developer",
+        period: "April 2021 - October 2021",
+      },
+    ],
+  },
+  {
+    company: "Universitas Sumatera Utara",
+    country: "Indonesia",
+    roles: [
+      {
+        position: "Web Developer (Freelancer / Project Based)",
+        period: "January 2017 - April 2020",
+      },
+      {
+        position: "Data Science Instructor (w/ Kominfo)",
+        period: "September 2019 - December 2019",
+      },
+      {
+        position: "Laboratory Assistant",
+        period: "September 2016 - July 2017",
+      },
+    ],
+  },
+];
+
 function SectionTitle({
   title,
   className,
@@ -37,14 +105,20 @@ function SectionTitle({
   );
 }
 
-function ContactMeButton({ className }: { className?: string }) {
+function ContactMeButton({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   return (
     <button
       className={`contact-button relative group px-8 py-4 text-white font-semibold rounded-full bg-black/40 backdrop-blur-md border border-white/30 overflow-visible 
       before:absolute before:inset-0 before:rounded-full before:border before:border-white/40 before:shadow-inner
       transition duration-300 ease-in-out hover:scale-105 hover:bg-black/70 hover:border-white hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.5)] flex items-center justify-center gap-3 ${className}`}
     >
-      <span className="shiny-text">Say Hello</span>
+      <span className="shiny-text">{text}</span>
       <span
         className="inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
         aria-hidden="true"
@@ -282,7 +356,13 @@ export default function About() {
         stagger: 0.2,
         duration: 0.6,
         ease: "power2.out",
-      });
+      })
+      .fromTo(
+        ".see-more",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        "-=0.3"
+      );
 
     const glow = { strength: 0 };
 
@@ -405,7 +485,7 @@ export default function About() {
           </div>
 
           {/* Contact Button */}
-          <ContactMeButton className="banner-contact-button" />
+          <ContactMeButton text="Say Hello" className="banner-contact-button" />
 
           <ScrollDownArrow className="justify-end" />
         </div>
@@ -452,7 +532,10 @@ export default function About() {
               businesses alike, delivering lasting value through careful design
               and solid engineering.
             </p>
-            <ContactMeButton className="hidden lg:flex myself-contact-button" />
+            <ContactMeButton
+              text="Say Hello"
+              className="hidden lg:flex myself-contact-button"
+            />
           </div>
           <div className="flex-1">
             <p className="text-zinc-300 leading-relaxed pb-4">
@@ -478,7 +561,10 @@ export default function About() {
               appealing but genuinely intuitive and enjoyable to use. I believe
               good UI and UX are as essential as clean, tested code.
             </p>
-            <ContactMeButton className="block lg:hidden myself-contact-button" />
+            <ContactMeButton
+              text="Say Hello"
+              className="block lg:hidden myself-contact-button"
+            />
           </div>
         </div>
 
@@ -621,7 +707,7 @@ export default function About() {
 
       <div
         id="projects"
-        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6 border-b-[1px] border-white/10"
+        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center px-8 py-16 space-y-6 border-b-[1px] border-white/10"
       >
         <SectionTitle className="project-item" title="Projects" />
         <h2 className="project-item text-4xl md:text-5xl mb-6 text-center">
@@ -635,6 +721,8 @@ export default function About() {
           className="project-item project-bento"
           key="layout-3"
         />
+
+        <ContactMeButton className="see-more block" text="See More" />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
@@ -653,6 +741,61 @@ export default function About() {
         >
           Experience
         </h2>
+
+        <div
+          id="skills"
+          className="flex justify-center flex-row flex-wrap gap-4 w-full h-full rounded-xl bg-white/5 backdrop-blur-md overflow-visible p-8"
+        >
+          {skills.map((skill, index) => (
+            <div
+              key={index}
+              className="font-funnel text-sm px-5 py-2 rounded-sm text-white/80 bg-black"
+            >
+              {skill}
+            </div>
+          ))}
+        </div>
+
+        <div id="experience" className="w-full flex flex-col gap-8 mt-8">
+          {experience.map((company, idx) => (
+            <div
+              key={idx}
+              className="w-full bg-white/5 p-6 rounded-xl shadow-md space-y-4"
+            >
+              <div className="flex justify-between items-center">
+                <div className="text-lg font-bold text-white">
+                  {company.company}
+                </div>
+                <div className="text-sm text-white/60">{company.country}</div>
+              </div>
+
+              {company.roles.map((role, rIdx) => {
+                const match = role.position.match(/^(.*?)\s*(\(.+\))$/); // Split out (extra detail)
+                const mainTitle = match ? match[1] : role.position;
+                const subtlePart = match ? match[2] : "";
+
+                return (
+                  <div
+                    key={rIdx}
+                    className="grid grid-cols-4 items-center text-white"
+                  >
+                    <div className="col-span-2 text-sm font-medium">
+                      {mainTitle}
+                      {subtlePart && (
+                        <span className="text-white/50 italic pl-1">
+                          {subtlePart}
+                        </span>
+                      )}
+                    </div>
+                    <div className="col-span-2 text-right text-sm text-white/70">
+                      {role.period}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div
