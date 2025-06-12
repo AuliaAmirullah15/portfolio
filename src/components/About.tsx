@@ -40,6 +40,9 @@ const skills = [
   "MongoDB",
   "GraphQL",
   "Python",
+  "Cypress",
+  "Vitest",
+  "Mocha",
 ];
 
 const experience = [
@@ -84,6 +87,21 @@ const experience = [
         period: "September 2016 - July 2017",
       },
     ],
+  },
+];
+
+const education = [
+  {
+    degree: "MSc Data Science & Artificial Intelligence",
+    institution: "Newcastle University",
+    note: "Distinction",
+    year: "2023",
+  },
+  {
+    degree: "BSc Information Technology",
+    institution: "Universitas Sumatera Utara",
+    note: "3.76 out of 4.00 (2:1)",
+    year: "2020",
   },
 ];
 
@@ -140,6 +158,7 @@ function ContactMeButton({
 
 export default function About() {
   const titaniumRef = useRef<HTMLHeadingElement | null>(null);
+  const skillsExperienceRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Animate gradient border
@@ -399,6 +418,49 @@ export default function About() {
         }
       },
     });
+
+    const section = skillsExperienceRef.current;
+    if (!section) return;
+    const targets: HTMLElement[] = [];
+
+    // ✅ Add #skills section
+    const skills = section.querySelector("#skills");
+    if (skills) targets.push(skills as HTMLElement);
+
+    // ✅ Add each experience item (but NOT the <h2>)
+    const experienceItems = section.querySelectorAll("#experience > div");
+    experienceItems.forEach((el) => targets.push(el as HTMLElement));
+
+    // ✅ Add each education item
+    const educationItems = section.querySelectorAll("#education > div");
+    educationItems.forEach((el) => targets.push(el as HTMLElement));
+
+    // ✅ Add the resume button
+    const resumeBtn = section.querySelector(".resume");
+    if (resumeBtn) targets.push(resumeBtn as HTMLElement);
+
+    // 🔁 Animate each one when it comes into view
+    targets.forEach((el) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
   }, []);
 
   return (
@@ -731,8 +793,9 @@ export default function About() {
       </div>
 
       <div
-        id="experience"
-        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6"
+        ref={skillsExperienceRef}
+        id="skillsExperience"
+        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center px-8 py-16 space-y-6"
       >
         <SectionTitle className="experience-item" title="Skills & Exprience" />
         <h2
@@ -756,46 +819,88 @@ export default function About() {
           ))}
         </div>
 
-        <div id="experience" className="w-full flex flex-col gap-8 mt-8">
+        <div
+          id="experience"
+          className="w-full mt-12 max-w-5xl mx-auto space-y-10"
+        >
           {experience.map((company, idx) => (
             <div
               key={idx}
-              className="w-full bg-white/5 p-6 rounded-xl shadow-md space-y-4"
+              className="w-full rounded-2xl bg-white/5 backdrop-blur-md p-8 shadow-xl border border-white/10"
             >
-              <div className="flex justify-between items-center">
-                <div className="text-lg font-bold text-white">
+              <div className="flex justify-between items-center mb-6">
+                <div className="text-xl font-semibold text-white tracking-tight">
                   {company.company}
                 </div>
-                <div className="text-sm text-white/60">{company.country}</div>
+                <div className="text-sm text-white/50">{company.country}</div>
               </div>
 
-              {company.roles.map((role, rIdx) => {
-                const match = role.position.match(/^(.*?)\s*(\(.+\))$/); // Split out (extra detail)
-                const mainTitle = match ? match[1] : role.position;
-                const subtlePart = match ? match[2] : "";
+              <div className="space-y-4">
+                {company.roles.map((role, rIdx) => {
+                  const match = role.position.match(/^(.*?)\s*(\(.+\))$/);
+                  const mainTitle = match ? match[1] : role.position;
+                  const subtlePart = match ? match[2] : "";
 
-                return (
-                  <div
-                    key={rIdx}
-                    className="grid grid-cols-4 items-center text-white"
-                  >
-                    <div className="col-span-2 text-sm font-medium">
-                      {mainTitle}
-                      {subtlePart && (
-                        <span className="text-white/50 italic pl-1">
-                          {subtlePart}
-                        </span>
-                      )}
+                  return (
+                    <div
+                      key={rIdx}
+                      className="grid grid-cols-12 items-center border-t border-white/10 pt-4"
+                    >
+                      <div className="col-span-6 text-white text-sm font-medium tracking-wide">
+                        {mainTitle}
+                        {subtlePart && (
+                          <span className="text-white/40 italic pl-1">
+                            {subtlePart}
+                          </span>
+                        )}
+                      </div>
+                      <div className="col-span-6 text-right text-white/60 text-sm">
+                        {role.period}
+                      </div>
                     </div>
-                    <div className="col-span-2 text-right text-sm text-white/70">
-                      {role.period}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>
+
+        <div
+          id="education"
+          className="w-full mx-auto mt-20 space-y-6 px-4 md:px-0 flex flex-col items-center"
+        >
+          <h2 className="text-5xl font-semibold bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+            Education
+          </h2>
+
+          {education.map((edu, idx) => (
+            <div
+              key={idx}
+              className="relative w-full bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 group"
+            >
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                <div>
+                  <div className="text-white text-lg font-semibold tracking-tight">
+                    {edu.degree}
+                  </div>
+                  <div className="text-white/70 text-sm mt-1">
+                    {edu.institution}
+                    {edu.note && (
+                      <span className="text-white/40 italic pl-1">
+                        ({edu.note})
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-white/50 text-sm mt-4 sm:mt-0 sm:text-right">
+                  {edu.year}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <ContactMeButton className="resume block" text="Download CV" />
       </div>
 
       <div
