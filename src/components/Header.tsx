@@ -10,16 +10,14 @@ const Header = () => {
 
   const menuItems = [
     { name: "Home", link: "/" },
-    { name: "Projects", link: "/projects" },
     { name: "About", link: "/about" },
-    { name: "CV", link: "/cv" },
     { name: "Blog", link: "/blog" },
   ];
 
   return (
     <>
       <header className="fixed w-full top-0 z-50 flex items-center justify-between px-10 py-4 bg-transparent">
-        <div className="text-gray-400 font-geist uppercase font-bold text-2xl tracking-widest hover:cursor-pointer">
+        <div className="text-white font-geist uppercase font-bold text-2xl tracking-widest hover:cursor-pointer">
           AZ
         </div>
 
@@ -134,7 +132,7 @@ const Header = () => {
                 },
               },
             }}
-            className="md:hidden fixed top-16 left-0 w-full bg-black text-white z-40 py-6 px-10 flex flex-col space-y-4 font-semibold uppercase shadow-md"
+            className="md:hidden h-full fixed top-0 left-0 w-full bg-black text-white z-40 py-24 px-10 flex flex-col space-y-4 font-semibold uppercase shadow-md"
           >
             {menuItems.map(({ name, link }) => (
               <motion.a

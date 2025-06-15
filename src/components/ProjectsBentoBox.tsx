@@ -22,6 +22,7 @@ type Card = {
   image: string;
   column: number;
   techStack: Array<string>;
+  link: string;
 };
 
 const cards: Card[] = [
@@ -46,6 +47,7 @@ const cards: Card[] = [
       "Orchestration",
       "Postman",
     ],
+    link: "/project",
   },
   {
     id: 2,
@@ -69,6 +71,7 @@ const cards: Card[] = [
       "CMS",
       "Axios",
     ],
+    link: "/project",
   },
   {
     id: 3,
@@ -91,6 +94,7 @@ const cards: Card[] = [
       "Vuex",
       "Postman",
     ],
+    link: "/project",
   },
   {
     id: 4,
@@ -108,6 +112,7 @@ const cards: Card[] = [
       "Playwright",
       "Tailwind",
     ],
+    link: "/project",
   },
   {
     id: 5,
@@ -116,6 +121,7 @@ const cards: Card[] = [
     image: beautySpa.src,
     column: 1,
     techStack: ["Vanilla JavaScript", "HTML", "CSS", "jQuery"],
+    link: "/project",
   },
   {
     id: 6,
@@ -133,6 +139,7 @@ const cards: Card[] = [
       "3D Model",
       "Web Animation",
     ],
+    link: "/project",
   },
 ];
 
@@ -194,7 +201,7 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                       </h3>
 
                       <a
-                        href="https://www.google.com"
+                        href={card.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white hover:text-blue-300 transition-colors"

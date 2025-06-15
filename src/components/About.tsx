@@ -513,7 +513,7 @@ export default function About() {
       scrollTrigger: {
         trigger: "#contactme",
         start: "top 80%",
-        once: true,
+        toggleActions: "play reverse play reverse",
       },
     });
 
@@ -537,7 +537,7 @@ export default function About() {
       scrollTrigger: {
         trigger: "#footer",
         start: "top 90%",
-        once: true,
+        toggleActions: "play reverse play reverse",
       },
     });
 
@@ -860,17 +860,20 @@ export default function About() {
         id="skillsExperience"
         className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center px-8 py-16 space-y-6 border-b-[1px] border-white/10"
       >
-        <SectionTitle className="experience-item" title="Skills & Exprience" />
+        <SectionTitle
+          className="experience-item max-w-5xl"
+          title="Skills & Exprience"
+        />
         <h2
           ref={titaniumRef}
-          className="text-5xl text-fadedwhite-200 neon-text"
+          className="text-5xl text-fadedwhite-200 neon-text max-w-5xl"
         >
           Experience
         </h2>
 
         <div
           id="skills"
-          className="flex justify-center flex-row flex-wrap gap-4 w-full h-full rounded-xl bg-white/5 backdrop-blur-md overflow-visible p-8"
+          className="flex max-w-5xl justify-center flex-row flex-wrap gap-4 w-full h-full rounded-xl bg-white/5 backdrop-blur-md overflow-visible p-8"
         >
           {skills.map((skill, index) => (
             <div
@@ -884,7 +887,7 @@ export default function About() {
 
         <div
           id="experience"
-          className="w-full mt-12 max-w-5xl mx-auto space-y-10"
+          className="w-full max-w-5xl mt-12 mx-auto space-y-10"
         >
           {experience.map((company, idx) => (
             <div
@@ -930,7 +933,7 @@ export default function About() {
 
         <div
           id="education"
-          className="w-full mx-auto mt-20 space-y-6 px-4 md:px-0 flex flex-col items-center"
+          className="w-full max-w-5xl mx-auto mt-20 space-y-6 px-4 md:px-0 flex flex-col items-center"
         >
           <h2 className="text-5xl font-semibold bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
             Education

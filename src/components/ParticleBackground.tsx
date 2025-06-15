@@ -2,8 +2,7 @@ import React, { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-// const particlesCount = 30000;
-const particlesCount = 3000;
+const particlesCount = 20000;
 
 type ShapeType =
   | "torus"
@@ -327,8 +326,7 @@ const Particles = ({
       ref={pointsRef}
       material={
         new THREE.PointsMaterial({
-          // color: "#3b82f6",
-          color: "#ffffff",
+          color: "#4a4a4a",
           size: 1.4,
           sizeAttenuation: false,
           transparent: true,

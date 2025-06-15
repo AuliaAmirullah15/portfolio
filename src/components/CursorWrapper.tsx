@@ -21,9 +21,11 @@ export default function CursorWrapper({
       {children}
       <div
         id="cursorWrapper"
-        className="fixed top-0 left-0 w-3 h-3 bg-black rounded-full pointer-events-none z-[9999] transition-transform duration-75 body-hide-cursor:hidden"
+        className="fixed top-0 left-0 w-6 h-6 bg-black rounded-full pointer-events-none z-[9999] transition-transform duration-75 body-hide-cursor:hidden"
         style={{
-          transform: `translate(${coords.x - 3}px, ${coords.y - 3}px)`,
+          transform: `translate(${coords.x - 12}px, ${coords.y - 12}px)`,
+          backgroundColor: "rgba(0, 0, 0, 0.4)", // semi-transparent black
+          border: "1.5px solid rgba(255, 255, 255, 0.8)", // white border with slight transparency
         }}
       />
     </div>
