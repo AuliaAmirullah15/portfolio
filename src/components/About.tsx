@@ -123,6 +123,37 @@ function SectionTitle({
   );
 }
 
+function SocialMedia() {
+  return (
+    <div className="flex gap-16 mt-4 text-zinc-400 social-icons">
+      <a
+        href="https://instagram.com/yourprofile"
+        target="_blank"
+        aria-label="Instagram"
+        rel="noopener noreferrer"
+      >
+        <FaInstagram size={24} className="hover:text-white duration-300" />
+      </a>
+      <a
+        href="https://linkedin.com/in/yourprofile"
+        target="_blank"
+        aria-label="LinkedIn"
+        rel="noopener noreferrer"
+      >
+        <FaLinkedin size={24} className="hover:text-white duration-300" />
+      </a>
+      <a
+        href="https://github.com/yourprofile"
+        target="_blank"
+        aria-label="GitHub"
+        rel="noopener noreferrer"
+      >
+        <FaGithub size={24} className="hover:text-white duration-300" />
+      </a>
+    </div>
+  );
+}
+
 function ContactMeButton({
   text,
   className,
@@ -314,7 +345,7 @@ export default function About() {
         ease: "none",
         scrollTrigger: {
           trigger: "#values",
-          start: "top bottom",
+          start: "top top",
           end: "bottom top",
           scrub: true,
         },
@@ -423,23 +454,19 @@ export default function About() {
     if (!section) return;
     const targets: HTMLElement[] = [];
 
-    // ✅ Add #skills section
     const skills = section.querySelector("#skills");
     if (skills) targets.push(skills as HTMLElement);
 
-    // ✅ Add each experience item (but NOT the <h2>)
     const experienceItems = section.querySelectorAll("#experience > div");
     experienceItems.forEach((el) => targets.push(el as HTMLElement));
 
-    // ✅ Add each education item
     const educationItems = section.querySelectorAll("#education > div");
     educationItems.forEach((el) => targets.push(el as HTMLElement));
 
-    // ✅ Add the resume button
     const resumeBtn = section.querySelector(".resume");
     if (resumeBtn) targets.push(resumeBtn as HTMLElement);
 
-    // 🔁 Animate each one when it comes into view
+    // Animate each target as it enters view
     targets.forEach((el) => {
       gsap.fromTo(
         el,
@@ -456,6 +483,70 @@ export default function About() {
           },
         }
       );
+    });
+
+    // ✅ Animate skill pills one-by-one
+    const skillsContainer = section.querySelector("#skills");
+    if (skillsContainer) {
+      const skillItems = skillsContainer.querySelectorAll("div");
+
+      gsap.fromTo(
+        skillItems,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: skillsContainer,
+            start: "top 80%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+    }
+
+    // Animate #contactme children with stagger
+    const contactMeTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#contactme",
+        start: "top 80%",
+        once: true,
+      },
+    });
+
+    contactMeTl
+      .from("#contactme > *", {
+        opacity: 0,
+        y: 20,
+        stagger: 0.15,
+        duration: 0.6,
+        ease: "power2.out",
+      }) // Animate contact buttons by class selector, no filtering
+      .fromTo(
+        ".contactme-contact-button",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        "-=0.3"
+      );
+
+    // Animate #footer children with stagger
+    const footerTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#footer",
+        start: "top 90%",
+        once: true,
+      },
+    });
+
+    footerTl.from("#footer > *", {
+      opacity: 0,
+      y: 10,
+      stagger: 0.15,
+      duration: 0.5,
+      ease: "power2.out",
     });
 
     return () => {
@@ -516,35 +607,7 @@ export default function About() {
           </p>
 
           {/* Social Icons */}
-          <div className="flex gap-16 mt-4 text-zinc-400 social-icons">
-            <a
-              href="https://instagram.com/yourprofile"
-              target="_blank"
-              aria-label="Instagram"
-              rel="noopener noreferrer"
-            >
-              <FaInstagram
-                size={24}
-                className="hover:text-white duration-300"
-              />
-            </a>
-            <a
-              href="https://linkedin.com/in/yourprofile"
-              target="_blank"
-              aria-label="LinkedIn"
-              rel="noopener noreferrer"
-            >
-              <FaLinkedin size={24} className="hover:text-white duration-300" />
-            </a>
-            <a
-              href="https://github.com/yourprofile"
-              target="_blank"
-              aria-label="GitHub"
-              rel="noopener noreferrer"
-            >
-              <FaGithub size={24} className="hover:text-white duration-300" />
-            </a>
-          </div>
+          <SocialMedia />
 
           {/* Contact Button */}
           <ContactMeButton text="Say Hello" className="banner-contact-button" />
@@ -795,7 +858,7 @@ export default function About() {
       <div
         ref={skillsExperienceRef}
         id="skillsExperience"
-        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center px-8 py-16 space-y-6"
+        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center px-8 py-16 space-y-6 border-b-[1px] border-white/10"
       >
         <SectionTitle className="experience-item" title="Skills & Exprience" />
         <h2
@@ -901,14 +964,54 @@ export default function About() {
         </div>
 
         <ContactMeButton className="resume block" text="Download CV" />
+
+        <div
+          className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
+          aria-hidden="true"
+        />
       </div>
 
       <div
         id="contactme"
-        className="w-full h-full min-h-screen relative bg-black text-white flex flex-col items-center justify-center p-8 space-y-6"
+        className="w-full font-funnel relative bg-zinc-800 text-white flex flex-col items-center justify-center px-8 py-16 space-y-6"
       >
-        <SectionTitle className="experience-item" title="Contact" />
-        <h2 className="text-4xl">Contact Me</h2>
+        <SectionTitle className="experience-item" title="Reach out anytime" />
+        <h2 className="text-4xl">
+          Let’s Stay{" "}
+          <span className="font-instrument italic tracking-wider text-zinc-400">
+            Connected
+          </span>
+        </h2>
+        <p className="text-white/80 text-sm max-w-md text-center">
+          Got questions or want to collaborate? Feel free to reach out - I’m
+          open to new projects or just a casual chat!
+        </p>
+
+        <ContactMeButton
+          className="contactme-contact-button block"
+          text="Contact Me"
+        />
+
+        <SocialMedia />
+        <p className="text-white/80 text-sm max-w-md text-center">
+          auliaamir153@gmail.com
+        </p>
+      </div>
+
+      <div
+        id="footer"
+        className="w-full relative font-funnel bg-zinc-800 text-white flex flex-row items-center justify-between px-8 py-16"
+      >
+        <div className="flex flex-row items-center justify-center">
+          <p className="text-white/80 text-md text-center">
+            Aulia Zulkarneidi &copy; 2025{" "}
+          </p>
+        </div>
+        <div className="flex flex-row items-center justify-center">
+          <p className="text-white/80 text-md text-center">
+            Made with React (NextJS){" "}
+          </p>
+        </div>
       </div>
     </div>
   );
