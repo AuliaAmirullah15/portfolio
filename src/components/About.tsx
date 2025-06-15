@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectsBentoBox from "./ProjectsBentoBox";
+import GeneralFooter from "./GeneralFooter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1001,21 +1002,7 @@ export default function About() {
         </p>
       </div>
 
-      <div
-        id="footer"
-        className="w-full relative font-funnel bg-zinc-800 text-white flex flex-row items-center justify-between px-8 py-16"
-      >
-        <div className="flex flex-row items-center justify-center">
-          <p className="text-white/80 text-md text-center">
-            Aulia Zulkarneidi &copy; 2025{" "}
-          </p>
-        </div>
-        <div className="flex flex-row items-center justify-center">
-          <p className="text-white/80 text-md text-center">
-            Made with React (NextJS){" "}
-          </p>
-        </div>
-      </div>
+      <GeneralFooter className="bg-zinc-800" />
     </div>
   );
 }

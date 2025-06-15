@@ -56,12 +56,12 @@ body.body-hide-cursor #cursorWrapper {
   display: none;
 }
 
-.swiper-slide {
+.swiper-slide-projects-bento {
   width: 400px !important;
 }
 
 @media screen and (max-width: 560px) {
-  .swiper-slide {
+  .swiper-slide-projects-bento {
     width: 350px !important;
   }
 }

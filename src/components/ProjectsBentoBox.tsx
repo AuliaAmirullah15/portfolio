@@ -167,7 +167,7 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
           }}
         >
           {cards.map((card) => (
-            <SwiperSlide key={card.id}>
+            <SwiperSlide key={card.id} className="swiper-slide-projects-bento">
               <div className="h-[550px] md:h-[550px] w-full">
                 <div
                   className={`h-full w-full ${cardClasses} flex flex-col overflow-hidden`}
