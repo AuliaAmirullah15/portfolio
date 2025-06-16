@@ -47,7 +47,7 @@ const cards: Card[] = [
       "Orchestration",
       "Postman",
     ],
-    link: "/project",
+    link: "/project/greggs-kiosk",
   },
   {
     id: 2,
@@ -71,11 +71,11 @@ const cards: Card[] = [
       "CMS",
       "Axios",
     ],
-    link: "/project",
+    link: "/project/greggs-website",
   },
   {
     id: 3,
-    title: "Activ8te",
+    title: "Activate ERP",
     description:
       "Mobile ERP platform for goods tracking across Southeast Asia.",
     image: activate.src,
@@ -94,7 +94,7 @@ const cards: Card[] = [
       "Vuex",
       "Postman",
     ],
-    link: "/project",
+    link: "/project/activate",
   },
   {
     id: 4,
@@ -112,7 +112,7 @@ const cards: Card[] = [
       "Playwright",
       "Tailwind",
     ],
-    link: "/project",
+    link: "/project/katie-jayne",
   },
   {
     id: 5,
@@ -121,7 +121,7 @@ const cards: Card[] = [
     image: beautySpa.src,
     column: 1,
     techStack: ["Vanilla JavaScript", "HTML", "CSS", "jQuery"],
-    link: "/project",
+    link: "/project/beauty-and-spa",
   },
   {
     id: 6,
@@ -139,7 +139,7 @@ const cards: Card[] = [
       "3D Model",
       "Web Animation",
     ],
-    link: "/project",
+    link: "/project/iphone-clone",
   },
 ];
 

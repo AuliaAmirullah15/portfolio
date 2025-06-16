@@ -17,6 +17,7 @@ import {
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectsBentoBox from "./ProjectsBentoBox";
 import GeneralFooter from "./GeneralFooter";
+import GeneralButton from "./GeneralButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -152,39 +153,6 @@ function SocialMedia() {
         <FaGithub size={24} className="hover:text-white duration-300" />
       </a>
     </div>
-  );
-}
-
-function ContactMeButton({
-  text,
-  className,
-}: {
-  text: string;
-  className?: string;
-}) {
-  return (
-    <button
-      className={`contact-button relative group px-8 py-4 text-white font-semibold rounded-full bg-black/40 backdrop-blur-md border border-white/30 overflow-visible 
-      before:absolute before:inset-0 before:rounded-full before:border before:border-white/40 before:shadow-inner
-      transition duration-300 ease-in-out hover:scale-105 hover:bg-black/70 hover:border-white hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.5)] flex items-center justify-center gap-3 ${className}`}
-    >
-      <span className="shiny-text">{text}</span>
-      <span
-        className="inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
-        aria-hidden="true"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-          className="w-5 h-5"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </span>
-    </button>
   );
 }
 
@@ -611,7 +579,7 @@ export default function About() {
           <SocialMedia />
 
           {/* Contact Button */}
-          <ContactMeButton text="Say Hello" className="banner-contact-button" />
+          <GeneralButton text="Say Hello" className="banner-contact-button" />
 
           <ScrollDownArrow className="justify-end" />
         </div>
@@ -658,7 +626,7 @@ export default function About() {
               businesses alike, delivering lasting value through careful design
               and solid engineering.
             </p>
-            <ContactMeButton
+            <GeneralButton
               text="Say Hello"
               className="hidden lg:flex myself-contact-button"
             />
@@ -687,7 +655,7 @@ export default function About() {
               appealing but genuinely intuitive and enjoyable to use. I believe
               good UI and UX are as essential as clean, tested code.
             </p>
-            <ContactMeButton
+            <GeneralButton
               text="Say Hello"
               className="block lg:hidden myself-contact-button"
             />
@@ -848,7 +816,7 @@ export default function About() {
           key="layout-3"
         />
 
-        <ContactMeButton className="see-more block" text="See More" />
+        <GeneralButton className="see-more block" text="See More" />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
@@ -967,7 +935,7 @@ export default function About() {
           ))}
         </div>
 
-        <ContactMeButton className="resume block" text="Download CV" />
+        <GeneralButton className="resume block" text="Download CV" />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
@@ -991,7 +959,7 @@ export default function About() {
           open to new projects or just a casual chat!
         </p>
 
-        <ContactMeButton
+        <GeneralButton
           className="contactme-contact-button block"
           text="Contact Me"
         />

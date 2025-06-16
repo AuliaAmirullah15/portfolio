@@ -16,6 +16,13 @@ import PhotoOrderFood from "@/assets/images/kiosk/photo_order_food.jpg";
 import PhotoBehindTheScene from "@/assets/images/kiosk/photo_behind_the_scene.jpg";
 import PhotoFood from "@/assets/images/kiosk/photo_food.jpg";
 
+import Banner from "@/assets/images/greggs/banner.png";
+import AllergenNutrition from "@/assets/images/greggs/allergen_and_nutrition.png";
+import ClickCollect from "@/assets/images/greggs/click_and_collect.png";
+import ForgotYourPassword from "@/assets/images/greggs/forgot_your_password.png";
+import News from "@/assets/images/greggs/news.png";
+import Tooltip from "@/assets/images/greggs/tooltip.png";
+
 export const introCallImg = introCall;
 export const pattern1Img = pattern1;
 export const heroPhotoPattern = hpp;
@@ -33,3 +40,10 @@ export const photoKiosk2Img = PhotoKiosk2;
 export const photoOrderFoodImg = PhotoOrderFood;
 export const photoBehindTheSceneImg = PhotoBehindTheScene;
 export const photoFoodImg = PhotoFood;
+
+export const bannerImg = Banner;
+export const allergenNutritionImg = AllergenNutrition;
+export const clickCollectImg = ClickCollect;
+export const forgotYourPasswordImg = ForgotYourPassword;
+export const newsImg = News;
+export const tooltipImg = Tooltip;
