@@ -183,7 +183,10 @@ const Project = () => {
             {data.images.children.map((image, idx) => (
               <SwiperSlide
                 key={idx}
-                className={`!w-[${data.images.width}px] !h-[${data.images.height}px]`}
+                style={{
+                  width: `${data.images.width}px !important`,
+                  height: `${data.images.height}px !important`,
+                }}
               >
                 <div className="w-full h-full relative">
                   <Image
