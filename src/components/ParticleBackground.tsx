@@ -24,7 +24,7 @@ const ParticleBackground = ({ shape = "morph" }: { shape?: ShapeType }) => {
   }, []);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const mouse = useRef(new THREE.Vector2(0, 0));
+  const mouse = useRef(new THREE.Vector2(-100, -100));
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
