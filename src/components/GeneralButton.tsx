@@ -15,12 +15,6 @@ function GeneralButton({
 }: GeneralButtonProps) {
   const isDownload = download && link;
 
-  const handleClick = () => {
-    if (link && !download) {
-      window.open(link, "_blank", "noopener,noreferrer");
-    }
-  };
-
   const baseClasses = `
     contact-button relative group px-8 py-4 text-white font-semibold rounded-full bg-black/40 backdrop-blur-md border border-white/30 overflow-visible 
     before:absolute before:inset-0 before:rounded-full before:border before:border-white/40 before:shadow-inner
@@ -57,8 +51,22 @@ function GeneralButton({
     );
   }
 
+  if (link?.startsWith("mailto:")) {
+    // Direct mailto link as <a>
+    return (
+      <a href={link} className={baseClasses}>
+        {content}
+      </a>
+    );
+  }
+
   return (
-    <button onClick={handleClick} className={baseClasses}>
+    <button
+      onClick={() => {
+        if (link) window.open(link, "_blank", "noopener,noreferrer");
+      }}
+      className={baseClasses}
+    >
       {content}
     </button>
   );

@@ -633,11 +633,13 @@ export default function About() {
               businesses alike, delivering lasting value through careful design
               and solid engineering.
             </p>
-            <GeneralButton
-              text="Say Hello"
-              className="hidden lg:flex myself-contact-button"
-              link={sayHelloLink}
-            />
+            <div className="w-full flex">
+              <GeneralButton
+                text="Say Hello"
+                className="hidden lg:flex myself-contact-button"
+                link={sayHelloLink}
+              />
+            </div>
           </div>
           <div className="flex-1">
             <p className="text-zinc-300 leading-relaxed pb-4">
@@ -663,11 +665,13 @@ export default function About() {
               appealing but genuinely intuitive and enjoyable to use. I believe
               good UI and UX are as essential as clean, tested code.
             </p>
-            <GeneralButton
-              text="Say Hello"
-              className="block lg:hidden myself-contact-button"
-              link={sayHelloLink}
-            />
+            <div className="w-full flex">
+              <GeneralButton
+                text="Say Hello"
+                className="block lg:hidden myself-contact-button"
+                link={sayHelloLink}
+              />
+            </div>
           </div>
         </div>
 
