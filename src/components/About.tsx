@@ -825,11 +825,7 @@ export default function About() {
           key="layout-3"
         />
 
-        <GeneralButton
-          className="see-more block"
-          text="See More"
-          link={sayHelloLink}
-        />
+        <GeneralButton className="see-more block" text="Swipe Left" />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
