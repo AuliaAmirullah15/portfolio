@@ -94,7 +94,7 @@ const cards: Card[] = [
       "Vuex",
       "Postman",
     ],
-    link: "/project/activate",
+    link: "/project/activate-erp",
   },
   {
     id: 4,

@@ -11,7 +11,7 @@ const Header = () => {
   const menuItems = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "Blog", link: "/blog" },
+    { name: "CV", link: "/cv/Aulia_Zulkarneidi_CV.pdf", download: true },
   ];
 
   return (
@@ -28,15 +28,21 @@ const Header = () => {
               <li
                 key={name}
                 className={`hover:cursor-pointer ${
-                  name === "Blog"
+                  name === "CV"
                     ? "relative flex items-center space-x-2 hover:text-gray-300"
                     : ""
                 }`}
               >
-                <a href={link} className="hover:text-gray-300 transition">
+                <a
+                  href={link}
+                  target={name === "CV" ? "_blank" : undefined}
+                  rel={name === "CV" ? "noopener noreferrer" : undefined}
+                  download={name === "CV" ? true : undefined}
+                  className="hover:text-gray-300 transition"
+                >
                   {name}
                 </a>
-                {name === "Blog" && (
+                {name === "CV" && (
                   <span
                     className="flex justify-center items-center w-6 h-6 rounded-full bg-black bg-opacity-40"
                     style={{ transform: "rotate(45deg)" }}
@@ -148,7 +154,7 @@ const Header = () => {
                 className="hover:text-gray-400 flex items-center space-x-2"
               >
                 <span>{name}</span>
-                {name === "Blog" && (
+                {name === "CV" && (
                   <span
                     className="flex justify-center items-center w-6 h-6 rounded-full bg-white bg-opacity-20"
                     style={{ transform: "rotate(45deg)" }}

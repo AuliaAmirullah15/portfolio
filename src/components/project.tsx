@@ -12,22 +12,112 @@ import { projects } from "@/data/projects";
 import GeneralButton from "./GeneralButton";
 
 import { useParams, useRouter } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Project = () => {
   const params = useParams();
   const router = useRouter();
+
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const footerRef = useRef<HTMLDivElement | null>(null);
+  const bannerRef = useRef<HTMLDivElement | null>(null);
+  const devImagesRef = useRef<HTMLDivElement | null>(null);
 
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
 
   const projectId = params?.id;
-  console.log("ID: ", projectId);
   const data = projects.find((proj) => proj.id === projectId);
 
   useEffect(() => {
     if (!data) {
       router.push("/not-found");
+    }
+
+    // Animate content children
+    if (contentRef.current) {
+      gsap.utils.toArray<HTMLElement>("#content > *").forEach((child) => {
+        gsap.fromTo(
+          child,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: child,
+              start: "top 80%",
+              toggleActions: "play reverse play reverse",
+            },
+          }
+        );
+      });
+    }
+
+    // Animate banner children with stagger
+    if (bannerRef.current) {
+      const bannerChildren = bannerRef.current.querySelectorAll("*");
+      gsap.fromTo(
+        bannerChildren,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: bannerRef.current,
+            start: "top 80%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+    }
+
+    // Animate development images with stagger
+    if (devImagesRef.current) {
+      const devImgs = devImagesRef.current.querySelectorAll("img");
+      gsap.fromTo(
+        devImgs,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power2.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: devImagesRef.current,
+            start: "top 85%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+    }
+
+    // Animate footer
+    if (footerRef.current) {
+      gsap.fromTo(
+        footerRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top bottom",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
     }
   }, [data, router]);
 
@@ -37,8 +127,9 @@ const Project = () => {
     <div className="w-full min-h-screen font-funnel bg-black">
       <Header />
 
-      <div id="content" className="pt-36 px-8 pb-8">
+      <div ref={contentRef} id="content" className="pt-36 px-8 pb-8">
         <div
+          ref={bannerRef}
           id="banner"
           className="w-full flex flex-col md:flex-row text-white text-center px-4 space-y-16 md:space-y-0 md:space-x-16"
         >
@@ -144,74 +235,100 @@ const Project = () => {
           </div>
         )}
 
-        {data.development?.images && data.development?.images.length > 0 && (
-          <div
-            id="development-overview"
-            className="mt-12 px-4 md:px-8 flex flex-col md:flex-row gap-6 justify-center items-stretch"
-          >
-            {/* Left image — responsive width */}
-            <div className="w-full md:flex-1 md:min-w-[200px] md:max-w-[300px]">
-              {data.development?.images[0] && (
-                <Image
-                  src={data.development?.images[0].src}
-                  alt="Kiosk Left"
-                  width={data.development?.images[0].width}
-                  height={data.development?.images[0].height}
-                  className="rounded-md w-full h-full object-cover"
-                  style={{ maxHeight: "700px" }}
-                />
-              )}
-            </div>
-
-            {/* Center column */}
-            <div className="w-full md:flex-[2] flex flex-col gap-4 justify-between">
-              {data.development?.images[1] && (
-                <Image
-                  src={data.development?.images[1].src}
-                  alt="Order Food"
-                  width={data.development?.images[1].width}
-                  height={data.development?.images[1].height}
-                  className="rounded-md w-full object-cover"
-                  style={{ height: "auto", maxHeight: "320px" }}
-                />
-              )}
-              <div className="flex flex-col sm:flex-row gap-4">
-                {data.development?.images[2] && (
-                  <Image
-                    src={data.development?.images[2].src}
-                    alt="Food"
-                    width={data.development?.images[2].width}
-                    height={data.development?.images[2].height}
-                    className="rounded-md w-full sm:w-1/2 object-cover"
-                    style={{ height: "288px" }}
-                  />
-                )}
-                {data.development?.images[3] && (
-                  <Image
-                    src={data.development?.images[3].src}
-                    alt="Behind the Scene"
-                    width={data.development?.images[3].width}
-                    height={data.development?.images[3].height}
-                    className="rounded-md w-full sm:w-1/2 object-cover"
-                    style={{ height: "288px" }}
-                  />
-                )}
+        {data.development?.images && (
+          <div ref={devImagesRef}>
+            {data.development.images.length === 4 && (
+              <div
+                id="development-overview"
+                className="mt-12 px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-4"
+              >
+                {data.development.images.slice(0, 4).map((img, idx) => (
+                  <div
+                    key={idx}
+                    className="w-full h-96 relative rounded-md overflow-hidden"
+                  >
+                    <Image
+                      src={img.src}
+                      alt={`Development Image ${idx + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
 
-            {/* Right image — responsive width */}
-            <div className="w-full md:flex-1 md:min-w-[200px] md:max-w-[300px]">
-              {data.development?.images[4] && (
-                <Image
-                  src={data.development?.images[4].src}
-                  alt="Kiosk Right"
-                  width={data.development?.images[4].width}
-                  height={data.development?.images[4].height}
-                  className="rounded-md w-full h-full object-cover"
-                  style={{ maxHeight: "700px" }}
-                />
-              )}
-            </div>
+            {data.development?.images.length === 5 && (
+              <div
+                id="development-overview"
+                className="mt-12 px-4 md:px-8 flex flex-col md:flex-row gap-6 justify-center items-stretch"
+              >
+                {/* Left image — responsive width */}
+                <div className="w-full md:flex-1 md:min-w-[200px] md:max-w-[300px]">
+                  {data.development?.images[0] && (
+                    <Image
+                      src={data.development?.images[0].src}
+                      alt="Kiosk Left"
+                      width={data.development?.images[0].width}
+                      height={data.development?.images[0].height}
+                      className="rounded-md w-full h-full object-cover"
+                      style={{ maxHeight: "700px" }}
+                    />
+                  )}
+                </div>
+
+                {/* Center column */}
+                <div className="w-full md:flex-[2] flex flex-col gap-4 justify-between">
+                  {data.development?.images[1] && (
+                    <Image
+                      src={data.development?.images[1].src}
+                      alt="Order Food"
+                      width={data.development?.images[1].width}
+                      height={data.development?.images[1].height}
+                      className="rounded-md w-full object-cover"
+                      style={{ height: "auto", maxHeight: "320px" }}
+                    />
+                  )}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    {data.development?.images[2] && (
+                      <Image
+                        src={data.development?.images[2].src}
+                        alt="Food"
+                        width={data.development?.images[2].width}
+                        height={data.development?.images[2].height}
+                        className="rounded-md w-full sm:w-1/2 object-cover"
+                        style={{ height: "288px" }}
+                      />
+                    )}
+                    {data.development?.images[3] && (
+                      <Image
+                        src={data.development?.images[3].src}
+                        alt="Behind the Scene"
+                        width={data.development?.images[3].width}
+                        height={data.development?.images[3].height}
+                        className="rounded-md w-full sm:w-1/2 object-cover"
+                        style={{ height: "288px" }}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Right image — responsive width */}
+                <div className="w-full md:flex-1 md:min-w-[200px] md:max-w-[300px]">
+                  {data.development?.images[4] && (
+                    <Image
+                      src={data.development?.images[4].src}
+                      alt="Kiosk Right"
+                      width={data.development?.images[4].width}
+                      height={data.development?.images[4].height}
+                      className="rounded-md w-full h-full object-cover"
+                      style={{ maxHeight: "700px" }}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -228,7 +345,9 @@ const Project = () => {
         )}
       </div>
 
-      <GeneralFooter />
+      <div ref={footerRef}>
+        <GeneralFooter />
+      </div>
     </div>
   );
 };
