@@ -129,7 +129,7 @@ function SocialMedia() {
   return (
     <div className="flex gap-16 mt-4 text-zinc-400 social-icons">
       <a
-        href="https://instagram.com/yourprofile"
+        href="https://www.instagram.com/auliaamir153/"
         target="_blank"
         aria-label="Instagram"
         rel="noopener noreferrer"
@@ -137,7 +137,7 @@ function SocialMedia() {
         <FaInstagram size={24} className="hover:text-white duration-300" />
       </a>
       <a
-        href="https://linkedin.com/in/yourprofile"
+        href="https://www.linkedin.com/in/auliaamirullah/"
         target="_blank"
         aria-label="LinkedIn"
         rel="noopener noreferrer"
@@ -145,7 +145,7 @@ function SocialMedia() {
         <FaLinkedin size={24} className="hover:text-white duration-300" />
       </a>
       <a
-        href="https://github.com/yourprofile"
+        href="https://github.com/AuliaAmirullah15"
         target="_blank"
         aria-label="GitHub"
         rel="noopener noreferrer"
@@ -155,6 +155,9 @@ function SocialMedia() {
     </div>
   );
 }
+
+const sayHelloLink =
+  "mailto:auliaamir153@gmail.com?subject=Hello%20There&body=I%20wanted%20to%20reach%20out%20because...";
 
 export default function About() {
   const titaniumRef = useRef<HTMLHeadingElement | null>(null);
@@ -579,7 +582,11 @@ export default function About() {
           <SocialMedia />
 
           {/* Contact Button */}
-          <GeneralButton text="Say Hello" className="banner-contact-button" />
+          <GeneralButton
+            text="Say Hello"
+            className="banner-contact-button"
+            link={sayHelloLink}
+          />
 
           <ScrollDownArrow className="justify-end" />
         </div>
@@ -629,6 +636,7 @@ export default function About() {
             <GeneralButton
               text="Say Hello"
               className="hidden lg:flex myself-contact-button"
+              link={sayHelloLink}
             />
           </div>
           <div className="flex-1">
@@ -658,6 +666,7 @@ export default function About() {
             <GeneralButton
               text="Say Hello"
               className="block lg:hidden myself-contact-button"
+              link={sayHelloLink}
             />
           </div>
         </div>
@@ -816,7 +825,11 @@ export default function About() {
           key="layout-3"
         />
 
-        <GeneralButton className="see-more block" text="See More" />
+        <GeneralButton
+          className="see-more block"
+          text="See More"
+          link={sayHelloLink}
+        />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
@@ -935,7 +948,12 @@ export default function About() {
           ))}
         </div>
 
-        <GeneralButton className="resume block" text="Download CV" />
+        <GeneralButton
+          className="resume block"
+          text="Download CV"
+          link="/cv/Aulia_Zulkarneidi_CV.pdf"
+          download
+        />
 
         <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
@@ -962,6 +980,7 @@ export default function About() {
         <GeneralButton
           className="contactme-contact-button block"
           text="Contact Me"
+          link={sayHelloLink}
         />
 
         <SocialMedia />

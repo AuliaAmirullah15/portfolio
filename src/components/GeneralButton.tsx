@@ -1,27 +1,35 @@
 import React from "react";
 
-function GeneralButton({
-  text,
-  className,
-  link,
-}: {
+type GeneralButtonProps = {
   text: string;
   className?: string;
   link?: string;
-}) {
+  download?: boolean;
+};
+
+function GeneralButton({
+  text,
+  className = "",
+  link,
+  download = false,
+}: GeneralButtonProps) {
+  const isDownload = download && link;
+
   const handleClick = () => {
-    if (link) {
+    if (link && !download) {
       window.open(link, "_blank", "noopener,noreferrer");
     }
   };
 
-  return (
-    <button
-      onClick={handleClick}
-      className={`contact-button relative group px-8 py-4 text-white font-semibold rounded-full bg-black/40 backdrop-blur-md border border-white/30 overflow-visible 
-      before:absolute before:inset-0 before:rounded-full before:border before:border-white/40 before:shadow-inner
-      transition duration-300 ease-in-out hover:scale-105 hover:bg-black/70 hover:border-white hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.5)] flex items-center justify-center gap-3 ${className}`}
-    >
+  const baseClasses = `
+    contact-button relative group px-8 py-4 text-white font-semibold rounded-full bg-black/40 backdrop-blur-md border border-white/30 overflow-visible 
+    before:absolute before:inset-0 before:rounded-full before:border before:border-white/40 before:shadow-inner
+    transition duration-300 ease-in-out hover:scale-105 hover:bg-black/70 hover:border-white hover:shadow-[0_0_15px_2px_rgba(255,255,255,0.5)] flex items-center justify-center gap-3
+    ${className}
+  `;
+
+  const content = (
+    <>
       <span className="shiny-text">{text}</span>
       <span
         className="inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
@@ -38,6 +46,20 @@ function GeneralButton({
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </span>
+    </>
+  );
+
+  if (isDownload) {
+    return (
+      <a href={link} download className={baseClasses}>
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <button onClick={handleClick} className={baseClasses}>
+      {content}
     </button>
   );
 }
