@@ -947,7 +947,7 @@ export default function About() {
         <GeneralButton
           className="resume block"
           text="Download CV"
-          link="/cv/Aulia_Zulkarneidi_CV.pdf"
+          link="/cv/Aulia_Amirullah_Zulkarneidi_CV.pdf"
           download
         />
 

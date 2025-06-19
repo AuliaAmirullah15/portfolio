@@ -11,7 +11,11 @@ const Header = () => {
   const menuItems = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "CV", link: "/cv/Aulia_Zulkarneidi_CV.pdf", download: true },
+    {
+      name: "CV",
+      link: "/cv/Aulia_Amirullah_Zulkarneidi_CV.pdf",
+      download: true,
+    },
   ];
 
   return (
