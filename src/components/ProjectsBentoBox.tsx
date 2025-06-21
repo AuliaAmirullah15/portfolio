@@ -184,7 +184,7 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                     </div>
                   </div>
                   <div className="p-4 flex-1 flex flex-col items-start justify-start font-funnel">
-                    <div className="flex items-center gap-2 pb-4">
+                    <div className="flex flex-row justify-between items-center gap-2 pb-4 w-full">
                       <h3 id="card-title" className="text-xl font-bold">
                         {card.title.split(" ").map((word, index) =>
                           index === 0 ? (
@@ -204,8 +204,9 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                         href={card.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white hover:text-blue-300 transition-colors"
+                        className="flex tracking-wider font-funnel items-center gap-1 px-3 py-1 rounded-full backdrop-blur-md bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20 transition-colors"
                       >
+                        <span>View more</span>
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </div>
