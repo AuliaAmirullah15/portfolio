@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CursorWrapper from "@/components/CursorWrapper";
+import Logo from "@/assets/images/logo.svg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +18,9 @@ export const metadata: Metadata = {
   title: "Aulia Zulkarneidi | Portfolio",
   description:
     "Aulia Zulkarneidi - A developer who builds fast, clean, and responsive user interfaces that solve real business problems. I care about getting things shipped, looking great, and solving the right problems.",
+  icons: {
+    icon: Logo.src,
+  },
   openGraph: {
     title: "Aulia Zulkarneidi | Portfolio",
     description:
