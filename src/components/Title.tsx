@@ -31,7 +31,7 @@ const Title = () => {
           </p>
           <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 justify-between items-start w-full">
             <button className="font-geist uppercase bg-white text-black font-semibold w-44 h-12 shadow-md hover:bg-gray-200 transition-all">
-              Explore Projects
+              <a href="/about">READ MORE</a>
             </button>
           </div>
         </div>
