@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <>
       <header className="fixed w-full top-0 z-50 flex items-center justify-between px-10 py-4 bg-transparent">
-        <div className="text-white font-geist uppercase font-bold text-2xl tracking-widest hover:cursor-pointer">
+        <div className="text-white font-instrument italic uppercase font-bold text-2xl tracking-widest hover:cursor-pointer">
           AZ
         </div>
 

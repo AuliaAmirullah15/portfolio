@@ -615,63 +615,44 @@ export default function About() {
         />
 
         {/* About Section Content */}
-        <div className="flex flex-col lg:flex-row lg:space-x-20 lg:space-y-0 p-8">
-          <div className="flex-1">
-            <h2 className="text-5xl mb-6">
-              More about{" "}
-              <span className="font-instrument italic tracking-wider text-zinc-400">
-                myself
-              </span>
-            </h2>
-            <p className="text-zinc-300 text-lg pb-8">
-              Hi, I’m Aulia, a web developer with a strong focus on building
-              thoughtful, user-centred digital solutions. I believe in looking
-              beyond the obvious, whether that’s exploring the right technology
-              stack, refining software architecture, or crafting interfaces that
-              are both intuitive and accessible. My approach is all about
-              creating apps and systems that truly work for people and
-              businesses alike, delivering lasting value through careful design
-              and solid engineering.
-            </p>
-            <div className="w-full flex">
-              <GeneralButton
-                text="Say Hello"
-                className="hidden lg:flex myself-contact-button"
-                link={sayHelloLink}
-              />
+        <div className="flex flex-col w-full p-8">
+          <h2 className="text-5xl mb-6">
+            More about{" "}
+            <span className="font-instrument italic tracking-wider text-zinc-400">
+              myself
+            </span>
+          </h2>
+          <div className="flex flex-col lg:flex-row lg:space-x-20 lg:space-y-0 text-lg">
+            <div className="flex-1">
+              <p className="text-zinc-300 pb-4">
+                Hi, I’m Aulia, a web developer focused on building thoughtful,
+                user-centred digital experiences. I go beyond just making things
+                work: it’s about choosing the right stack, shaping robust
+                architecture, and crafting interfaces that feel intuitive and
+                accessible. With just four years’ experience, I’ve learnt that
+                great software blends clean engineering with long-term thinking:
+                maintainable, well-tested, and built with users in mind from the
+                start.
+              </p>
+            </div>
+            <div className="flex-1">
+              <p className="text-zinc-300 pb-4">
+                I treat each project as an opportunity to build something
+                meaningful, whether that’s Flutter kiosks that handle payments
+                seamlessly, or inventory apps that tap into device capabilities
+                like cameras and biometrics. I’m hands-on with architecture and
+                stack decisions, always aiming for solutions that scale and
+                last. Good engineering and intuitive design go hand in hand.
+                Both matter equally to me.
+              </p>
             </div>
           </div>
-          <div className="flex-1">
-            <p className="text-zinc-300 leading-relaxed pb-4">
-              With just over four years’ experience as a developer, I’ve come to
-              understand that great software isn’t just about writing code that
-              works! It’s about building solutions that last. For me, that means
-              thinking deeply about maintainability, testing, and architecture
-              from the start, while always keeping the user experience front and
-              centre.
-            </p>
-            <p className="text-zinc-300 leading-relaxed pb-4">
-              I treat every project as a chance to do something meaningful,
-              whether it’s designing kiosks with Flutter that are accessible and
-              handle payments smoothly, or building mobile and iPad apps for
-              tracking inventory that tap into device features like cameras,
-              biometrics systems and memory. I’m heavily involved in choosing
-              the right tech stacks and designing software architecture that not
-              only meets business needs but scales well for the future.
-            </p>
-            <p className="text-zinc-300 leading-relaxed pb-4">
-              What drives me is the challenge of balancing solid engineering
-              with great design, making sure interfaces aren’t just visually
-              appealing but genuinely intuitive and enjoyable to use. I believe
-              good UI and UX are as essential as clean, tested code.
-            </p>
-            <div className="w-full flex">
-              <GeneralButton
-                text="Say Hello"
-                className="block lg:hidden myself-contact-button"
-                link={sayHelloLink}
-              />
-            </div>
+          <div className="flex flex-row">
+            <GeneralButton
+              text="Say Hello"
+              className="flex myself-contact-button"
+              link={sayHelloLink}
+            />
           </div>
         </div>
 
@@ -685,7 +666,7 @@ export default function About() {
         className="w-full h-full min-h-screen bg-zinc-900 text-white px-4 md:px-20 py-12 md:py-24 overflow-hidden relative flex flex-row justify-center items-center"
       >
         {/* Progress Bar*/}
-        <div className="absolute bottom-0 left-0 w-full h-6 bg-white/10">
+        <div className="absolute bottom-0 left-0 w-full h-3 bg-white/10">
           <div
             id="values-progress-bar"
             className="h-full bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500"

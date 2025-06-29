@@ -10,7 +10,6 @@ import activate from "@/assets/images/activ8te/brand.png";
 import katieJayne from "@/assets/images/katie_jayne/hero.png";
 import beautySpa from "@/assets/images/beauty_spa/brand.png";
 import iphoneClone from "@/assets/images/iphone_clone/titanium.png";
-import { ExternalLink } from "lucide-react"; // add to top with other lucide imports
 
 const cardClasses =
   "rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 text-white text-lg font-mono transition-transform duration-300";
@@ -207,7 +206,6 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                         className="flex tracking-wider font-funnel items-center gap-1 px-3 py-1 rounded-full backdrop-blur-md bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20 transition-colors"
                       >
                         <span>View more</span>
-                        <ExternalLink className="w-4 h-4" />
                       </a>
                     </div>
 

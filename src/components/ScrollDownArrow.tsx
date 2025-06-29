@@ -13,7 +13,8 @@ const ScrollDownArrow = ({
     >
       {remainingPage && (
         <span className="block mb-1 text-sm font-geist uppercase tracking-wide text-white">
-          {remainingPage}
+          {/* {remainingPage} */}
+          SCROLL DOWN
         </span>
       )}
       <button

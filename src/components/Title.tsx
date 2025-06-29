@@ -1,4 +1,5 @@
 import React from "react";
+import GeneralButton from "./GeneralButton";
 
 const Title = () => {
   return (
@@ -10,7 +11,7 @@ const Title = () => {
 
       <div
         id="title-texts"
-        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0 px-10 pb-10 mb-20 md:mb-0"
+        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0 px-10 pb-16 md:pb-10 mb-20 md:mb-0"
       >
         {/* Title */}
         <div className="order-1 md:order-none flex flex-col justify-end items-start">
@@ -18,22 +19,21 @@ const Title = () => {
             {"//"} Web Developer{" "}
             <span className="animate-pulse text-cosmic">▮</span>
           </p>
-          <h1 className="text-4xl md:text-6xl font-golos tracking-tighter">
-            Aulia Zulkarneidi.
+          <h1 className="text-4xl md:text-6xl font-funnel tracking-tighter">
+            Aulia{" "}
+            <span className="font-instrument italic tracking-wider">
+              Zulkarneidi
+            </span>
           </h1>
         </div>
 
         {/* Description and Button */}
         <div className="order-2 md:order-none flex flex-col justify-start items-start space-y-4">
-          <p className="text-md max-w-sm font-geist uppercase">
+          <p className="text-lg max-w-sm font-funnel">
             A developer with experience in web, mobile, and embedded system
             development.
           </p>
-          <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 justify-between items-start w-full">
-            <button className="font-geist uppercase bg-white text-black font-semibold w-44 h-12 shadow-md hover:bg-gray-200 transition-all">
-              <a href="/about">READ MORE</a>
-            </button>
-          </div>
+          <GeneralButton text="Read More" link="/about" />
         </div>
       </div>
     </div>

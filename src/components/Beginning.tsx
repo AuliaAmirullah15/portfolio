@@ -4,8 +4,10 @@ import { gsap } from "gsap";
 import Title from "./Title";
 import ScrollDownArrow from "./ScrollDownArrow";
 import ProjectsBentoBox from "./ProjectsBentoBox";
+import GeneralButton from "./GeneralButton";
 
-const shapes = ["torus", "sphere", "crystalCluster", "disc"] as const;
+// const shapes = ["torus", "sphere", "crystalCluster", "disc"] as const;
+const shapes = ["torus", "crystalCluster", "disc"] as const;
 
 type BeginningProps = {
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
@@ -25,29 +27,32 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
   const layouts: JSX.Element[] = [
     <div
       key="layout-0"
-      className="text-center text-gray-300 text-3xl font-funnel"
+      className="flex flex-col items-center justify-center space-y-4"
     >
-      <p className="hover:text-white hover:text-4xl hover:cursor-pointer transition-all duration-500">
-        Aulia <br />{" "}
-        <span className="font-instrument italic tracking-wider">
-          Zulkarneidi
-        </span>
-      </p>
+      <div className="text-center text-gray-300 text-3xl font-funnel">
+        <p className="hover:text-white hover:text-4xl hover:cursor-pointer transition-all duration-500">
+          Aulia <br />{" "}
+          <span className="font-instrument italic tracking-wider">
+            Zulkarneidi
+          </span>
+        </p>
+      </div>
+      <GeneralButton text="About Me" link="/about" />
     </div>,
-    <div
-      key="layout-1"
-      className="text-center text-gray-300 hover:text-white hover:cursor-pointer font-funnel transition-all duration-500"
-    >
-      <p className="font-instrument italic tracking-wider text-3xl">
-        Web Developer
-      </p>
-      <p className="text-lg">based in</p>
-      <p className="text-2xl">
-        Newcastle,{" "}
-        <span className="font-instrument italic tracking-wider">UK</span>
-      </p>
-      <p></p>
-    </div>,
+    // <div
+    //   key="layout-1"
+    //   className="text-center text-gray-300 hover:text-white hover:cursor-pointer font-funnel transition-all duration-500"
+    // >
+    //   <p className="font-instrument italic tracking-wider text-3xl">
+    //     Web Developer
+    //   </p>
+    //   <p className="text-lg">based in</p>
+    //   <p className="text-2xl">
+    //     Newcastle,{" "}
+    //     <span className="font-instrument italic tracking-wider">UK</span>
+    //   </p>
+    //   <p></p>
+    // </div>,
     <Title key="layout-2" />,
     <ProjectsBentoBox key="layout-3" />,
   ];
