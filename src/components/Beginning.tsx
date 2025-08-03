@@ -55,14 +55,25 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
         });
       }
       initialAnimationDone.current = true;
+
+      // Show scroll arrow after initial animation completes (if not on last layout)
+      if (arrowRef.current && index < layouts.length - 1) {
+        gsap.to(arrowRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          pointerEvents: "auto",
+        });
+      }
     }, 4000);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [index, layouts.length]);
 
-  // Animate ScrollDownArrow in/out smoothly on index change
+  // Animate ScrollDownArrow in/out smoothly on index change (after initial animation)
   useEffect(() => {
-    if (!arrowRef.current) return;
+    if (!arrowRef.current || !initialAnimationDone.current) return;
 
     if (index < layouts.length - 1) {
       // Animate in
@@ -142,6 +153,9 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
+      // Prevent scrolling until initial animation is complete
+      if (!initialAnimationDone.current) return;
+
       const delta = e.deltaY;
       const nextIndex =
         delta > 0
@@ -151,11 +165,15 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
     };
 
     const handleTouchStart = (e: TouchEvent) => {
+      // Prevent touch scrolling until initial animation is complete
+      if (!initialAnimationDone.current) return;
       touchStartYRef.current = e.touches[0].clientY;
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
-      if (touchStartYRef.current === null) return;
+      // Prevent touch scrolling until initial animation is complete
+      if (!initialAnimationDone.current || touchStartYRef.current === null)
+        return;
 
       const endY = e.changedTouches[0].clientY;
       const deltaY = touchStartYRef.current - endY;
@@ -171,6 +189,9 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent keyboard scrolling until initial animation is complete
+      if (!initialAnimationDone.current) return;
+
       if (e.key === "ArrowDown") {
         goToIndex(Math.min(index + 1, layouts.length - 1));
       } else if (e.key === "ArrowUp") {
