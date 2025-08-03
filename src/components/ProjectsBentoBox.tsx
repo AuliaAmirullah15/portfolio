@@ -168,8 +168,12 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
           {cards.map((card) => (
             <SwiperSlide key={card.id} className="swiper-slide-projects-bento">
               <div className="h-[550px] md:h-[550px] w-full">
-                <div
-                  className={`h-full w-full ${cardClasses} flex flex-col overflow-hidden`}
+                <a
+                  href={card.link}
+                  className={`h-full w-full ${cardClasses} flex flex-col overflow-hidden transition-all duration-600 hover:bg-white/15`}
+                  style={{
+                    cursor: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='32' viewBox='0 0 120 32'><rect x='0' y='0' width='120' height='32' rx='16' fill='rgba(0,0,0,0.8)' stroke='rgba(255,255,255,0.2)' stroke-width='1'/><text x='60' y='20' text-anchor='middle' fill='white' font-family='system-ui' font-size='12' font-weight='500'>View more</text></svg>") 60 16, auto`,
+                  }}
                 >
                   <div className="relative w-full h-[280px] md:h-[300px] px-4 pt-4">
                     <div className="w-full h-full relative">
@@ -199,14 +203,9 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                         )}
                       </h3>
 
-                      <a
-                        href={card.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex tracking-wider font-funnel items-center gap-1 px-3 py-1 rounded-full backdrop-blur-md bg-white/10 border border-white/20 text-white text-sm hover:bg-white/20 transition-colors"
-                      >
+                      <div className="flex tracking-wider font-funnel items-center gap-1 px-3 py-1 rounded-full backdrop-blur-md bg-black/5 border border-white/20 text-white text-sm">
                         <span>View more</span>
-                      </a>
+                      </div>
                     </div>
 
                     <p className="text-sm pb-2">{card.description}</p>
@@ -218,7 +217,7 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                       ))}
                     </div>
                   </div>
-                </div>
+                </a>
               </div>
             </SwiperSlide>
           ))}
