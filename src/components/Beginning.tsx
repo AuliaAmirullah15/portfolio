@@ -6,7 +6,6 @@ import ScrollDownArrow from "./ScrollDownArrow";
 import ProjectsBentoBox from "./ProjectsBentoBox";
 import GeneralButton from "./GeneralButton";
 
-// const shapes = ["torus", "sphere", "crystalCluster", "disc"] as const;
 const shapes = ["torus", "crystalCluster", "disc"] as const;
 
 type BeginningProps = {
@@ -39,20 +38,6 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
       </div>
       <GeneralButton text="About Me" link="/about" />
     </div>,
-    // <div
-    //   key="layout-1"
-    //   className="text-center text-gray-300 hover:text-white hover:cursor-pointer font-funnel transition-all duration-500"
-    // >
-    //   <p className="font-instrument italic tracking-wider text-3xl">
-    //     Web Developer
-    //   </p>
-    //   <p className="text-lg">based in</p>
-    //   <p className="text-2xl">
-    //     Newcastle,{" "}
-    //     <span className="font-instrument italic tracking-wider">UK</span>
-    //   </p>
-    //   <p></p>
-    // </div>,
     <Title key="layout-2" />,
     <ProjectsBentoBox key="layout-3" />,
   ];
