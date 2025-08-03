@@ -214,7 +214,7 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
       </div>
       <div
         ref={arrowRef}
-        className="absolute bottom-16 md:bottom-3 z-30 opacity-0 translate-y-5 pointer-events-none"
+        className="absolute bottom-24 md:bottom-3 z-30 opacity-0 translate-y-5 pointer-events-none"
         aria-hidden={index >= layouts.length - 1}
       >
         <ScrollDownArrow
