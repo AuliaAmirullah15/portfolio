@@ -3,15 +3,32 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 const particlesCount = 20000;
+const ringsCount = 16;
+const coreParticlesCount = 1000;
+
+type CoreParticle = {
+  isCore: true;
+  basePosition: THREE.Vector3;
+};
+
+type RingParticle = {
+  isCore: false;
+  ringIndex: number;
+  tilt: number;
+  radius: number;
+  angle: number;
+  angle2: number;
+};
+
+type RingParticleData = CoreParticle | RingParticle;
 
 type ShapeType =
   | "torus"
   | "sphere"
   | "morph"
-  | "disc"
+  | "ringParticles"
   | "helix"
-  | "ribbonWave"
-  | "crystalCluster";
+  | "ribbonWave";
 
 const ParticleBackground = ({ shape = "morph" }: { shape?: ShapeType }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -109,6 +126,55 @@ const Particles = ({
       data.push({ angle1, angle2, delay, phi, theta });
     }
     return data;
+  }, []);
+
+  const ringParticleData = useMemo<RingParticleData[]>(() => {
+    const data: RingParticleData[] = [];
+
+    // Core particles
+    for (let i = 0; i < coreParticlesCount; i++) {
+      const minRadius = 5;
+      const maxRadius = 20;
+      const radius = minRadius + Math.random() * (maxRadius - minRadius);
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+
+      const x = radius * Math.sin(phi) * Math.cos(theta);
+      const y = radius * Math.sin(phi) * Math.sin(theta);
+      const z = radius * Math.cos(phi);
+
+      data.push({
+        isCore: true,
+        basePosition: new THREE.Vector3(x, y, z),
+      });
+    }
+
+    // Ring particles
+    const remainingParticles = particlesCount - coreParticlesCount;
+    const particlesPerRing = Math.floor(remainingParticles / ringsCount);
+    const tiltAngles = [0, 0.3, 0.6, 1.0];
+
+    for (let ringIndex = 0; ringIndex < ringsCount; ringIndex++) {
+      const tilt = tiltAngles[ringIndex % tiltAngles.length];
+      const radius = (isMobile ? 8 : 14) + ringIndex * (isMobile ? 3 : 4);
+
+      for (let i = 0; i < particlesPerRing; i++) {
+        const t = i / particlesPerRing;
+        const angle = t * Math.PI * 2;
+        const angle2 = Math.random() * Math.PI * 2;
+
+        data.push({
+          isCore: false,
+          ringIndex,
+          tilt,
+          radius,
+          angle,
+          angle2,
+        });
+      }
+    }
+
+    return data;
   }, [isMobile]);
 
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
@@ -140,10 +206,9 @@ const Particles = ({
     let morphFactor: number;
     if (shape === "torus") morphFactor = 0;
     else if (shape === "sphere") morphFactor = 1;
-    else if (shape === "disc") morphFactor = 2;
+    else if (shape === "ringParticles") morphFactor = 2;
     else if (shape === "helix") morphFactor = 3;
     else if (shape === "ribbonWave") morphFactor = 4;
-    else if (shape === "crystalCluster") morphFactor = 5;
     else morphFactor = (Math.sin(time * 0.3) + 1) * 2;
 
     const rows = 40;
@@ -178,12 +243,49 @@ const Particles = ({
       const sphereZ = sphereRadius * radiusOscillation * Math.cos(phi);
       const spherePos = new THREE.Vector3(sphereX, sphereY, sphereZ);
 
-      const discAngle = angle1 + time * rotationSpeed;
-      const discRadius = radius + tubeRadius + Math.sin(i) * 2;
-      const discX = discRadius * Math.cos(discAngle);
-      const discY = Math.sin(i * 2 + time) * 0.5;
-      const discZ = discRadius * Math.sin(discAngle);
-      const discPos = new THREE.Vector3(discX, discY, discZ);
+      // Ring particles position calculation
+      let ringParticlesPos: THREE.Vector3;
+      if (i < ringParticleData.length) {
+        const pdata = ringParticleData[i];
+
+        if (pdata.isCore) {
+          const pulse = 1 + 0.2 * Math.sin(time * 2 + i);
+          ringParticlesPos = new THREE.Vector3(
+            pdata.basePosition.x * pulse,
+            pdata.basePosition.y * pulse,
+            pdata.basePosition.z * pulse
+          );
+        } else {
+          const {
+            ringIndex,
+            tilt,
+            radius: ringRadius,
+            angle,
+            angle2: pAngle2,
+          } = pdata;
+          const ringRotation = time * rotationSpeed * (1 + ringIndex * 0.3);
+          const a2 = pAngle2 + time * rotationSpeed * 8;
+          const baseAngle = angle + ringRotation;
+
+          const localX =
+            (ringRadius + tubeRadius * Math.cos(a2)) * Math.cos(baseAngle);
+          const localY = tubeRadius * Math.sin(a2);
+          const localZ =
+            (ringRadius + tubeRadius * Math.cos(a2)) * Math.sin(baseAngle);
+
+          const cosTilt = Math.cos(tilt);
+          const sinTilt = Math.sin(tilt);
+
+          ringParticlesPos = new THREE.Vector3(
+            localX,
+            localY * cosTilt - localZ * sinTilt,
+            localY * sinTilt + localZ * cosTilt
+          );
+        }
+      } else {
+        // Fallback to torus position for extra particles
+        ringParticlesPos = torusPos.clone();
+      }
 
       const helixTurns = 5;
       const helixHeight = radius * 2;
@@ -221,14 +323,6 @@ const Particles = ({
       const ribbonZ = Math.cos(row * 0.5 + time) * 5;
       const ribbonWavePos = new THREE.Vector3(ribbonX, ribbonY, ribbonZ);
 
-      // NEW: Crystal Cluster shape
-      // Create a jagged, grid-based cluster with sinusoidal distortion to break roundness
-      const crystalClusterPos = new THREE.Vector3(
-        (col - cols / 2) * 1.8 + Math.sin(row + time) * 1.5,
-        (row - rows / 2) * 1.8 + Math.sin(col * 0.2 + time * 2) * 1.5,
-        Math.sin((col + row) * 0.15 + time) * 5 + Math.sign(Math.sin(col)) * 5
-      );
-
       let interpolatedTarget: THREE.Vector3;
       if (morphFactor <= 1) {
         interpolatedTarget = new THREE.Vector3().lerpVectors(
@@ -240,28 +334,21 @@ const Particles = ({
         const t = morphFactor - 1;
         interpolatedTarget = new THREE.Vector3().lerpVectors(
           spherePos,
-          discPos,
+          ringParticlesPos,
           t
         );
       } else if (morphFactor <= 3) {
         const t = morphFactor - 2;
         interpolatedTarget = new THREE.Vector3().lerpVectors(
-          discPos,
+          ringParticlesPos,
           helixRibbonPos,
           t
         );
-      } else if (morphFactor <= 4) {
+      } else {
         const t = morphFactor - 3;
         interpolatedTarget = new THREE.Vector3().lerpVectors(
           helixRibbonPos,
           ribbonWavePos,
-          t
-        );
-      } else {
-        const t = morphFactor - 4;
-        interpolatedTarget = new THREE.Vector3().lerpVectors(
-          ribbonWavePos,
-          crystalClusterPos,
           t
         );
       }

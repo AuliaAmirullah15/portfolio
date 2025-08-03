@@ -1,4 +1,4 @@
-import React, { JSX, useEffect, useRef, useState } from "react";
+import React, { JSX, useEffect, useRef, useState, useCallback } from "react";
 import ParticleBackground from "./ParticleBackground";
 import { gsap } from "gsap";
 import Title from "./Title";
@@ -6,7 +6,7 @@ import ScrollDownArrow from "./ScrollDownArrow";
 import ProjectsBentoBox from "./ProjectsBentoBox";
 import GeneralButton from "./GeneralButton";
 
-const shapes = ["torus", "crystalCluster", "disc"] as const;
+const shapes = ["torus", "ringParticles", "ringParticles"] as const;
 
 type BeginningProps = {
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
@@ -83,109 +83,117 @@ const Beginning = ({ scrollContainerRef }: BeginningProps) => {
         pointerEvents: "none",
       });
     }
-  }, [index]);
+  }, [index, layouts.length]);
 
-  const animateLayoutChange = (newIndex: number) => {
-    if (!layoutRef.current || !initialAnimationDone.current) return;
+  const animateLayoutChange = useCallback(
+    (newIndex: number) => {
+      if (!layoutRef.current || !initialAnimationDone.current) return;
 
-    isAnimating.current = true;
+      isAnimating.current = true;
 
-    gsap.to(layoutRef.current, {
-      opacity: 0,
-      y: -40,
-      duration: 0.5,
-      ease: "power1.in",
-      onComplete: () => {
-        setIndex(newIndex);
+      gsap.to(layoutRef.current, {
+        opacity: 0,
+        y: -40,
+        duration: 0.5,
+        ease: "power1.in",
+        onComplete: () => {
+          setIndex(newIndex);
 
-        gsap.fromTo(
-          layoutRef.current,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "power3.out",
-            onComplete: () => {
-              isAnimating.current = false;
-            },
-          }
-        );
-      },
-    });
-  };
+          gsap.fromTo(
+            layoutRef.current,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power3.out",
+              onComplete: () => {
+                isAnimating.current = false;
+              },
+            }
+          );
+        },
+      });
+    },
+    [setIndex]
+  );
 
-  const goToIndex = (nextIndex: number) => {
-    if (
-      nextIndex !== index &&
-      !isAnimating.current &&
-      !scrollTimeoutRef.current
-    ) {
-      animateLayoutChange(nextIndex);
-      setShape(shapes[nextIndex] || shapes[0]);
+  const goToIndex = useCallback(
+    (nextIndex: number) => {
+      if (
+        nextIndex !== index &&
+        !isAnimating.current &&
+        !scrollTimeoutRef.current
+      ) {
+        animateLayoutChange(nextIndex);
+        setShape(shapes[nextIndex] || shapes[0]);
 
-      scrollTimeoutRef.current = setTimeout(() => {
-        scrollTimeoutRef.current = null;
-      }, 1200);
-    }
-  };
-
-  const onWheel = (e: WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY;
-    const nextIndex =
-      delta > 0
-        ? Math.min(index + 1, layouts.length - 1)
-        : Math.max(index - 1, 0);
-    goToIndex(nextIndex);
-  };
-
-  const onTouchStart = (e: TouchEvent) => {
-    touchStartYRef.current = e.touches[0].clientY;
-  };
-
-  const onTouchEnd = (e: TouchEvent) => {
-    if (touchStartYRef.current === null) return;
-
-    const endY = e.changedTouches[0].clientY;
-    const deltaY = touchStartYRef.current - endY;
-
-    if (Math.abs(deltaY) < 30) return;
-
-    const nextIndex =
-      deltaY > 0
-        ? Math.min(index + 1, layouts.length - 1)
-        : Math.max(index - 1, 0);
-    goToIndex(nextIndex);
-    touchStartYRef.current = null;
-  };
-
-  const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      goToIndex(Math.min(index + 1, layouts.length - 1));
-    } else if (e.key === "ArrowUp") {
-      goToIndex(Math.max(index - 1, 0));
-    }
-  };
+        scrollTimeoutRef.current = setTimeout(() => {
+          scrollTimeoutRef.current = null;
+        }, 1200);
+      }
+    },
+    [index, animateLayoutChange, setShape]
+  );
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
-    scrollContainer.addEventListener("wheel", onWheel, { passive: false });
-    scrollContainer.addEventListener("touchstart", onTouchStart, {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY;
+      const nextIndex =
+        delta > 0
+          ? Math.min(index + 1, layouts.length - 1)
+          : Math.max(index - 1, 0);
+      goToIndex(nextIndex);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartYRef.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartYRef.current === null) return;
+
+      const endY = e.changedTouches[0].clientY;
+      const deltaY = touchStartYRef.current - endY;
+
+      if (Math.abs(deltaY) < 30) return;
+
+      const nextIndex =
+        deltaY > 0
+          ? Math.min(index + 1, layouts.length - 1)
+          : Math.max(index - 1, 0);
+      goToIndex(nextIndex);
+      touchStartYRef.current = null;
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown") {
+        goToIndex(Math.min(index + 1, layouts.length - 1));
+      } else if (e.key === "ArrowUp") {
+        goToIndex(Math.max(index - 1, 0));
+      }
+    };
+
+    scrollContainer.addEventListener("wheel", handleWheel, { passive: false });
+    scrollContainer.addEventListener("touchstart", handleTouchStart, {
       passive: true,
     });
-    scrollContainer.addEventListener("touchend", onTouchEnd, { passive: true });
-    window.addEventListener("keydown", onKeyDown);
+    scrollContainer.addEventListener("touchend", handleTouchEnd, {
+      passive: true,
+    });
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      scrollContainer.removeEventListener("wheel", onWheel);
-      scrollContainer.removeEventListener("touchstart", onTouchStart);
-      scrollContainer.removeEventListener("touchend", onTouchEnd);
-      window.removeEventListener("keydown", onKeyDown);
+      scrollContainer.removeEventListener("wheel", handleWheel);
+      scrollContainer.removeEventListener("touchstart", handleTouchStart);
+      scrollContainer.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [index]);
+  }, [index, layouts.length, goToIndex, scrollContainerRef]);
 
   return (
     <div
