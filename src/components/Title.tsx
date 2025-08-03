@@ -15,9 +15,8 @@ const Title = () => {
       >
         {/* Title */}
         <div className="order-1 md:order-none flex flex-col justify-end items-start">
-          <p className="text-xl text-cosmic font-geist uppercase pb-2">
-            {"//"} Web Developer{" "}
-            <span className="animate-pulse text-cosmic">▮</span>
+          <p className="text-2xl text-white font-funnel pb-2">
+            Web Developer <span className="animate-pulse text-white">▮</span>
           </p>
           <h1 className="text-4xl md:text-6xl font-funnel tracking-tighter">
             Aulia{" "}
@@ -30,8 +29,7 @@ const Title = () => {
         {/* Description and Button */}
         <div className="order-2 md:order-none flex flex-col justify-start items-start space-y-4">
           <p className="text-lg max-w-sm font-funnel">
-            A developer with experience in web, mobile, and embedded system
-            development.
+            A developer with experience in web, mobile, and linux development.
           </p>
           <GeneralButton text="Read More" link="/about" />
         </div>

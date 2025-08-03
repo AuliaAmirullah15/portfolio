@@ -12,9 +12,9 @@ const ScrollDownArrow = ({
       className={`flex flex-col h-full min-h-12 items-center hover:cursor-pointer ${className}`}
     >
       {remainingPage && (
-        <span className="block mb-1 text-sm font-geist uppercase tracking-wide text-white">
+        <span className="block mb-1 text-md font-funnel tracking-wide text-white">
           {/* {remainingPage} */}
-          SCROLL DOWN
+          Scroll down
         </span>
       )}
       <button
