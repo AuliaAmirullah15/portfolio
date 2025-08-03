@@ -11,7 +11,7 @@ const Title = () => {
 
       <div
         id="title-texts"
-        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0 px-10 pb-24 md:pb-10 mb-20 md:mb-0"
+        className="flex flex-col md:flex-row justify-between items-start md:items-end relative w-full space-y-6 md:space-y-0 px-10 pb-24 mb-20 md:mb-0"
       >
         {/* Title */}
         <div className="order-1 md:order-none flex flex-col justify-end items-start">
