@@ -77,11 +77,11 @@ const experience = [
     country: "Indonesia",
     roles: [
       {
-        position: "Web Developer (Freelancer / Project Based)",
+        position: "Web Developer",
         period: "January 2017 - April 2020",
       },
       {
-        position: "Data Science Instructor (w/ Kominfo)",
+        position: "Data Science Instructor",
         period: "September 2019 - December 2019",
       },
       {
@@ -575,7 +575,7 @@ export default function About() {
 
           {/* Role */}
           <p className="text-lg text-zinc-400 mt-1 role-text">
-            Web Developer based in Newcastle, UK
+            Web Developer based in the UK
           </p>
 
           {/* Social Icons */}
@@ -594,7 +594,7 @@ export default function About() {
 
       <div
         id="myself"
-        className="relative w-full h-full bg-black min-h-screen text-white px-4 md:px-20 py-12 md:py-24 border-b-[1px] border-white/10"
+        className="relative w-full bg-black text-white px-4 md:px-20 py-12 md:py-24"
       >
         {/* Gradient Border */}
         <div
@@ -647,7 +647,7 @@ export default function About() {
               </p>
             </div>
           </div>
-          <div className="flex flex-row">
+          <div className="flex flex-row pt-4">
             <GeneralButton
               text="Say Hello"
               className="flex myself-contact-button"
@@ -656,17 +656,17 @@ export default function About() {
           </div>
         </div>
 
-        <div
+        {/* <div
           className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
           aria-hidden="true"
-        />
+        /> */}
       </div>
       <div
         id="values"
-        className="w-full h-full min-h-screen bg-zinc-900 text-white px-4 md:px-20 py-12 md:py-24 overflow-hidden relative flex flex-row justify-center items-center"
+        className="w-full h-full min-h-screen bg-black text-white px-4 md:px-20 py-12 md:py-24 overflow-hidden relative flex flex-row justify-center items-center"
       >
         {/* Progress Bar*/}
-        <div className="absolute bottom-0 left-0 w-full h-3 bg-white/10">
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-white/10">
           <div
             id="values-progress-bar"
             className="h-full bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500"
@@ -695,7 +695,6 @@ export default function About() {
           ].map((item, i) => (
             <div
               key={i}
-              //   className="dot relative w-9 h-9 min-w-[2.25rem] min-h-[2.25rem] rounded-full bg-white/90 text-zinc-800 flex items-center justify-center transition-transform hover:scale-110"
               className="dot relative w-9 h-9 min-w-[2.25rem] min-h-[2.25rem] rounded-full bg-white/90 text-zinc-800 flex items-center justify-center transition-all duration-300 hover:scale-150 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-pink-500 hover:to-red-500 hover:text-white"
               title={item.label}
               aria-label={item.label}
@@ -706,20 +705,14 @@ export default function About() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row space-x-0 md:space-x-20 pt-0 md:p-8 items-center justify-center">
+        <div className="flex flex-col text-lg md:flex-row space-x-0 md:space-x-20 pt-0 md:p-8 items-center justify-center">
           <div
             id="value-title"
-            className="w-full md:w-1/2 mb-8 md:mb-0 sticky self-start font-funnel"
+            className="w-full md:w-1/2 mb-20 md:mb-0 sticky self-start font-funnel"
           >
             <h2 className="text-4xl pb-4">
               What’s {/* STATIC */}
-              {/* <span className="bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
-                important
-              </span>{" "} */}
-              <span
-                className="rainbow-text font-semibold"
-                id="rainbow-important"
-              >
+              <span className="rainbow-text" id="rainbow-important">
                 important
               </span>{" "}
               <span className="font-instrument tracking-wider italic">
@@ -742,10 +735,10 @@ export default function About() {
           >
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">01</p>
-              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 Team Culture
               </h3>
-              <p className="text-zinc-300">
+              <p>
                 I thrive on clear communication and cross-functional
                 collaboration. Working closely with designers, product teams,
                 and stakeholders ensures that everyone’s aligned on what we’re
@@ -754,10 +747,10 @@ export default function About() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">02</p>
-              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 User-First Engineering
               </h3>
-              <p className="text-zinc-300">
+              <p>
                 Technology should serve people. Whether it’s a kiosk interface,
                 web or a mobile app, I always start by understanding the user’s
                 needs. Every line of code and architectural choice is made with
@@ -767,10 +760,10 @@ export default function About() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">03</p>
-              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 Scalable, Thoughtful Architecture
               </h3>
-              <p className="text-zinc-300">
+              <p>
                 Great software isn’t just about what works now, it’s about what
                 lasts. I focus on maintainable, testable, and scalable systems,
                 selecting tech stacks and designing architectures that evolve
@@ -779,10 +772,10 @@ export default function About() {
             </div>
             <div className="absolute inset-0 flex flex-col justify-center items-start value-item opacity-0 translate-y-20">
               <p className="text-lg mb-2">04</p>
-              <h3 className="text-3xl font-semibold mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl mb-2 bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
                 Constant Learning and Refinement
               </h3>
-              <p className="text-zinc-300">
+              <p>
                 Technology never stands still, and neither do I. I stay curious,
                 continuously learning from new tools, patterns, and challenges.
                 Each project is a chance to refine my approach and push the
@@ -828,8 +821,8 @@ export default function About() {
           title="Skills & Exprience"
         />
         <h2
-          ref={titaniumRef}
-          className="text-5xl text-fadedwhite-200 neon-text max-w-5xl"
+          // ref={titaniumRef}
+          className="text-5xl text-faded white-200 max-w-5xl"
         >
           Experience
         </h2>
@@ -841,7 +834,7 @@ export default function About() {
           {skills.map((skill, index) => (
             <div
               key={index}
-              className="font-funnel text-sm px-5 py-2 rounded-sm text-white/80 bg-black"
+              className="text-xs font-medium px-3 py-1 rounded-full bg-white backdrop-blur-sm text-black font-funnel"
             >
               {skill}
             </div>
@@ -861,7 +854,7 @@ export default function About() {
                 <div className="text-xl font-semibold text-white tracking-tight">
                   {company.company}
                 </div>
-                <div className="text-sm text-white/50">{company.country}</div>
+                <div className="text-md text-white/50">{company.country}</div>
               </div>
 
               <div className="space-y-4">
@@ -875,7 +868,7 @@ export default function About() {
                       key={rIdx}
                       className="grid grid-cols-12 items-center border-t border-white/10 pt-4"
                     >
-                      <div className="col-span-6 text-white text-sm font-medium tracking-wide">
+                      <div className="col-span-6 text-white text-md font-medium tracking-wide">
                         {mainTitle}
                         {subtlePart && (
                           <span className="text-white/40 italic pl-1">
@@ -883,7 +876,7 @@ export default function About() {
                           </span>
                         )}
                       </div>
-                      <div className="col-span-6 text-right text-white/60 text-sm">
+                      <div className="col-span-6 text-right text-white/60 text-md">
                         {role.period}
                       </div>
                     </div>
@@ -898,9 +891,8 @@ export default function About() {
           id="education"
           className="w-full max-w-5xl mx-auto mt-20 space-y-6 px-4 md:px-0 flex flex-col items-center"
         >
-          <h2 className="text-5xl font-semibold bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
-            Education
-          </h2>
+          {/* <h2 className="text-5xl font-semibold bg-gradient-to-r from-indigo-500 via-pink-500 to-red-500 bg-clip-text text-transparent"> */}
+          <h2 className="text-5xl text-faded white-200 max-w-5xl">Education</h2>
 
           {education.map((edu, idx) => (
             <div
@@ -912,7 +904,7 @@ export default function About() {
                   <div className="text-white text-lg font-semibold tracking-tight">
                     {edu.degree}
                   </div>
-                  <div className="text-white/70 text-sm mt-1">
+                  <div className="text-white/70 text-md mt-1">
                     {edu.institution}
                     {edu.note && (
                       <span className="text-white/40 italic pl-1">
@@ -921,7 +913,7 @@ export default function About() {
                     )}
                   </div>
                 </div>
-                <div className="text-white/50 text-sm mt-4 sm:mt-0 sm:text-right">
+                <div className="text-white/50 text-md mt-4 sm:mt-0 sm:text-right">
                   {edu.year}
                 </div>
               </div>
@@ -953,9 +945,9 @@ export default function About() {
             Connected
           </span>
         </h2>
-        <p className="text-white/80 text-sm max-w-md text-center">
-          Got questions or want to collaborate? Feel free to reach out - I’m
-          open to new projects or just a casual chat!
+        <p className="text-white/80 text-md max-w-md text-center">
+          Got questions or want to collaborate? Feel free to reach out. I’m open
+          to new projects or just a casual chat!
         </p>
 
         <GeneralButton
@@ -965,12 +957,80 @@ export default function About() {
         />
 
         <SocialMedia />
-        <p className="text-white/80 text-sm max-w-md text-center">
-          auliaamir153@gmail.com
-        </p>
+        <div className="flex flex-col items-center space-y-4 mt-8">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+            <p className="text-white/50 text-xs tracking-[0.3em] uppercase font-light">
+              Email
+            </p>
+            <div className="w-8 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+          </div>
+          <a
+            href={sayHelloLink}
+            className="group relative inline-block text-center transition-all duration-500 hover:scale-105"
+          >
+            <div className="relative px-8 py-4 rounded-2xl border border-white/20 backdrop-blur-xl bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all duration-500 shadow-lg hover:shadow-2xl">
+              <span
+                className="relative z-10 text-lg font-light tracking-wide bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent animate-pulse"
+                style={{
+                  backgroundSize: "200% auto",
+                  animation: "shimmer 3s ease-in-out infinite",
+                }}
+              >
+                auliaamir153@gmail.com
+              </span>
+
+              {/* Animated gradient border */}
+              <div
+                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background:
+                    "linear-gradient(45deg, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444, #8b5cf6)",
+                  backgroundSize: "400% 400%",
+                  animation: "gradientShift 4s ease infinite",
+                  padding: "1px",
+                }}
+              >
+                <div className="w-full h-full rounded-2xl bg-zinc-800"></div>
+              </div>
+
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-pink-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg"></div>
+
+              {/* Sparkle effect */}
+              <div className="absolute top-2 right-3 w-1 h-1 bg-white/60 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 delay-100 animate-ping"></div>
+              <div className="absolute bottom-3 left-4 w-0.5 h-0.5 bg-white/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 delay-300 animate-pulse"></div>
+            </div>
+
+            {/* Reflection effect */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-transparent via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+          </a>
+        </div>
+
+        <style jsx>{`
+          @keyframes shimmer {
+            0%,
+            100% {
+              background-position: 0% 50%;
+            }
+            50% {
+              background-position: 100% 50%;
+            }
+          }
+
+          @keyframes gradientShift {
+            0%,
+            100% {
+              background-position: 0% 50%;
+            }
+            50% {
+              background-position: 100% 50%;
+            }
+          }
+        `}</style>
       </div>
 
-      <GeneralFooter className="bg-zinc-800" />
+      <GeneralFooter />
     </div>
   );
 }

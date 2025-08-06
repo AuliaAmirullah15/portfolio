@@ -127,7 +127,11 @@ const Project = () => {
     <div className="w-full min-h-screen font-funnel bg-black">
       <Header />
 
-      <div ref={contentRef} id="content" className="pt-36 px-8 pb-8">
+      <div
+        ref={contentRef}
+        id="content"
+        className="relative pt-36 px-8 pb-36 border-b-[1px] border-white/10 "
+      >
         <div
           ref={bannerRef}
           id="banner"
@@ -346,6 +350,12 @@ const Project = () => {
             <p>{data.outcome}</p>
           </div>
         )}
+
+        <div
+          id="middle-bottom-background"
+          className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-1/2 h-72 bg-gradient-radial from-white/20 to-transparent blur-2xl rounded-full pointer-events-none z-0"
+          aria-hidden="true"
+        />
       </div>
 
       <div ref={footerRef}>

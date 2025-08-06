@@ -208,7 +208,7 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
                       </div>
                     </div>
 
-                    <p className="text-sm pb-2">{card.description}</p>
+                    <p className="text-md pb-2">{card.description}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {card.techStack.map((tech, idx) => (
                         <span key={idx} className={pillClasses}>
