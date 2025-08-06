@@ -153,7 +153,9 @@ const ProjectsBentoBox = ({ className }: { className?: string }) => {
   return (
     <>
       <div
-        className={`relative h-full w-screen flex flex-row justify-start items-center md:px-6 ${className}`}
+        className={`relative h-full w-screen flex flex-row justify-start items-center ${
+          activeIndex === 0 ? "pl-4" : ""
+        } md:px-6 ${className}`}
       >
         <Swiper
           spaceBetween={20}
