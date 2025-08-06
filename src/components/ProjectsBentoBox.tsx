@@ -43,7 +43,6 @@ const cards: Card[] = [
       "Dio",
       "Docker",
       "Container",
-      "Orchestration",
       "Postman",
     ],
     link: "/project/greggs-kiosk",

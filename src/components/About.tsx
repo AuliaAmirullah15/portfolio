@@ -178,7 +178,7 @@ export default function About() {
     gradientTl
       .to(gradientEl, {
         opacity: 1,
-        height: "80px",
+        height: "40px",
         duration: 1,
         ease: "power2.inOut",
       })
