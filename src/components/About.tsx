@@ -561,7 +561,7 @@ export default function About() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
             </div>
             <span className="text-md text-zinc-400 tracking-wider">
-              keen to connect with technology and innovation professionals
+              Open to new professional connections
             </span>
           </div>
 
